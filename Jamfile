@@ -1,0 +1,31 @@
+SubDir HAIKU_TOP src apps _myapp FtpPositive ;
+
+SetSubDirSupportedPlatformsBeOSCompatible ;
+
+AddResources FtpPositive : FtpPositive.rsrc ;
+Application FtpPositive : 
+	ColorTools.cpp
+	ColumnListView.cpp
+	ColumnTypes.cpp
+	BookmarkWindow.cpp
+	ConfigFile.cpp
+	DirentParser.cpp
+	EncoderAddonManager.cpp
+	fsutils.cpp
+	FTPClient.cpp
+	FTPLooper.cpp
+	FtpPositive.cpp
+	FTPWindow.cpp
+	MimeDB.cpp
+	OAEdit.cpp
+	ChmodWindow.cpp
+	ProgressWindow.cpp
+	RemoteFileView.cpp
+	RenameWindow.cpp
+	SimplePictureButton.cpp
+	StringEx.cpp
+	TCPStream.cpp
+	StreamBuff.cpp
+	;
+
+LinkAgainst FtpPositive : be network translation tracker ;
