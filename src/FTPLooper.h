@@ -153,7 +153,7 @@ public:
 		fMessenger = new BMessenger(handler);
 	};
 	
-	TLogger& TLogger::operator<<(const char *string) {
+	TLogger& operator<<(const char *string) {
 		if (string) {
 			fPendingMsg.Append(string);
 		} else {
@@ -165,11 +165,11 @@ public:
 		return *this;
 	};
 	
-	TLogger& TLogger::operator<<(BString string) {
+	TLogger& operator<<(BString string) {
 		return *this << string.String();
 	};
 	
-	TLogger& TLogger::operator<<(int val) {
+	TLogger& operator<<(int val) {
 		BString s;
 		s << val;
 		return *this << s.String();

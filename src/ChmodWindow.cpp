@@ -6,8 +6,8 @@ enum {
 	OK_CLICKED = 'okcl',
 };
 
-TChmodWindow::TChmodWindow(float x, float y, const char *title)
-	:	BWindow(BRect(x, y, x + 275, y + 170), title,
+TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
+	:	BWindow(BRect(ix, iy, ix + 275, iy + 170), title,
 			B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE)
 {

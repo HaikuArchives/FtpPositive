@@ -10,7 +10,7 @@
 class TChmodWindow : public BWindow
 {
 public:
-	TChmodWindow(float x, float y, const char *title);
+	TChmodWindow(float ix, float iy, const char *title);
 	~TChmodWindow();
 	bool QuitRequested();
 	void MessageReceived(BMessage *msg);

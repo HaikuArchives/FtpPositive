@@ -5,7 +5,7 @@
 #define LF "\n"
 
 
-TStreamBuff::TStreamBuff(int32 textType, int32 flags = 0)
+TStreamBuff::TStreamBuff(int32 textType, int32 flags)
 {
 	SetTo(textType, flags);
 }
@@ -15,7 +15,7 @@ TStreamBuff::~TStreamBuff()
 	MakeEmpty();
 }
 
-void TStreamBuff::SetTo(int32 textType, int32 flags = 0)
+void TStreamBuff::SetTo(int32 textType, int32 flags)
 {
 	BString backup("");
 	for(int i=0;FStreamBuffer.CountItems();i++) {
@@ -201,7 +201,7 @@ bool TStreamBuff::Pending()
 	return FPendingBuffer.Length()>0;
 }
 
-void TStreamBuff::PendingStream(BString *pending, bool remove = false)
+void TStreamBuff::PendingStream(BString *pending, bool remove)
 {
 	pending->SetTo(FPendingBuffer);
 	if (remove) {
