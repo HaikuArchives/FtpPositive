@@ -29,7 +29,7 @@ TFtpLooper::TFtpLooper(BHandler *target, const char *host, uint16 port,
 	fUsername.SetTo(username);
 	fPassword.SetTo(password);
 	fDirentParser = direntParser;
-	fDownloadListingMode = DL_NLST_R_MODE;
+	fDownloadListingMode = DL_LIST_R_MODE;
 }
 
 TFtpLooper::~TFtpLooper()
@@ -200,9 +200,9 @@ status_t TFtpLooper::PASV(struct sockaddr_in *addr, int32 *reply)
 	return B_OK;
 }
 
-status_t TFtpLooper::NLST(struct sockaddr_in *addr, bool passive, const char *dir, const char *option)
+status_t TFtpLooper::LIST(struct sockaddr_in *addr, bool passive, const char *dir, const char *option)
 {
-	BString buf("NLST "), _dir(dir);
+	BString buf("LIST "), _dir(dir);
 	buf << option;
 	if (_dir.Length() > 0) {
 		buf << " \"" << _dir << "\"";
@@ -515,7 +515,7 @@ void TFtpLooper::Download(BMessage *msg)
 	// 階層下のファイル・ディレクトリを全て取得
 	TEntryList pathList;
 	switch(fDownloadListingMode) {
-		case DL_NLST_R_MODE:  NlstRDirList(msg, &pathList);   break;
+		case DL_LIST_R_MODE:  ListRDirList(msg, &pathList);   break;
 		case DL_RECURSE_MODE: RecurseDirList(msg, &pathList); break;
 		default: goto _err_exit;
 	}
@@ -712,7 +712,7 @@ void TFtpLooper::Delete(BMessage *msg)
 	// 階層下のファイル・ディレクトリを全て取得
 	TEntryList pathList;
 	switch(fDownloadListingMode) {
-		case DL_NLST_R_MODE:  NlstRDirList(msg, &pathList);   break;
+		case DL_LIST_R_MODE:  ListRDirList(msg, &pathList);   break;
 		case DL_RECURSE_MODE: RecurseDirList(msg, &pathList); break;
 		default:
 			SendResultMessage(e);
@@ -791,8 +791,8 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 	}
 	if ((r < 200) || (r > 299)) return B_ERROR;
 	
-	// NLST
-	if (NLST(&addr, true, "", "-alLR") != B_OK) {
+	// LIST
+	if (LIST(&addr, true, "", "-alLR") != B_OK) {
 		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
@@ -840,9 +840,9 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 	if (mallocIO.BufferLength() == 0) return B_OK;
 	
 	((char *)mallocIO.Buffer())[mallocIO.BufferLength()] = 0;
-	BFile nlstLog("/var/log/ftp+nlstr.log", B_CREATE_FILE | B_ERASE_FILE | B_WRITE_ONLY);
-	nlstLog.Write(mallocIO.Buffer(), mallocIO.BufferLength());
-	nlstLog.Unset();
+	BFile listLog("/var/log/ftp+listr.log", B_CREATE_FILE | B_ERASE_FILE | B_WRITE_ONLY);
+	listLog.Write(mallocIO.Buffer(), mallocIO.BufferLength());
+	listLog.Unset();
 	
 	// 取得したディレクトリリストの文字列を解析
 	fDirentParser->MakeEmpty();
@@ -867,7 +867,7 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 	return B_OK;
 }
 
-void TFtpLooper::NlstRDirList(BMessage *msg, TEntryList *pathList)
+void TFtpLooper::ListRDirList(BMessage *msg, TEntryList *pathList)
 {
 	int32 r;
 	
@@ -985,8 +985,8 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 	}
 	if ((r < 200) || (r > 299)) return B_ERROR;
 	
-	// NLST
-	if (NLST(&addr, true, "", option) != B_OK) {
+	// LIST
+	if (LIST(&addr, true, "", option) != B_OK) {
 		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
@@ -1034,9 +1034,9 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 	if (mallocIO.BufferLength() == 0) return B_OK;
 	
 	((char *)mallocIO.Buffer())[mallocIO.BufferLength()] = 0;
-	BFile nlstLog("/var/log/ftp+nlst.log", B_CREATE_FILE | B_ERASE_FILE | B_WRITE_ONLY);
-	nlstLog.Write(mallocIO.Buffer(), mallocIO.BufferLength());
-	nlstLog.Unset();
+	BFile listLog("/var/log/ftp+list.log", B_CREATE_FILE | B_ERASE_FILE | B_WRITE_ONLY);
+	listLog.Write(mallocIO.Buffer(), mallocIO.BufferLength());
+	listLog.Unset();
 	
 	// 取得したディレクトリリストの文字列を解析
 	fDirentParser->MakeEmpty();

@@ -43,7 +43,7 @@ enum {
 };
 
 enum {
-	DL_NLST_R_MODE = 0,
+	DL_LIST_R_MODE = 0,
 	DL_RECURSE_MODE,
 };
 
@@ -195,7 +195,7 @@ private:
 	status_t USER(const char *userName, int32 *reply);
 	status_t PASS(const char *password, int32 *reply);
 	status_t PASV(struct sockaddr_in *addr, int32 *reply);
-	status_t NLST(struct sockaddr_in *addr, bool passive, const char *dir, const char *option);
+	status_t LIST(struct sockaddr_in *addr, bool passive, const char *dir, const char *option);
 	status_t XPWD(BString *result, int32 *reply);
 	status_t CWD(const char *dir, int32 *reply);
 	status_t TYPE(const char *type, int32 *reply);
@@ -218,7 +218,7 @@ private:
 		const char *logMsg, bool busy);
 	void Connect(BMessage *msg);
 	void GetDirList();
-	void NlstRDirList(BMessage *msg, TEntryList *pathList);
+	void ListRDirList(BMessage *msg, TEntryList *pathList);
 	status_t _recurseDirList(const char *dir, TEntryList *pathList);
 	void RecurseDirList(BMessage *msg, TEntryList *pathList);
 	status_t PasvList(const char *dirPath, TEntryList *pathList, const char *option);
