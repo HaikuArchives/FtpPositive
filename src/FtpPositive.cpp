@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <Alert.h>
+#include <FindDirectory.h>
 #include <Roster.h>
 #include <Path.h>
 #include <Entry.h>
@@ -21,9 +22,9 @@ TFtpPositive::TFtpPositive()
 	BRect frame;
 	BString v;
 	
-	mkdir(CONFIG_DIR, 0777);
-	mkdir(BOOKMARKS_DIR, 0777);
-	app_config = new TConfigFile(CONFIG_DIR "/FtpPositive.cnf");
+	mkdir(TFtpPositive::GetConfigDir().String(), 0777);
+	mkdir(TFtpPositive::GetBookmarksDir().String(), 0777);
+	app_config = new TConfigFile(TFtpPositive::GetConfigDir().Append("/FtpPositive.cnf").String());
 	
 	app_info info;
 	if (be_app->GetAppInfo(&info) == B_OK) {
@@ -62,6 +63,42 @@ void TFtpPositive::AboutRequested()
 {
 	(new BAlert("", "FtpPositive " VERSION "\n" COPY, "OK"))->Go();
 }
+
+
+BString &TFtpPositive::GetConfigDir()
+{
+	if (sConfigDir == B_EMPTY_STRING) {
+		BPath path;
+		find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+		sConfigDir = path.Path();
+		sConfigDir += "/FtpPositive";
+	}
+	
+	return sConfigDir;
+}
+
+BString &TFtpPositive::GetBookmarksDir()
+{
+	if (sBookmarksDir == B_EMPTY_STRING)
+		sBookmarksDir = GetConfigDir().Append("/bookmarks");
+	
+	return sBookmarksDir;
+}
+
+BString &TFtpPositive::GetDefaultLocalDir()
+{
+	if (sDefaultLocalDir == B_EMPTY_STRING) {
+		BPath path;
+		find_directory(B_DESKTOP_DIRECTORY, &path);
+		sDefaultLocalDir = path.Path();
+	}
+	
+	return sDefaultLocalDir;
+}
+
+BString TFtpPositive::sConfigDir = B_EMPTY_STRING;
+BString TFtpPositive::sBookmarksDir = B_EMPTY_STRING;
+BString TFtpPositive::sDefaultLocalDir = B_EMPTY_STRING;
 
 
 int main(int argc, char *argv[])
