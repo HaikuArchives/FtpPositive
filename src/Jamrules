@@ -1,0 +1,11 @@
+XRES ?= xres ;
+
+rule AddResources
+{
+    Depends $(<) : $(>) ;
+}
+
+actions AddResources
+{
+    $(XRES) -o "$(<)" $(>)
+}

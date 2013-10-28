@@ -39,7 +39,7 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 	fPassword = new TOAEdit(BRect(lx, 100, rx, 118), "Password", "Password:", "", new BMessage(EDIT_CHANGED));
 	fEncoder = new TOAEdit(BRect(lx, 120, rx, 138), "Encoder", "Encoder:", "", NULL);
 	fRemotePath = new TOAEdit(BRect(lx, 140, rx, 158), "RemotePath", "Remote Path:", "", NULL);
-	fLocalPath = new TOAEdit(BRect(lx, 160, rx, 178), "LocalPath", "Local Path:", DEFAULT_LOCAL_DIR, NULL);
+	fLocalPath = new TOAEdit(BRect(lx, 160, rx, 178), "LocalPath", "Local Path:", TFtpPositive::GetDefaultLocalDir().String(), NULL);
 	
 	fBookmarkName->SetDivider(div);
 	fHostAddress->SetDivider(div);
@@ -143,7 +143,7 @@ status_t TBookmarkWindow::Save()
 		;
 	
 	if (fEntry.InitCheck() != B_OK) {
-		BString path(BOOKMARKS_DIR);
+		BString path(TFtpPositive::GetBookmarksDir().String());
 		path << "/" << fBookmarkName->Text();
 		fEntry.SetTo(path.String());
 	} else {
@@ -214,7 +214,7 @@ void TBookmarkWindow::Load(const char *pathName)
 	config.Read("port", &port, "21");
 	config.Read("encoder", &encoder, "");
 	config.Read("remotepath", &remotepath, "");
-	config.Read("localpath", &localpath, DEFAULT_LOCAL_DIR);
+	config.Read("localpath", &localpath, TFtpPositive::GetDefaultLocalDir().String());
 	
 	BPath path(pathName), dir;
 	path.GetParent(&dir);

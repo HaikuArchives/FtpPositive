@@ -1,10 +1,8 @@
-SubDir HAIKU_TOP src apps _myapp FtpPositive ;
+SubDir TOP ;
 
-SetSubDirSupportedPlatformsBeOSCompatible ;
-
-AddResources FtpPositive : FtpPositive.rsrc ;
-Application FtpPositive : 
-	ColorTools.cpp
+LINK = g++ ;
+APP = FtpPositive ;
+SOURCES = ColorTools.cpp
 	ColumnListView.cpp
 	ColumnTypes.cpp
 	BookmarkWindow.cpp
@@ -25,7 +23,8 @@ Application FtpPositive :
 	SimplePictureButton.cpp
 	StringEx.cpp
 	TCPStream.cpp
-	StreamBuff.cpp
-	;
+	StreamBuff.cpp ;
 
-LinkAgainst FtpPositive : be network translation tracker ;
+Main $(APP) : $(SOURCES) ;
+AddResources $(APP) : FtpPositive.rsrc ;
+LINKLIBS on $(APP) = -lbe -lnetwork -ltranslation -ltracker ;

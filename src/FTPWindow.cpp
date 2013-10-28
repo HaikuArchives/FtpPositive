@@ -212,7 +212,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fConnectMenu->AddItem(new BMenuItem("Show Bookmarks", new BMessage(MSG_SHOW_BOOKMARK), 'B'));
 	fConnectMenu->AddSeparatorItem();
 	
-	BDirectory dir(BOOKMARKS_DIR);
+	BDirectory dir(TFtpPositive::GetBookmarksDir());
 	LoadBookmarks(&dir, fConnectMenu);
 	
 	// Command Menu
@@ -411,7 +411,7 @@ void TFTPWindow::AddRemoteFileItem(const char *name, uint32 size,
 	const char *date, const char *perm, const char *owner, const char *group)
 {
 	// ディレクトリ、またはファイルタイプのアイコンイメージを取得
-	BBitmap *icon = new BBitmap(BRect(0, 0, B_MINI_ICON - 1, B_MINI_ICON - 1), B_CMAP8);
+	BBitmap *icon = new BBitmap(BRect(0, 0, B_MINI_ICON - 1, B_MINI_ICON - 1), B_RGBA32);
 	if (strlen(perm) > 0) {
 		if (perm[0] == 'd') {
 			app_mimedb->GetMimeIcon("application/x-vnd.Be-directory", icon, B_MINI_ICON);
@@ -459,7 +459,7 @@ void TFTPWindow::SetBusy(bool busy)
 
 void TFTPWindow::ShowBookmark() const
 {
-	BEntry entry(BOOKMARKS_DIR);
+	BEntry entry(TFtpPositive::GetBookmarksDir());
 	if (entry.InitCheck() != B_OK) return;
 	
 	BMessage msg(B_REFS_RECEIVED);
@@ -539,9 +539,9 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 {
 	BRect rect(Frame());
 	BEntry entry;
-	bool go = (new TBookmarkWindow(rect.left + 50, rect.top + 50, "New Bookmark", BOOKMARKS_DIR))->Go(pathName, &entry);
+	bool go = (new TBookmarkWindow(rect.left + 50, rect.top + 50, "New Bookmark", TFtpPositive::GetBookmarksDir().String()))->Go(pathName, &entry);
 	ClearBookmarks();
-	BDirectory dir(BOOKMARKS_DIR);
+	BDirectory dir(TFtpPositive::GetBookmarksDir());
 	LoadBookmarks(&dir, fConnectMenu);
 	if (!go) return;
 	
@@ -568,7 +568,7 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 	fBookmarkConfig->Read("port", &port, "21");
 	fBookmarkConfig->Read("encoder", &encoder, "");
 	fBookmarkConfig->Read("remotepath", &remotepath, "");
-	fBookmarkConfig->Read("localpath", &fLocalDir, DEFAULT_LOCAL_DIR);
+	fBookmarkConfig->Read("localpath", &fLocalDir, TFtpPositive::GetDefaultLocalDir().String());
 	
 	fPort = atoi(port.String());
 	
@@ -903,7 +903,7 @@ void TFTPWindow::DownloadClicked()
 	
 	entry_ref ref;
 	BEntry entry(fLocalDir.String());
-	if (entry.InitCheck() != B_OK) entry.SetTo(DEFAULT_LOCAL_DIR);
+	if (entry.InitCheck() != B_OK) entry.SetTo(TFtpPositive::GetDefaultLocalDir().String());
 	entry.GetRef(&ref);
 	Download(&entries, &ref);
 }

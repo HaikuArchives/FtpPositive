@@ -6,7 +6,7 @@
 
 
 TStringColumn::TStringColumn(const char* title, float width, float minWidth,
-						 float maxWidth, uint32 truncate, alignment align = B_ALIGN_LEFT)
+						 float maxWidth, uint32 truncate, alignment align)
 	:	BStringColumn(title, width, minWidth, maxWidth, truncate, align)
 {
 }
@@ -115,7 +115,7 @@ uint32 TRemoteFileView::GetSelectedEntries(BMessage *entries, BRect *rect)
 	float top = FLT_MAX, bottom = FLT_MIN;
 	
 	while((row = this->CurrentSelection(row))) {
-		BMessage intMsg(B_OK);
+		BMessage intMsg((uint32) B_OK);
 		BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
 		BStringField *permField = (BStringField *)row->GetField(CLM_PERMISSION);
 		BSizeField *sizeField = (BSizeField *)row->GetField(CLM_SIZE);
