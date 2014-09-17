@@ -1,3 +1,4 @@
+#include <strings.h>
 #include <Messenger.h>
 #include <Mime.h>
 #include <stdio.h>

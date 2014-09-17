@@ -1,3 +1,4 @@
+#include <strings.h>
 #include <Message.h>
 #include <string.h>
 #include <stdio.h>
