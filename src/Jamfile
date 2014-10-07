@@ -1,4 +1,4 @@
-SubDir TOP ;
+SubDir TOP src ;
 
 LINK = g++ ;
 APP = FtpPositive ;
@@ -24,6 +24,9 @@ SOURCES = ColorTools.cpp
 	StringEx.cpp
 	TCPStream.cpp
 	StreamBuff.cpp ;
+
+local relPath = "build" ;
+LOCATE_TARGET =  $(relPath) ;
 
 Main $(APP) : $(SOURCES) ;
 AddResources $(APP) : FtpPositive.rsrc ;

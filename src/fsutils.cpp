@@ -2,23 +2,31 @@
 #include <string.h>
 
 // dirname
-char *dirname(char *path)
+char *dirname(const char *path)
 {
 	char *newpath;
 	char *slash;
 	int length;
 	
-	slash = strrchr(path, '/');
+	char oldPath[sizeof(path)];
+	strncpy (oldPath, path, sizeof(path));
+	
+	slash = strrchr(oldPath, '/');
+	
 	if (slash == 0) {
-		path = ".";
+		strncpy (oldPath, ".", sizeof("."));
 		length = 1;
 	} else {
-		while (slash > path && *slash == '/') slash--;
-		length = slash - path + 1;
+		while (slash > oldPath && *slash == '/')
+			slash--;
+		length = slash - oldPath + 1;
 	}
 	newpath = (char *)malloc(length + 1);
-	if (newpath == 0) return 0;
-	strncpy (newpath, path, length);
+	
+	if (newpath == 0)
+		return 0;
+	
+	strncpy (newpath, oldPath, length);
 	newpath[length] = 0;
 	return newpath;
 }

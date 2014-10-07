@@ -1,4 +1,5 @@
 #include <string.h>
+#include <strings.h>
 #include <stdio.h>
 #include <time.h>
 #include "DirentParser.h"
