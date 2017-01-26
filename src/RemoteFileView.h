@@ -3,7 +3,7 @@
 
 #include <Bitmap.h>
 #include <MessageRunner.h>
-#include "ColumnListView.h"
+#include <ColumnListView.h>
 #include "ColumnTypes.h"
 
 

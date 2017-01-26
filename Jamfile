@@ -1,5 +1,0 @@
-# top-level Jamfile
-SubDir TOP ;
-
-SubInclude TOP src ;
-
