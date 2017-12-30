@@ -1,6 +1,7 @@
 #ifndef _FTP_LOOPER_H_
 #define _FTP_LOOPER_H_
 
+#include <Catalog.h>
 #include <Looper.h>
 #include <String.h>
 #include <Message.h>
@@ -13,6 +14,9 @@
 #include "FTPClient.h"
 #include "DirentParser.h"
 #include "ProgressWindow.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "FTPLooper"
 
 enum {
 	FTP_REPORT = 'frep',
@@ -69,7 +73,7 @@ public:
 		BRect rect(textView->Bounds());
 		rect.top = rect.bottom - 20;
 		rect.bottom = rect.top + 15;
-		BCheckBox *dontAsk = new BCheckBox(rect, "", "Don't ask again", new BMessage(FTP_ALERT_DONTASK));
+		BCheckBox *dontAsk = new BCheckBox(rect, "", B_TRANSLATE("Don't ask again"), new BMessage(FTP_ALERT_DONTASK));
 		textView->AddChild(dontAsk);
 		dontAsk->SetTarget(this);
 		fDontAskAgain = dontAskAgain;

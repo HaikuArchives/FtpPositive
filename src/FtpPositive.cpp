@@ -2,15 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <Alert.h>
+#include <Catalog.h>
 #include <FindDirectory.h>
 #include <Roster.h>
 #include <Path.h>
 #include <Entry.h>
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "FtpPositive"
+
 #include "FtpPositive.h"
 #include "MimeDB.h"
 #include "EncoderAddonManager.h"
 
+const char* kAppName = B_TRANSLATE("FtpPositive");
 
 TConfigFile *app_config;
 
@@ -44,7 +49,7 @@ TFtpPositive::TFtpPositive()
 	v.SetTo(""); app_config->Read("frame_right",  &v, "600"); frame.right  = atoi(v.String());
 	v.SetTo(""); app_config->Read("frame_bottom", &v, "450"); frame.bottom = atoi(v.String());
 	
-	fFTPWindow = new TFTPWindow(frame, "FtpPositive");
+	fFTPWindow = new TFTPWindow(frame, B_TRANSLATE_SYSTEM_NAME("FtpPositive"));
 	fFTPWindow->Show();
 }
 
@@ -61,7 +66,13 @@ TFtpPositive::~TFtpPositive()
 	
 void TFtpPositive::AboutRequested()
 {
-	(new BAlert("", "FtpPositive " VERSION "\n" COPY, "OK"))->Go();
+	BString str(kAppName);
+	str += ' ';
+	str += VERSION;
+	str += '\n';
+	str += COPY;
+
+	(new BAlert("", str, B_TRANSLATE("OK")))->Go();
 }
 
 
