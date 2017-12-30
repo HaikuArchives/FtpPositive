@@ -13,7 +13,7 @@
 #include <Rect.h>
 
 
-#define PROGRESS_WINDOW_TITLE "Transfer"
+#define PROGRESS_WINDOW_TITLE B_TRANSLATE("Transfer")
 #define MSG_TRANSFER_CANCEL 'abor'
 
 

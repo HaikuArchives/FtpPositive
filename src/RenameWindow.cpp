@@ -1,5 +1,9 @@
 #include <Application.h>
+#include <Catalog.h>
 #include "RenameWindow.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "RenameWindow"
 
 enum {
 	OK_CLICKED = 'okcl',
@@ -19,9 +23,9 @@ TRenameWindow::TRenameWindow(float x, float y,
 	fTextControl->SetDivider(65);
 	fTextControl->SetText(oldName);
 	bgView->AddChild(fTextControl);
-	fOKButton = new BButton(BRect(10, 70, 100, 90), "", "OK", new BMessage(OK_CLICKED));
+	fOKButton = new BButton(BRect(10, 70, 100, 90), "", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
 	bgView->AddChild(fOKButton);
-	fCancelButton = new BButton(BRect(230, 70, 320, 90), "", "Cancel", new BMessage(B_QUIT_REQUESTED));
+	fCancelButton = new BButton(BRect(230, 70, 320, 90), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	bgView->AddChild(fCancelButton);
 	
 	AddShortcut('W', 0, new BMessage(B_QUIT_REQUESTED));

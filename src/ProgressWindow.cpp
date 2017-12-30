@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Catalog.h>
 #include <Entry.h>
 #include <File.h>
 #include <Path.h>
@@ -6,6 +7,10 @@
 #include "ProgressWindow.h"
 #include "FTPLooper.h"
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ProgressWindow"
+
+extern const char* kAppName;
 
 
 // TProgressView
@@ -35,7 +40,7 @@ TProgressView::TProgressView(BRect frame, const char *name)
 	AddChild(fETAStringView);
 	
 	fCancelButton = new BButton(BRect(right - 65, 69, right, 87),
-		"CancelButton", "Cancel", new BMessage(MSG_TRANSFER_CANCEL));
+		"CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_TRANSFER_CANCEL));
 	fCancelButton->ResizeTo(65, 20);
 	AddChild(fCancelButton);
 	
@@ -138,8 +143,8 @@ bool TProgressWindow::QuitRequested()
 
 bool TProgressWindow::Abort()
 {
-	BAlert *alert = new BAlert("FtpPositive", "Really cancel?",
-							"Yes", "No", NULL,
+	BAlert *alert = new BAlert(kAppName, B_TRANSLATE("Really cancel?"),
+							B_TRANSLATE("Yes"), B_TRANSLATE("No"), NULL,
 							B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	if (alert->Go() == 0) {
 		*fAbortFlag = true;

@@ -19,6 +19,9 @@ enum {
 	EDIT_CHANGED = 'edit',
 };
 
+static const char* kCancel = B_TRANSLATE("Cancel");
+static const char* kOK = B_TRANSLATE("OK");
+
 TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char *dir)
 	:	BWindow(BRect(x, y, x + 290, y + 250), title, B_FLOATING_WINDOW_LOOK,
 				B_MODAL_APP_WINDOW_FEEL, B_NOT_RESIZABLE | B_NOT_ZOOMABLE)
@@ -32,14 +35,14 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 	
 	float lx = 10, rx = Bounds().right - 10, div = 70;
 	
-	fBookmarkName = new TOAEdit(BRect(lx, 20, rx, 38), "BookmarkName", "Name:", "New Bookmark", new BMessage(EDIT_CHANGED));
-	fHostAddress = new TOAEdit(BRect(lx, 40, rx, 58), "HostAddress", "Address:", "", new BMessage(EDIT_CHANGED));
-	fPort = new TOAEdit(BRect(lx, 60, rx, 78), "Port", "Port:", "21", new BMessage(EDIT_CHANGED));
-	fUsername = new TOAEdit(BRect(lx, 80, rx, 98), "Username", "User Name:", "", new BMessage(EDIT_CHANGED));
-	fPassword = new TOAEdit(BRect(lx, 100, rx, 118), "Password", "Password:", "", new BMessage(EDIT_CHANGED));
-	fEncoder = new TOAEdit(BRect(lx, 120, rx, 138), "Encoder", "Encoder:", "", NULL);
-	fRemotePath = new TOAEdit(BRect(lx, 140, rx, 158), "RemotePath", "Remote Path:", "", NULL);
-	fLocalPath = new TOAEdit(BRect(lx, 160, rx, 178), "LocalPath", "Local Path:", TFtpPositive::GetDefaultLocalDir().String(), NULL);
+	fBookmarkName = new TOAEdit(BRect(lx, 20, rx, 38), "BookmarkName", B_TRANSLATE("Name:"), B_TRANSLATE("New bookmark"), new BMessage(EDIT_CHANGED));
+	fHostAddress = new TOAEdit(BRect(lx, 40, rx, 58), "HostAddress", B_TRANSLATE("Address:"), "", new BMessage(EDIT_CHANGED));
+	fPort = new TOAEdit(BRect(lx, 60, rx, 78), "Port", B_TRANSLATE("Port:"), "21", new BMessage(EDIT_CHANGED));
+	fUsername = new TOAEdit(BRect(lx, 80, rx, 98), "Username", B_TRANSLATE("User name:"), "", new BMessage(EDIT_CHANGED));
+	fPassword = new TOAEdit(BRect(lx, 100, rx, 118), "Password", B_TRANSLATE("Password:"), "", new BMessage(EDIT_CHANGED));
+	fEncoder = new TOAEdit(BRect(lx, 120, rx, 138), "Encoder", B_TRANSLATE("Encoder:"), "", NULL);
+	fRemotePath = new TOAEdit(BRect(lx, 140, rx, 158), "RemotePath", B_TRANSLATE("Remote path:"), "", NULL);
+	fLocalPath = new TOAEdit(BRect(lx, 160, rx, 178), "LocalPath", B_TRANSLATE("Local path:"), TFtpPositive::GetDefaultLocalDir().String(), NULL);
 	
 	fBookmarkName->SetDivider(div);
 	fHostAddress->SetDivider(div);
@@ -59,15 +62,15 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 	bgview->AddChild(fRemotePath);
 	bgview->AddChild(fLocalPath);
 	
-	fSaveAndConnectButton = new BButton(BRect(10, 215, 140, 240), "Connect", "Connect", new BMessage(CONNECT_CLICKED));
+	fSaveAndConnectButton = new BButton(BRect(10, 215, 140, 240), "Connect", B_TRANSLATE("Connect"), new BMessage(CONNECT_CLICKED));
 	bgview->AddChild(fSaveAndConnectButton);
 	fSaveAndConnectButton->SetEnabled(false);
 	
-	fSaveButton = new BButton(BRect(150, 215, 210, 240), "Save", "Save", new BMessage(SAVE_CLICKED));
+	fSaveButton = new BButton(BRect(150, 215, 210, 240), "Save", B_TRANSLATE("Save"), new BMessage(SAVE_CLICKED));
 	bgview->AddChild(fSaveButton);
 	fSaveButton->SetEnabled(false);
 	
-	BButton *cancelButton = new BButton(BRect(220, 215, 280, 240), "Cancel", "Cancel", new BMessage(B_QUIT_REQUESTED));
+	BButton *cancelButton = new BButton(BRect(220, 215, 280, 240), "Cancel", kCancel, new BMessage(B_QUIT_REQUESTED));
 	bgview->AddChild(cancelButton);
 	
 	fBookmarkName->SetTarget(this);
@@ -153,10 +156,11 @@ status_t TBookmarkWindow::Save()
 			emsg << strerror(e);
 			if (e == B_FILE_EXISTS) {
 				if (fNewBookmark) {
-					if ((new BAlert("", emsg.String(), "Overwrite", "Cancel"))->Go() == 1) return B_ERROR;
+					if ((new BAlert("", emsg.String(), B_TRANSLATE("Overwrite"), kCancel))->Go() == 1)
+						return B_ERROR;
 				}
 			} else {
-				(new BAlert("", emsg.String(), "Cancel"))->Go();
+				(new BAlert("", emsg.String(), kCancel))->Go();
 				return B_ERROR;
 			}
 		}
@@ -165,18 +169,19 @@ status_t TBookmarkWindow::Save()
 	BPath path;
 	fEntry.GetPath(&path);
 	BFile file(path.Path(), B_CREATE_FILE | B_WRITE_ONLY);
+	const char* str = B_TRANSLATE("Bookmark save failed");
 	if (file.InitCheck() != B_OK) {
 		BString emsg;
-		emsg << "Bookmark save failed.\n" << strerror(file.InitCheck());
-		(new BAlert("", emsg.String(), "Cancel"))->Go();
+		emsg << str << ".\n" << strerror(file.InitCheck());
+		(new BAlert("", emsg.String(), kCancel))->Go();
 		return B_ERROR;
 	}
 	file.SetSize(0);
 	ssize_t s = file.Write(data.String(), data.Length());
 	if (s < 0) {
-		BString msg("Bookmark save failed.\n");
-		msg << strerror(s);
-		(new BAlert("", msg.String(), "OK"))->Go();
+		BString msg(str);
+		msg << ".\n" << strerror(s);
+		(new BAlert("", msg.String(), kOK))->Go();
 		return B_ERROR;
 	}
 	return B_OK;
@@ -201,9 +206,9 @@ void TBookmarkWindow::Load(const char *pathName)
 {
 	TConfigFile config(pathName);
 	if (config.Status() != B_OK) {
-		BString msg("Bookmark load error.\n");
-		msg << strerror(config.Status()) << "\n" << pathName;
-		(new BAlert("", msg.String(), "OK"))->Go();
+		BString msg(B_TRANSLATE("Bookmark load error"));
+		msg << ".\n" << strerror(config.Status()) << "\n" << pathName;
+		(new BAlert("", msg.String(), kOK))->Go();
 		return;
 	}
 	fEntry.SetTo(pathName);

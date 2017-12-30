@@ -8,7 +8,10 @@
 
 
 #define VERSION "1.0"
-#define COPY "Copyright ©momoziro 2007 All Right Reserved."
+#define COPY B_TRANSLATE("Copyright ©momoziro 2007\nAll rights reserved")
+
+
+extern const char* kAppName;
 
 
 class TFtpPositive : public BApplication
