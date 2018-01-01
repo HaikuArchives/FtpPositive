@@ -44,6 +44,7 @@ enum {
 	MSG_REMOTE_FILE_DROPPED = 'mrfd',
 	MSG_RENAME = 'mren',
 	MSG_MKDIR = 'mmkd',
+	MSG_COPYURL = 'mcpu',
 	MSG_CHMOD = 'mchm',
 	MSG_DELETE = 'mdel',
 	MSG_MENU_OPEN = 'mopn',
@@ -141,6 +142,7 @@ private:
 	
 	void Rename();
 	void Mkdir();
+	void CopyUrl();
 	void Chmod();
 	void Delete();
 	

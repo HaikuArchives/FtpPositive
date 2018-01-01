@@ -1,6 +1,7 @@
 #include <Application.h>
 #include <Bitmap.h>
 #include <Catalog.h>
+#include <Clipboard.h>
 #include <Messenger.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -82,6 +83,7 @@ FileMenu(BMenu* menu)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete"), new BMessage(MSG_DELETE), 'T'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Rename/Move"), new BMessage(MSG_RENAME), 'E'));
 	menu->AddItem(new BMenuItem(kCreateDirectory, new BMessage(MSG_MKDIR), 'M'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Copy FTP URL"), new BMessage(MSG_COPYURL), 'C'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Change permissions"), new BMessage(MSG_CHMOD), 'J'));
 }
 
@@ -359,6 +361,7 @@ void TFTPWindow::MessageReceived(BMessage *msg)
 		case MSG_RELOAD_CLICKED:       ReloadClicked(); break;
 		case MSG_RENAME:               Rename(); break;
 		case MSG_MKDIR:                Mkdir(); break;
+		case MSG_COPYURL:              CopyUrl(); break;
 		case MSG_CHMOD:                Chmod(); break;
 		case MSG_DELETE:               Delete(); break;
 		case B_SIMPLE_DATA:            RemoteFileDropped(msg); break;
@@ -827,6 +830,37 @@ void TFTPWindow::Mkdir()
 	}
 	
 	SetBusy(true);
+}
+
+void TFTPWindow::CopyUrl()
+{
+	BRow *row = fRemoteFileView->CurrentSelection();
+	if (row == NULL) return;
+
+	const char *intName
+		= ((BStringField *)row->GetField(CLM_INTERNAL_NAME))->String();
+
+	BString url;
+	if (fCurrentRemoteDir.Length() > 0 &&
+		fCurrentRemoteDir[fCurrentRemoteDir.Length() - 1] == '/') {
+
+		url << "ftp://" << fHost << ":" << fPort
+			<< fCurrentRemoteDir << intName;
+	} else {
+		url << "ftp://" << fHost << ":" << fPort
+			<< fCurrentRemoteDir << "/" << intName;
+	}
+
+	BMessage *clip = (BMessage *)NULL;
+	if (be_clipboard->Lock()) {
+		be_clipboard->Clear();
+		if (clip = be_clipboard->Data()) {
+			clip->AddData("text/plain", B_MIME_TYPE,
+				url.String(), url.Length());
+			be_clipboard->Commit();
+		}
+		be_clipboard->Unlock();
+	}
 }
 
 void TFTPWindow::Chmod()
