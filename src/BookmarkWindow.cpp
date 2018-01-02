@@ -1,6 +1,7 @@
 #include <View.h>
 #include <String.h>
 #include <Alert.h>
+#include <LayoutBuilder.h>
 #include <Messenger.h>
 #include <File.h>
 #include <Path.h>
@@ -23,7 +24,7 @@ static const char* kCancel = B_TRANSLATE("Cancel");
 static const char* kOK = B_TRANSLATE("OK");
 
 TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char *dir)
-	:	BWindow(BRect(x, y, x + 290, y + 250), title, B_FLOATING_WINDOW_LOOK,
+	:	BWindow(BRect(x, y, x + 580, y + 500), title, B_FLOATING_WINDOW_LOOK,
 				B_MODAL_APP_WINDOW_FEEL, B_NOT_RESIZABLE | B_NOT_ZOOMABLE)
 {
 	fBookmarkDir.SetTo(dir);
@@ -53,25 +54,30 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 	fRemotePath->SetDivider(div);
 	fLocalPath->SetDivider(div);
 	
-	bgview->AddChild(fBookmarkName);
-	bgview->AddChild(fHostAddress);
-	bgview->AddChild(fPort);
-	bgview->AddChild(fUsername);
-	bgview->AddChild(fPassword);
-	bgview->AddChild(fEncoder);
-	bgview->AddChild(fRemotePath);
-	bgview->AddChild(fLocalPath);
+	
 	
 	fSaveAndConnectButton = new BButton(BRect(10, 215, 140, 240), "Connect", B_TRANSLATE("Connect"), new BMessage(CONNECT_CLICKED));
-	bgview->AddChild(fSaveAndConnectButton);
 	fSaveAndConnectButton->SetEnabled(false);
 	
 	fSaveButton = new BButton(BRect(150, 215, 210, 240), "Save", B_TRANSLATE("Save"), new BMessage(SAVE_CLICKED));
-	bgview->AddChild(fSaveButton);
 	fSaveButton->SetEnabled(false);
 	
 	BButton *cancelButton = new BButton(BRect(220, 215, 280, 240), "Cancel", kCancel, new BMessage(B_QUIT_REQUESTED));
-	bgview->AddChild(cancelButton);
+	
+	BLayoutBuilder::Group<>(bgview,B_VERTICAL,2)
+		.Add(fBookmarkName)
+		.Add(fHostAddress)
+		.Add(fPort)
+		.Add(fUsername)
+		.Add(fPassword)
+		.Add(fEncoder)
+		.Add(fRemotePath)
+		.Add(fLocalPath)
+		.AddGroup(B_HORIZONTAL,10)
+			.Add(fSaveAndConnectButton,2)
+			.Add(fSaveButton,1)
+			.Add(cancelButton,1)
+		.End();
 	
 	fBookmarkName->SetTarget(this);
 	fHostAddress->SetTarget(this);

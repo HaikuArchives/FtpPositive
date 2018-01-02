@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <Catalog.h>
 #include <String.h>
+#include <LayoutBuilder.h>
 #include "ChmodWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
@@ -20,12 +21,6 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 	AddChild(bgView);
 	
 	float r = 40, w = 70, x = 100, ow = 80, gr = 140, ot = 200, xd = 15, yd = 15;
-	bgView->AddChild(new BStringView(BRect(10, r, ow - 2, r + yd + 3), "", B_TRANSLATE("Read:")));
-	bgView->AddChild(new BStringView(BRect(10, w, ow - 2, w + yd + 3), "", B_TRANSLATE("Write:")));
-	bgView->AddChild(new BStringView(BRect(10, x, ow - 2, x + yd + 3), "", B_TRANSLATE("Execute:")));
-	bgView->AddChild(new BStringView(BRect(ow - 10, r - 20, ow + 30, r - 3), "", B_TRANSLATE("Owner")));
-	bgView->AddChild(new BStringView(BRect(gr - 10, r - 20, gr + 30, r - 3), "", B_TRANSLATE("Group")));
-	bgView->AddChild(new BStringView(BRect(ot - 10, r - 20, ot + 30, r - 3), "", B_TRANSLATE("Other")));
 	fOwnerRead  = new BCheckBox(BRect(ow, r, ow + xd, r + yd), "OwnerRead", "", NULL);
 	fOwnerWrite = new BCheckBox(BRect(ow, w, ow + xd, w + yd), "OwnerWrite", "", NULL);
 	fOwnerExec  = new BCheckBox(BRect(ow, x, ow + xd, x + yd), "OwnerExec", "", NULL);
@@ -35,20 +30,30 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 	fOtherRead  = new BCheckBox(BRect(ot, r, ot + xd, r + yd), "OtherRead", "", NULL);
 	fOtherWrite = new BCheckBox(BRect(ot, w, ot + xd, w + yd), "OtherWrite", "", NULL);
 	fOtherExec  = new BCheckBox(BRect(ot, x, ot + xd, x + yd), "OtherExec", "", NULL);
-	bgView->AddChild(fOwnerRead);
-	bgView->AddChild(fOwnerWrite);
-	bgView->AddChild(fOwnerExec);
-	bgView->AddChild(fGroupRead);
-	bgView->AddChild(fGroupWrite);
-	bgView->AddChild(fGroupExec);
-	bgView->AddChild(fOtherRead);
-	bgView->AddChild(fOtherWrite);
-	bgView->AddChild(fOtherExec);
 	fOKButton = new BButton(BRect(10, 140, 100, 160), "", B_TRANSLATE("Change"), new BMessage(OK_CLICKED));
-	bgView->AddChild(fOKButton);
 	fCancelButton = new BButton(BRect(170, 140, 260, 160), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-	bgView->AddChild(fCancelButton);
-	
+	BLayoutBuilder::Group<>(bgView,B_VERTICAL,10)
+		.AddGrid(10,10)
+			.Add(new BStringView(BRect(10, r, ow - 2, r + yd + 3), "", B_TRANSLATE("Read:")),0,1)
+			.Add(new BStringView(BRect(10, w, ow - 2, w + yd + 3), "", B_TRANSLATE("Write:")),0,2)
+			.Add(new BStringView(BRect(10, x, ow - 2, x + yd + 3), "", B_TRANSLATE("Execute:")),0,3)
+			.Add(new BStringView(BRect(ow - 10, r - 20, ow + 30, r - 3), "", B_TRANSLATE("Owner")),1,0)
+			.Add(new BStringView(BRect(gr - 10, r - 20, gr + 30, r - 3), "", B_TRANSLATE("Group")),2,0)
+			.Add(new BStringView(BRect(ot - 10, r - 20, ot + 30, r - 3), "", B_TRANSLATE("Other")),3,0)
+			.Add(fOwnerRead,1,1)
+			.Add(fOwnerWrite,1,2)
+			.Add(fOwnerExec,1,3)
+			.Add(fGroupRead,2,1)
+			.Add(fGroupWrite,2,2)
+			.Add(fGroupExec,2,3)
+			.Add(fOtherRead,3,1)
+			.Add(fOtherWrite,3,2)
+			.Add(fOtherExec,3,3)
+		.End()
+		.AddGrid(10,10)
+			.Add(fOKButton,0,0)
+			.Add(fCancelButton,1,0)
+		.End();
 	AddShortcut('W', 0, new BMessage(B_QUIT_REQUESTED));
 	
 	fStatus = B_BUSY;

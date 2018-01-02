@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <LayoutBuilder.h>
+#include <Font.h>
 #include <Catalog.h>
 #include <Entry.h>
 #include <File.h>
@@ -18,32 +20,37 @@ extern const char* kAppName;
 TProgressView::TProgressView(BRect frame, const char *name)
 	:	BView(frame, name, B_FOLLOW_LEFT | B_FOLLOW_TOP, B_PULSE_NEEDED)
 {
+	BFont font;
+
 	SetViewColor(217, 217, 217);
 	
 	float right = Bounds().right - 5;
 	
-	fFileNameView = new BStringView(BRect(3, 2, right, 20),
+	fFileNameView = new BStringView(
 		"FileNameView", "");
 	AddChild(fFileNameView);
 	
-	fStatusBar = new BStatusBar(BRect(3, 22, right, 50),
+	fStatusBar = new BStatusBar(
 		"StatusBar", "FileName", " / 0");
 	fStatusBar->SetTrailingText("0");
-	fStatusBar->SetBarHeight(13);
-	AddChild(fStatusBar);
+	fStatusBar->SetBarHeight(font.Size() + 1);
 	
-	fAvgStringView = new BStringView(BRect(5, 54, right / 2, 68), "AvgStringView", "999999.9KB/s");
-	AddChild(fAvgStringView);
+	fAvgStringView = new BStringView("AvgStringView", "999999.9KB/s");
 	
-	fETAStringView = new BStringView(BRect(10 + right / 2, 54, right, 68), "ETAStringView", "99999:99");
+	fETAStringView = new BStringView("ETAStringView", "99999:99");
 	fETAStringView->SetAlignment(B_ALIGN_RIGHT);
-	AddChild(fETAStringView);
 	
-	fCancelButton = new BButton(BRect(right - 65, 69, right, 87),
+	fCancelButton = new BButton(
 		"CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_TRANSFER_CANCEL));
-	fCancelButton->ResizeTo(65, 20);
-	AddChild(fCancelButton);
-	
+	BLayoutBuilder::Group<>(this,B_VERTICAL,2)
+		.SetInsets(10)
+		.Add(fFileNameView)
+		.Add(fStatusBar)
+		.AddGrid(10,10)
+			.Add(fETAStringView,0,0)
+			.Add(fCancelButton,1,0)
+		.End()
+	;
 	fCurrentValue = 0;
 }
 
