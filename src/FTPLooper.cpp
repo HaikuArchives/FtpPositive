@@ -530,8 +530,8 @@ void TFtpLooper::Download(BMessage *msg)
 	if (msg->FindRect("rect", &rect) == B_OK) {
 		rect.left += 80;
 		rect.top += 80;
-		rect.right = rect.left + 300;
-		rect.bottom = rect.top + 91;
+		rect.right = rect.left + 600;
+		rect.bottom = rect.top + 182;
 	}
 	
 	progressWindow = new TProgressWindow(rect, "", &fAbort);

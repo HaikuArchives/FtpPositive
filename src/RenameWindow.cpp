@@ -1,4 +1,5 @@
 #include <Application.h>
+#include <LayoutBuilder.h>
 #include <Catalog.h>
 #include "RenameWindow.h"
 
@@ -19,14 +20,19 @@ TRenameWindow::TRenameWindow(float x, float y,
 	bgView->SetViewColor(217,217,217);
 	AddChild(bgView);
 	
-	fTextControl = new BTextControl(BRect(15, 15, 320, 35), "NewName", caption, oldName, NULL);
-	fTextControl->SetDivider(65);
+	fTextControl = new BTextControl(BRect(0,0,1,1), "NewName", caption, oldName, NULL);
+	fTextControl->SetDivider(fTextControl->StringWidth(caption));
 	fTextControl->SetText(oldName);
-	bgView->AddChild(fTextControl);
-	fOKButton = new BButton(BRect(10, 70, 100, 90), "", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
-	bgView->AddChild(fOKButton);
-	fCancelButton = new BButton(BRect(230, 70, 320, 90), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-	bgView->AddChild(fCancelButton);
+	fOKButton = new BButton(BRect(0,0,1,1), "", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
+	fCancelButton = new BButton(BRect(0,0,1,1), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+
+	BLayoutBuilder::Group<>(bgView,B_VERTICAL,10)
+		.SetInsets(10)
+		.Add(fTextControl)
+		.AddGrid(10,10)
+			.Add(fOKButton,0,0)
+			.Add(fCancelButton,1,0)
+		.End();
 	
 	AddShortcut('W', 0, new BMessage(B_QUIT_REQUESTED));
 	
