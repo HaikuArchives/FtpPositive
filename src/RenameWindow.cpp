@@ -14,25 +14,24 @@ TRenameWindow::TRenameWindow(float x, float y,
 			const char *winTitle, const char *caption, const char *oldName)
 	:	BWindow(BRect(x, y, x + 340, y + 100), winTitle,
 			B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE)
+			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	BView *bgView = new BView(Bounds(), "", 0, 0);
-	bgView->SetViewColor(217,217,217);
-	AddChild(bgView);
 	
-	fTextControl = new BTextControl(BRect(0,0,1,1), "NewName", caption, oldName, NULL);
+	
+	fTextControl = new BTextControl("NewName", caption, oldName, NULL);
 	fTextControl->SetDivider(fTextControl->StringWidth(caption));
 	fTextControl->SetText(oldName);
-	fOKButton = new BButton(BRect(0,0,1,1), "", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
-	fCancelButton = new BButton(BRect(0,0,1,1), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	fOKButton = new BButton("", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
+	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	BLayoutBuilder::Group<>(bgView,B_VERTICAL,10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
 		.SetInsets(10)
 		.Add(fTextControl)
 		.AddGrid(10,10)
 			.Add(fOKButton,0,0)
 			.Add(fCancelButton,1,0)
-		.End();
+		.End()
+		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
 	AddShortcut('W', 0, new BMessage(B_QUIT_REQUESTED));
 	

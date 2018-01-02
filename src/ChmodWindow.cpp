@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <Catalog.h>
+#include <ControlLook.h>
 #include <String.h>
 #include <LayoutBuilder.h>
 #include "ChmodWindow.h"
@@ -12,34 +13,31 @@ enum {
 };
 
 TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
-	:	BWindow(BRect(ix, iy, ix + 275, iy + 170), title,
+	:	BWindow(BRect(ix, iy, 0,0), title,
 			B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE)
+			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	BView *bgView = new BView(Bounds(), "", 0, 0);
-	bgView->SetViewColor(217,217,217);
-	AddChild(bgView);
 	
-	float r = 40, w = 70, x = 100, ow = 80, gr = 140, ot = 200, xd = 15, yd = 15;
-	fOwnerRead  = new BCheckBox(BRect(ow, r, ow + xd, r + yd), "OwnerRead", "", NULL);
-	fOwnerWrite = new BCheckBox(BRect(ow, w, ow + xd, w + yd), "OwnerWrite", "", NULL);
-	fOwnerExec  = new BCheckBox(BRect(ow, x, ow + xd, x + yd), "OwnerExec", "", NULL);
-	fGroupRead  = new BCheckBox(BRect(gr, r, gr + xd, r + yd), "GroupRead", "", NULL);
-	fGroupWrite = new BCheckBox(BRect(gr, w, gr + xd, w + yd), "GroupWrite", "", NULL);
-	fGroupExec  = new BCheckBox(BRect(gr, x, gr + xd, x + yd), "GroupROwner", "", NULL);
-	fOtherRead  = new BCheckBox(BRect(ot, r, ot + xd, r + yd), "OtherRead", "", NULL);
-	fOtherWrite = new BCheckBox(BRect(ot, w, ot + xd, w + yd), "OtherWrite", "", NULL);
-	fOtherExec  = new BCheckBox(BRect(ot, x, ot + xd, x + yd), "OtherExec", "", NULL);
-	fOKButton = new BButton(BRect(10, 140, 100, 160), "", B_TRANSLATE("Change"), new BMessage(OK_CLICKED));
-	fCancelButton = new BButton(BRect(170, 140, 260, 160), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-	BLayoutBuilder::Group<>(bgView,B_VERTICAL,10)
+	fOwnerRead  = new BCheckBox("OwnerRead", "", NULL);
+	fOwnerWrite = new BCheckBox("OwnerWrite", "", NULL);
+	fOwnerExec  = new BCheckBox("OwnerExec", "", NULL);
+	fGroupRead  = new BCheckBox("GroupRead", "", NULL);
+	fGroupWrite = new BCheckBox("GroupWrite", "", NULL);
+	fGroupExec  = new BCheckBox("GroupROwner", "", NULL);
+	fOtherRead  = new BCheckBox("OtherRead", "", NULL);
+	fOtherWrite = new BCheckBox("OtherWrite", "", NULL);
+	fOtherExec  = new BCheckBox("OtherExec", "", NULL);
+	fOKButton = new BButton("", B_TRANSLATE("Change"), new BMessage(OK_CLICKED));
+	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
+		.SetInsets(10)
 		.AddGrid(10,10)
-			.Add(new BStringView(BRect(10, r, ow - 2, r + yd + 3), "", B_TRANSLATE("Read:")),0,1)
-			.Add(new BStringView(BRect(10, w, ow - 2, w + yd + 3), "", B_TRANSLATE("Write:")),0,2)
-			.Add(new BStringView(BRect(10, x, ow - 2, x + yd + 3), "", B_TRANSLATE("Execute:")),0,3)
-			.Add(new BStringView(BRect(ow - 10, r - 20, ow + 30, r - 3), "", B_TRANSLATE("Owner")),1,0)
-			.Add(new BStringView(BRect(gr - 10, r - 20, gr + 30, r - 3), "", B_TRANSLATE("Group")),2,0)
-			.Add(new BStringView(BRect(ot - 10, r - 20, ot + 30, r - 3), "", B_TRANSLATE("Other")),3,0)
+			.Add(new BStringView("", B_TRANSLATE("Read:")),0,1)
+			.Add(new BStringView("", B_TRANSLATE("Write:")),0,2)
+			.Add(new BStringView("", B_TRANSLATE("Execute:")),0,3)
+			.Add(new BStringView("", B_TRANSLATE("Owner")),1,0)
+			.Add(new BStringView("", B_TRANSLATE("Group")),2,0)
+			.Add(new BStringView("", B_TRANSLATE("Other")),3,0)
 			.Add(fOwnerRead,1,1)
 			.Add(fOwnerWrite,1,2)
 			.Add(fOwnerExec,1,3)
@@ -53,7 +51,9 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 		.AddGrid(10,10)
 			.Add(fOKButton,0,0)
 			.Add(fCancelButton,1,0)
-		.End();
+		.End()
+		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+
 	AddShortcut('W', 0, new BMessage(B_QUIT_REQUESTED));
 	
 	fStatus = B_BUSY;

@@ -55,9 +55,8 @@ enum {
 class TLogView : public BTextView
 {
 public:
-	TLogView(BRect rect, const char *name, BRect textRect);
+	TLogView(const char *name);
 	~TLogView();
-	void FrameResized(float width, float height);
 	
 	TLogView& operator<<(const char *string);
 	TLogView& operator<<(int val);

@@ -36,7 +36,7 @@ private:
 class TProgressView : public BView
 {
 public:
-	TProgressView(BRect frame, const char *name);
+	TProgressView(const char *name);
 	~TProgressView();
 	void MessageReceived(BMessage *msg);
 	void Pulse();

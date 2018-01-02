@@ -1,6 +1,7 @@
 #include <Application.h>
 #include <Bitmap.h>
 #include <Catalog.h>
+#include <ControlLook.h>
 #include <LayoutBuilder.h>
 #include <Messenger.h>
 #include <Font.h>
@@ -32,8 +33,8 @@ static const rgb_color kBackgroundColor = {0xff,0xff,0xff,0xff};
 
 // ----------------------------------- TLogView -------------------------------------
 
-TLogView::TLogView(BRect rect, const char *name, BRect textRect)
-	:	BTextView(rect, name, textRect, B_FOLLOW_ALL_SIDES, B_WILL_DRAW)
+TLogView::TLogView( const char *name)
+	:	BTextView(name, B_WILL_DRAW)
 {
 	this->MakeEditable(false);
 	this->SetWordWrap(true);
@@ -42,14 +43,6 @@ TLogView::TLogView(BRect rect, const char *name, BRect textRect)
 
 TLogView::~TLogView()
 {
-}
-
-void TLogView::FrameResized(float width, float height)
-{
-	BRect rect(this->TextRect());
-	rect.right = width;
-	this->SetTextRect(rect);
-	this->BTextView::FrameResized(width, height);
 }
 
 void TLogView::InsertText(const char *text, int32 length, int32 offset, const text_run_array *runs)
@@ -111,13 +104,8 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	
 	BRect rect;
 	
-	BView *bgview = new BView(Bounds(), "BGView",
-		B_FOLLOW_ALL_SIDES, B_WILL_DRAW | B_FRAME_EVENTS);
-	bgview->SetViewColor(217, 217, 217);
-	this->AddChild(bgview);
-	
 	// Main Menu
-	BMenuBar *mainMenu = new BMenuBar(BRect(), "MainMenuBar");
+	BMenuBar *mainMenu = new BMenuBar("MainMenuBar");
 	
 	// Forward, Backward, Upfolder
 	rect.left = 0;
@@ -147,7 +135,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	
 	// Remote Path View
 	const char* label = B_TRANSLATE("Remote dir :");
-	fRemoteDirView = new BTextControl(rect, "RemoteDirView", label, "",
+	fRemoteDirView = new BTextControl("RemoteDirView", label, "",
 		new BMessage(MSG_REMOTE_PATH_CHANGED));
 	fRemoteDirView->SetDivider(fRemoteDirView->StringWidth(label));
 	
@@ -159,7 +147,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	BFont font;
 	TStringColumn *nameColumn = new TStringColumn(B_TRANSLATE("Name"), 150, 60, INT_MAX, 0);
 	BStringColumn *intNameColumn = new BStringColumn(B_TRANSLATE("Internal name"), 150, 60, INT_MAX, 0);
-	fRemoteFileView = new TRemoteFileView(rect, "RemoteFileView");
+	fRemoteFileView = new TRemoteFileView("RemoteFileView");
 	fRemoteFileView->AddColumn(nameColumn, CLM_NAME);
 	fRemoteFileView->AddColumn(intNameColumn, CLM_INTERNAL_NAME);
 	fRemoteFileView->AddColumn(new BSizeColumn(B_TRANSLATE("Size"), 80, 60, INT_MAX, B_ALIGN_RIGHT), CLM_SIZE);
@@ -176,25 +164,24 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fRemoteFileView->SetBackgroundColor(kBackgroundColor);
 	fRemoteFileView->SetLatchWidth(font.Size()*2);
 	
-	fItemCountView = new BStringView(BRect(0, 0, 80, B_H_SCROLL_BAR_HEIGHT), "StatusView", kZeroItems);
+	fItemCountView = new BStringView("StatusView", kZeroItems);
 	fRemoteFileView->AddStatusView(fItemCountView);
-	fItemCountView->SetViewColor(217, 217, 217);
+	fItemCountView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
 	// CheckBox (Use This Connection)
 	const char* str = B_TRANSLATE("Use this connection");
-	fUseThisConnection = new BCheckBox(BRect(rect),
-		"UseThisConnection", str, NULL, 0);
+	fUseThisConnection = new BCheckBox("UseThisConnection", str, NULL, 0);
 	fUseThisConnection->SetValue(1);
 	
 	// Log View
-	fLogView = new TLogView(rect, "LogView", BRect(2, 2, rect.Width(), rect.Height()));
+	fLogView = new TLogView("LogView");
 	BScrollView *logScrollView = new BScrollView("logScrollView", fLogView,
-		0, B_WILL_DRAW, false, true);
+		B_WILL_DRAW, false, true);
 	
 	// Status View
-	fStatusView = new BStringView(rect, "StatusView", "",0);
+	fStatusView = new BStringView("StatusView", "",0);
 	
-	BLayoutBuilder::Group<>(bgview,B_VERTICAL,0)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
 		.Add(mainMenu)
 		.AddGroup(B_HORIZONTAL,0)
 			.Add(fBackward,1)
@@ -207,7 +194,8 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 		.Add(fRemoteFileView)
 		.Add(logScrollView)
 		.AddGrid(10,10)
-			.Add(fStatusView,0,0,2)
+			.Add(fStatusView,0,0)
+			.AddGlue(1,0,2)
 			.Add(fUseThisConnection,3,0)
 		.End();
 	;

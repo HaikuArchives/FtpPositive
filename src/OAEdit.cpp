@@ -46,14 +46,12 @@ filter_result TOAFilter::Filter(BMessage *message, BHandler **handler)
 
 // TOAEdit
 
-TOAEdit::TOAEdit(BRect frame,
-		const char *name,
+TOAEdit::TOAEdit(const char *name,
 		const char *label,
 		const char *text,
 		BMessage *message,
-		uint32 resizingMode,
 		uint32 flags)
-	:	BTextControl(frame, name, label, text, message, resizingMode, flags)
+	:	BTextControl(name, label, text, message, flags)
 {
 	fEnableEnter = true;
 	fEnableDownArrow = true;
