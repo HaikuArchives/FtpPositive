@@ -107,41 +107,29 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	// Main Menu
 	BMenuBar *mainMenu = new BMenuBar("MainMenuBar");
 	
+	// Tool Bar
+	mainToolBar = new BToolBar(B_HORIZONTAL);
+	
 	// Forward, Backward, Upfolder
 	rect.left = 0;
 	rect.right = 0;
 	rect.top = 1;
 	rect.bottom = 1;
-	fBackward = new TSimplePictureButton(rect, "Backward", 
-		"NAVIGATION_BACKWARD_UP", 'BMP ',
-		"NAVIGATION_BACKWARD_DOWN", 'BMP ',
-		"NAVIGATION_BACKWARD_DISABLED", 'BMP ',
-		new BMessage(MSG_BACKWARD_CLICKED));
-	fForward = new TSimplePictureButton(rect, "Forward", 
-		"NAVIGATION_FORWARD_UP", 'BMP ',
-		"NAVIGATION_FORWARD_DOWN", 'BMP ',
-		"NAVIGATION_FORWARD_DISABLED", 'BMP ',
-		new BMessage(MSG_FORWARD_CLICKED));
-	fGoparent = new TSimplePictureButton(rect, "GoParent", 
-		"NAVIGATION_GOPARENT_UP", 'BMP ',
-		"NAVIGATION_GOPARENT_DOWN", 'BMP ',
-		"NAVIGATION_GOPARENT_DISABLED", 'BMP ',
-		new BMessage(MSG_GOPARENT_CLICKED));
-	fReload = new TSimplePictureButton(rect, "Reload", 
-		"NAVIGATION_RELOAD_UP", 'BMP ',
-		"NAVIGATION_RELOAD_DOWN", 'BMP ',
-		"NAVIGATION_RELOAD_DISABLED", 'BMP ',
-		new BMessage(MSG_RELOAD_CLICKED));
+	
+	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_BACKWARD_UP",(uint32)'BMP '),"Backward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_FORWARD_UP",(uint32)'BMP '),"Forward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_GOPARENT_UP",(uint32)'BMP '),"Go to Parent","",false);
+	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_RELOAD_UP",(uint32)'BMP '),"Reload","",false);
 	
 	// Remote Path View
 	const char* label = B_TRANSLATE("Remote dir :");
 	fRemoteDirView = new BTextControl("RemoteDirView", label, "",
 		new BMessage(MSG_REMOTE_PATH_CHANGED));
 	fRemoteDirView->SetDivider(fRemoteDirView->StringWidth(label));
+	mainToolBar->AddView(fRemoteDirView);
 	
 	// Cancel Button
-	fCancelButton = new BButton(rect, "CancelButton", "X",
-		new BMessage(MSG_CANCEL));
+	mainToolBar->AddAction(new BMessage(MSG_CANCEL),this,NULL,"Cancel","X",false);
 	
 	// Remote File View
 	BFont font;
@@ -183,14 +171,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	
 	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
 		.Add(mainMenu)
-		.AddGroup(B_HORIZONTAL,0)
-			.Add(fBackward,1)
-			.Add(fForward,1)
-			.Add(fGoparent,1)
-			.Add(fReload,1)
-			.Add(fRemoteDirView,30)
-			.Add(fCancelButton,1)
-		.End()
+		.Add(mainToolBar)
 		.Add(fRemoteFileView)
 		.Add(logScrollView)
 		.AddGrid(10,10)
@@ -251,10 +232,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fPopUpMenu->SetEnabled(false);
 	fUseThisConnection->SetEnabled(false);
 	fRemoteDirView->SetEnabled(false);
-	fBackward->SetEnabled(false);
-	fForward->SetEnabled(false);
-	fGoparent->SetEnabled(false);
-	fReload->SetEnabled(false);
+	mainToolBar->FindButton(MSG_BACKWARD_CLICKED)->SetEnabled(false);
+	mainToolBar->FindButton(MSG_FORWARD_CLICKED)->SetEnabled(false);
+	mainToolBar->FindButton(MSG_GOPARENT_CLICKED)->SetEnabled(false);
+	mainToolBar->FindButton(MSG_RELOAD_CLICKED)->SetEnabled(false);
 }
 
 
@@ -434,12 +415,12 @@ void TFTPWindow::SetBusy(bool busy)
 	fCommandMenu->SetEnabled(!busy);
 	fPopUpMenu->SetEnabled(!busy);
 	fEncodingMenu->SetEnabled(!busy);
-	fCancelButton->SetEnabled(busy);
-//	fUseThisConnection->SetEnabled(!busy);
-	fBackward->SetEnabled(!busy);
-	fForward->SetEnabled(!busy);
-	fGoparent->SetEnabled(!busy);
-	fReload->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_CANCEL)->SetEnabled(busy);
+	fUseThisConnection->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_BACKWARD_CLICKED)->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_FORWARD_CLICKED)->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_GOPARENT_CLICKED)->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_RELOAD_CLICKED)->SetEnabled(!busy);
 }
 
 void TFTPWindow::ShowBookmark() const
