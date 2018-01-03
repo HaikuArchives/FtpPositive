@@ -9,6 +9,7 @@
 #include <TextView.h>
 #include <ScrollView.h>
 #include <MenuBar.h>
+#include <ToolBar.h>
 #include <Menu.h>
 #include <PopUpMenu.h>
 #include <MenuItem.h>
@@ -55,9 +56,8 @@ enum {
 class TLogView : public BTextView
 {
 public:
-	TLogView(BRect rect, const char *name, BRect textRect);
+	TLogView(const char *name);
 	~TLogView();
-	void FrameResized(float width, float height);
 	
 	TLogView& operator<<(const char *string);
 	TLogView& operator<<(int val);
@@ -81,10 +81,10 @@ private:
 	
 	TLogView *fLogView;
 	TRemoteFileView *fRemoteFileView;
+	BToolBar *mainToolBar;
 	BTextControl *fRemoteDirView;
 	BStringView *fItemCountView;
 	BStringView *fStatusView;
-	BButton *fCancelButton;
 	BMenu *fFileMenu;
 	BMenu *fConnectMenu;
 	BMenu *fCommandMenu;
@@ -92,10 +92,6 @@ private:
 	BMenuItem *fNoEncoder;
 	BCheckBox *fUseThisConnection;
 	BPopUpMenu *fPopUpMenu;
-	TSimplePictureButton *fBackward;
-	TSimplePictureButton *fForward;
-	TSimplePictureButton *fGoparent;
-	TSimplePictureButton *fReload;
 	
 	BString fCurrentRemoteDir;
 	BString fLocalDir;

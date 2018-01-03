@@ -17,15 +17,13 @@ extern const char* kAppName;
 
 // TProgressView
 
-TProgressView::TProgressView(BRect frame, const char *name)
-	:	BView(frame, name, B_FOLLOW_LEFT | B_FOLLOW_TOP, B_PULSE_NEEDED)
+TProgressView::TProgressView(const char *name)
+	:	BView(name, B_PULSE_NEEDED | B_SUPPORTS_LAYOUT)
 {
 	BFont font;
 
-	SetViewColor(217, 217, 217);
-	
-	float right = Bounds().right - 5;
-	
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+		
 	fFileNameView = new BStringView(
 		"FileNameView", "");
 	AddChild(fFileNameView);
@@ -42,11 +40,11 @@ TProgressView::TProgressView(BRect frame, const char *name)
 	
 	fCancelButton = new BButton(
 		"CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_TRANSFER_CANCEL));
-	BLayoutBuilder::Group<>(this,B_VERTICAL,2)
-		.SetInsets(10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_SMALL_SPACING)
+		.SetInsets(B_USE_ITEM_SPACING)
 		.Add(fFileNameView)
 		.Add(fStatusBar)
-		.AddGrid(10,10)
+		.AddGrid(B_USE_ITEM_SPACING,B_USE_ITEM_SPACING)
 			.Add(fETAStringView,0,0)
 			.Add(fCancelButton,1,0)
 		.End()
@@ -129,10 +127,11 @@ void TProgressView::SetValue(off_t currentValue)
 
 TProgressWindow::TProgressWindow(BRect frame, const char *title, volatile bool *abortFlag)
 	:	BWindow(frame, title, B_FLOATING_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-				B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
+				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	fProgressView = new TProgressView(Bounds(), "TransferView");
-	AddChild(fProgressView);
+	fProgressView = new TProgressView("TransferView");
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
+		.Add(fProgressView);
 	SetPulseRate(100000);
 	fAbortFlag = abortFlag;
 }

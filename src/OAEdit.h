@@ -23,12 +23,10 @@ private:
 class TOAEdit : public BTextControl
 {
 public:
-	TOAEdit(BRect frame,
-		const char *name,
+	TOAEdit(const char *name,
 		const char *label,
 		const char *text,
 		BMessage *message,
-		uint32 resizingMode = B_FOLLOW_LEFT | B_FOLLOW_TOP,
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
 	TOAEdit(BMessage *archive);
 	static BArchivable *Instantiate(BMessage *archive);
