@@ -42,7 +42,7 @@ private:
 class TRemoteFileView : public BColumnListView
 {
 public:
-	TRemoteFileView(BRect frame, const char *name);
+	TRemoteFileView(const char *name);
 	~TRemoteFileView();
 	void MessageReceived(BMessage *msg);
 	void MessageDropped(BMessage *msg, BPoint point);

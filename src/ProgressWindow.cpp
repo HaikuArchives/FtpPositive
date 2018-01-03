@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <LayoutBuilder.h>
+#include <Font.h>
 #include <Catalog.h>
 #include <Entry.h>
 #include <File.h>
@@ -15,35 +17,38 @@ extern const char* kAppName;
 
 // TProgressView
 
-TProgressView::TProgressView(BRect frame, const char *name)
-	:	BView(frame, name, B_FOLLOW_LEFT | B_FOLLOW_TOP, B_PULSE_NEEDED)
+TProgressView::TProgressView(const char *name)
+	:	BView(name, B_PULSE_NEEDED | B_SUPPORTS_LAYOUT)
 {
-	SetViewColor(217, 217, 217);
-	
-	float right = Bounds().right - 5;
-	
-	fFileNameView = new BStringView(BRect(3, 2, right, 20),
+	BFont font;
+
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+		
+	fFileNameView = new BStringView(
 		"FileNameView", "");
 	AddChild(fFileNameView);
 	
-	fStatusBar = new BStatusBar(BRect(3, 22, right, 50),
+	fStatusBar = new BStatusBar(
 		"StatusBar", "FileName", " / 0");
 	fStatusBar->SetTrailingText("0");
-	fStatusBar->SetBarHeight(13);
-	AddChild(fStatusBar);
+	fStatusBar->SetBarHeight(font.Size() + 1);
 	
-	fAvgStringView = new BStringView(BRect(5, 54, right / 2, 68), "AvgStringView", "999999.9KB/s");
-	AddChild(fAvgStringView);
+	fAvgStringView = new BStringView("AvgStringView", "999999.9KB/s");
 	
-	fETAStringView = new BStringView(BRect(10 + right / 2, 54, right, 68), "ETAStringView", "99999:99");
+	fETAStringView = new BStringView("ETAStringView", "99999:99");
 	fETAStringView->SetAlignment(B_ALIGN_RIGHT);
-	AddChild(fETAStringView);
 	
-	fCancelButton = new BButton(BRect(right - 65, 69, right, 87),
+	fCancelButton = new BButton(
 		"CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_TRANSFER_CANCEL));
-	fCancelButton->ResizeTo(65, 20);
-	AddChild(fCancelButton);
-	
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_SMALL_SPACING)
+		.SetInsets(B_USE_ITEM_SPACING)
+		.Add(fFileNameView)
+		.Add(fStatusBar)
+		.AddGrid(B_USE_ITEM_SPACING,B_USE_ITEM_SPACING)
+			.Add(fETAStringView,0,0)
+			.Add(fCancelButton,1,0)
+		.End()
+	;
 	fCurrentValue = 0;
 }
 
@@ -122,10 +127,11 @@ void TProgressView::SetValue(off_t currentValue)
 
 TProgressWindow::TProgressWindow(BRect frame, const char *title, volatile bool *abortFlag)
 	:	BWindow(frame, title, B_FLOATING_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-				B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
+				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	fProgressView = new TProgressView(Bounds(), "TransferView");
-	AddChild(fProgressView);
+	fProgressView = new TProgressView("TransferView");
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
+		.Add(fProgressView);
 	SetPulseRate(100000);
 	fAbortFlag = abortFlag;
 }

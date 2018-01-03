@@ -1,6 +1,8 @@
 #include <View.h>
 #include <String.h>
 #include <Alert.h>
+#include <ControlLook.h>
+#include <LayoutBuilder.h>
 #include <Messenger.h>
 #include <File.h>
 #include <Path.h>
@@ -23,26 +25,23 @@ static const char* kCancel = B_TRANSLATE("Cancel");
 static const char* kOK = B_TRANSLATE("OK");
 
 TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char *dir)
-	:	BWindow(BRect(x, y, x + 290, y + 250), title, B_FLOATING_WINDOW_LOOK,
-				B_MODAL_APP_WINDOW_FEEL, B_NOT_RESIZABLE | B_NOT_ZOOMABLE)
+	:	BWindow(BRect(x, y, 0,0), title, B_FLOATING_WINDOW_LOOK,
+				B_MODAL_APP_WINDOW_FEEL, B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS )
 {
 	fBookmarkDir.SetTo(dir);
-	fNewBookmark = true;
 	
-	BView *bgview = new BView(Bounds(), "bgview", B_FOLLOW_NONE, 0);
-	bgview->SetViewColor(217, 217, 217);
-	AddChild(bgview);
+	fNewBookmark = true;
 	
 	float lx = 10, rx = Bounds().right - 10, div = 70;
 	
-	fBookmarkName = new TOAEdit(BRect(lx, 20, rx, 38), "BookmarkName", B_TRANSLATE("Name:"), B_TRANSLATE("New bookmark"), new BMessage(EDIT_CHANGED));
-	fHostAddress = new TOAEdit(BRect(lx, 40, rx, 58), "HostAddress", B_TRANSLATE("Address:"), "", new BMessage(EDIT_CHANGED));
-	fPort = new TOAEdit(BRect(lx, 60, rx, 78), "Port", B_TRANSLATE("Port:"), "21", new BMessage(EDIT_CHANGED));
-	fUsername = new TOAEdit(BRect(lx, 80, rx, 98), "Username", B_TRANSLATE("User name:"), "", new BMessage(EDIT_CHANGED));
-	fPassword = new TOAEdit(BRect(lx, 100, rx, 118), "Password", B_TRANSLATE("Password:"), "", new BMessage(EDIT_CHANGED));
-	fEncoder = new TOAEdit(BRect(lx, 120, rx, 138), "Encoder", B_TRANSLATE("Encoder:"), "", NULL);
-	fRemotePath = new TOAEdit(BRect(lx, 140, rx, 158), "RemotePath", B_TRANSLATE("Remote path:"), "", NULL);
-	fLocalPath = new TOAEdit(BRect(lx, 160, rx, 178), "LocalPath", B_TRANSLATE("Local path:"), TFtpPositive::GetDefaultLocalDir().String(), NULL);
+	fBookmarkName = new TOAEdit("BookmarkName", B_TRANSLATE("Name:"), B_TRANSLATE("New bookmark"), new BMessage(EDIT_CHANGED));
+	fHostAddress = new TOAEdit("HostAddress", B_TRANSLATE("Address:"), "", new BMessage(EDIT_CHANGED));
+	fPort = new TOAEdit("Port", B_TRANSLATE("Port:"), "21", new BMessage(EDIT_CHANGED));
+	fUsername = new TOAEdit("Username", B_TRANSLATE("User name:"), "", new BMessage(EDIT_CHANGED));
+	fPassword = new TOAEdit("Password", B_TRANSLATE("Password:"), "", new BMessage(EDIT_CHANGED));
+	fEncoder = new TOAEdit("Encoder", B_TRANSLATE("Encoder:"), "", NULL);
+	fRemotePath = new TOAEdit("RemotePath", B_TRANSLATE("Remote path:"), "", NULL);
+	fLocalPath = new TOAEdit("LocalPath", B_TRANSLATE("Local path:"), TFtpPositive::GetDefaultLocalDir().String(), NULL);
 	
 	fBookmarkName->SetDivider(div);
 	fHostAddress->SetDivider(div);
@@ -53,25 +52,43 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 	fRemotePath->SetDivider(div);
 	fLocalPath->SetDivider(div);
 	
-	bgview->AddChild(fBookmarkName);
-	bgview->AddChild(fHostAddress);
-	bgview->AddChild(fPort);
-	bgview->AddChild(fUsername);
-	bgview->AddChild(fPassword);
-	bgview->AddChild(fEncoder);
-	bgview->AddChild(fRemotePath);
-	bgview->AddChild(fLocalPath);
 	
-	fSaveAndConnectButton = new BButton(BRect(10, 215, 140, 240), "Connect", B_TRANSLATE("Connect"), new BMessage(CONNECT_CLICKED));
-	bgview->AddChild(fSaveAndConnectButton);
+	
+	fSaveAndConnectButton = new BButton("Connect", B_TRANSLATE("Connect"), new BMessage(CONNECT_CLICKED));
 	fSaveAndConnectButton->SetEnabled(false);
 	
-	fSaveButton = new BButton(BRect(150, 215, 210, 240), "Save", B_TRANSLATE("Save"), new BMessage(SAVE_CLICKED));
-	bgview->AddChild(fSaveButton);
+	fSaveButton = new BButton("Save", B_TRANSLATE("Save"), new BMessage(SAVE_CLICKED));
 	fSaveButton->SetEnabled(false);
 	
-	BButton *cancelButton = new BButton(BRect(220, 215, 280, 240), "Cancel", kCancel, new BMessage(B_QUIT_REQUESTED));
-	bgview->AddChild(cancelButton);
+	BButton *cancelButton = new BButton("Cancel", kCancel, new BMessage(B_QUIT_REQUESTED));
+	
+	BLayoutBuilder::Group<>(this,B_VERTICAL)
+		.SetInsets(B_USE_ITEM_SPACING)
+		.AddGrid(2,2)
+			.Add(fBookmarkName->CreateLabelLayoutItem(),0,0)
+			.Add(fBookmarkName->CreateTextViewLayoutItem(),1,0)
+			.Add(fHostAddress->CreateLabelLayoutItem(),0,1)
+			.Add(fHostAddress->CreateTextViewLayoutItem(),1,1)
+			.Add(fPort->CreateLabelLayoutItem(),0,2)
+			.Add(fPort->CreateTextViewLayoutItem(),1,2)
+			.Add(fUsername->CreateLabelLayoutItem(),0,3)
+			.Add(fUsername->CreateTextViewLayoutItem(),1,3)
+			.Add(fPassword->CreateLabelLayoutItem(),0,4)
+			.Add(fPassword->CreateTextViewLayoutItem(),1,4)
+			.Add(fEncoder->CreateLabelLayoutItem(),0,5)
+			.Add(fEncoder->CreateTextViewLayoutItem(),1,5)
+			.Add(fRemotePath->CreateLabelLayoutItem(),0,6)
+			.Add(fRemotePath->CreateTextViewLayoutItem(),1,6)
+			.Add(fLocalPath->CreateLabelLayoutItem(),0,7)
+			.Add(fLocalPath->CreateTextViewLayoutItem(),1,7)
+		.End()
+		.AddStrut(B_USE_BIG_SPACING)
+		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+			.Add(fSaveAndConnectButton,2)
+			.Add(fSaveButton,1)
+			.Add(cancelButton,1)
+		.End()
+	.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
 	fBookmarkName->SetTarget(this);
 	fHostAddress->SetTarget(this);

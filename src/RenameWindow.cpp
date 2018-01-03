@@ -1,4 +1,5 @@
 #include <Application.h>
+#include <LayoutBuilder.h>
 #include <Catalog.h>
 #include "RenameWindow.h"
 
@@ -13,20 +14,25 @@ TRenameWindow::TRenameWindow(float x, float y,
 			const char *winTitle, const char *caption, const char *oldName)
 	:	BWindow(BRect(x, y, x + 340, y + 100), winTitle,
 			B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE)
+			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	BView *bgView = new BView(Bounds(), "", 0, 0);
-	bgView->SetViewColor(217,217,217);
-	AddChild(bgView);
 	
-	fTextControl = new BTextControl(BRect(15, 15, 320, 35), "NewName", caption, oldName, NULL);
-	fTextControl->SetDivider(65);
+	
+	fTextControl = new BTextControl("NewName", caption, oldName, NULL);
+	fTextControl->SetDivider(fTextControl->StringWidth(caption));
 	fTextControl->SetText(oldName);
-	bgView->AddChild(fTextControl);
-	fOKButton = new BButton(BRect(10, 70, 100, 90), "", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
-	bgView->AddChild(fOKButton);
-	fCancelButton = new BButton(BRect(230, 70, 320, 90), "", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-	bgView->AddChild(fCancelButton);
+	fOKButton = new BButton("", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
+	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
+		.SetInsets(B_USE_ITEM_SPACING)
+		.Add(fTextControl)
+		.AddStrut(B_USE_BIG_SPACING)
+		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+			.Add(fOKButton)
+			.Add(fCancelButton)
+		.End()
+		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
 	AddShortcut('W', 0, new BMessage(B_QUIT_REQUESTED));
 	

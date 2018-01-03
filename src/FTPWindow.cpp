@@ -1,20 +1,23 @@
+#include <Alert.h>
 #include <Application.h>
 #include <Bitmap.h>
 #include <Catalog.h>
 #include <Clipboard.h>
+#include <ControlLook.h>
+#include <Entry.h>
+#include <Font.h>
+#include <LayoutBuilder.h>
 #include <Messenger.h>
+#include <OS.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <netinet/in.h>
-#include <OS.h>
-#include <Entry.h>
-#include <Alert.h>
+#include "BookmarkWindow.h"
+#include "ChmodWindow.h"
 #include "FtpPositive.h"
 #include "FTPWindow.h"
-#include "BookmarkWindow.h"
 #include "MimeDB.h"
 #include "RenameWindow.h"
-#include "ChmodWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "FTPWindow"
@@ -31,8 +34,8 @@ static const rgb_color kBackgroundColor = {0xff,0xff,0xff,0xff};
 
 // ----------------------------------- TLogView -------------------------------------
 
-TLogView::TLogView(BRect rect, const char *name, BRect textRect)
-	:	BTextView(rect, name, textRect, B_FOLLOW_LEFT_RIGHT | B_FOLLOW_BOTTOM, B_WILL_DRAW)
+TLogView::TLogView(const char *name)
+	:	BTextView(name, B_WILL_DRAW)
 {
 	this->MakeEditable(false);
 	this->SetWordWrap(true);
@@ -41,14 +44,6 @@ TLogView::TLogView(BRect rect, const char *name, BRect textRect)
 
 TLogView::~TLogView()
 {
-}
-
-void TLogView::FrameResized(float width, float height)
-{
-	BRect rect(this->TextRect());
-	rect.right = width;
-	this->SetTextRect(rect);
-	this->BTextView::FrameResized(width, height);
 }
 
 void TLogView::InsertText(const char *text, int32 length, int32 offset, const text_run_array *runs)
@@ -111,77 +106,38 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	
 	BRect rect;
 	
-	BView *bgview = new BView(Bounds(), "BGView",
-		B_FOLLOW_ALL_SIDES, B_WILL_DRAW | B_FRAME_EVENTS);
-	bgview->SetViewColor(217, 217, 217);
-	this->AddChild(bgview);
-	
 	// Main Menu
-	BMenuBar *mainMenu = new BMenuBar(BRect(), "MainMenuBar");
-	bgview->AddChild(mainMenu);
+	BMenuBar *mainMenu = new BMenuBar("MainMenuBar");
+	
+	// Tool Bar
+	mainToolBar = new BToolBar(B_HORIZONTAL);
 	
 	// Forward, Backward, Upfolder
-	rect.left = 5;
-	rect.right = rect.left + 24;
-	rect.top = mainMenu->Frame().bottom + 5;
-	rect.bottom = rect.top + 24;
-	fBackward = new TSimplePictureButton(rect, "Backward", 
-		"NAVIGATION_BACKWARD_UP", 'BMP ',
-		"NAVIGATION_BACKWARD_DOWN", 'BMP ',
-		"NAVIGATION_BACKWARD_DISABLED", 'BMP ',
-		new BMessage(MSG_BACKWARD_CLICKED));
-	bgview->AddChild(fBackward);
-	rect.OffsetBy(25, 0);
-	fForward = new TSimplePictureButton(rect, "Forward", 
-		"NAVIGATION_FORWARD_UP", 'BMP ',
-		"NAVIGATION_FORWARD_DOWN", 'BMP ',
-		"NAVIGATION_FORWARD_DISABLED", 'BMP ',
-		new BMessage(MSG_FORWARD_CLICKED));
-	bgview->AddChild(fForward);
-	rect.OffsetBy(25, 0);
-	fGoparent = new TSimplePictureButton(rect, "GoParent", 
-		"NAVIGATION_GOPARENT_UP", 'BMP ',
-		"NAVIGATION_GOPARENT_DOWN", 'BMP ',
-		"NAVIGATION_GOPARENT_DISABLED", 'BMP ',
-		new BMessage(MSG_GOPARENT_CLICKED));
-	bgview->AddChild(fGoparent);
-	rect.OffsetBy(25, 0);
-	fReload = new TSimplePictureButton(rect, "Reload", 
-		"NAVIGATION_RELOAD_UP", 'BMP ',
-		"NAVIGATION_RELOAD_DOWN", 'BMP ',
-		"NAVIGATION_RELOAD_DISABLED", 'BMP ',
-		new BMessage(MSG_RELOAD_CLICKED));
-	bgview->AddChild(fReload);
+	rect.left = 0;
+	rect.right = 0;
+	rect.top = 1;
+	rect.bottom = 1;
+	
+	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_BACKWARD_UP",(uint32)'BMP '),"Backward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_FORWARD_UP",(uint32)'BMP '),"Forward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_GOPARENT_UP",(uint32)'BMP '),"Go to Parent","",false);
+	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_RELOAD_UP",(uint32)'BMP '),"Reload","",false);
 	
 	// Remote Path View
-	rect.left = 110;
-	rect.right = bgview->Bounds().right - 25;
-	rect.top = mainMenu->Frame().bottom + 7;
-	rect.bottom = rect.top + 12;
 	const char* label = B_TRANSLATE("Remote dir :");
-	fRemoteDirView = new BTextControl(rect, "RemoteDirView", label, "",
-		new BMessage(MSG_REMOTE_PATH_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+	fRemoteDirView = new BTextControl("RemoteDirView", label, "",
+		new BMessage(MSG_REMOTE_PATH_CHANGED));
 	fRemoteDirView->SetDivider(fRemoteDirView->StringWidth(label));
-	bgview->AddChild(fRemoteDirView);
+	mainToolBar->AddView(fRemoteDirView);
 	
 	// Cancel Button
-	rect.left = bgview->Bounds().right - 20;
-	rect.right = rect.left + 17;
-	rect.top = mainMenu->Frame().bottom + 7;
-	rect.bottom = rect.top + 20;
-	fCancelButton = new BButton(rect, "CancelButton", "X",
-		new BMessage(MSG_CANCEL), B_FOLLOW_RIGHT);
-	bgview->AddChild(fCancelButton);
-	fCancelButton->ResizeTo(17, 18);
+	mainToolBar->AddAction(new BMessage(MSG_CANCEL),this,NULL,"Cancel","X",false);
 	
 	// Remote File View
+	BFont font;
 	TStringColumn *nameColumn = new TStringColumn(B_TRANSLATE("Name"), 150, 60, INT_MAX, 0);
 	BStringColumn *intNameColumn = new BStringColumn(B_TRANSLATE("Internal name"), 150, 60, INT_MAX, 0);
-	rect.left = 5;
-	rect.right = bgview->Bounds().right - 5;
-	rect.top = fRemoteDirView->Frame().bottom + 7;
-	rect.bottom = bgview->Bounds().bottom - 107;
-	fRemoteFileView = new TRemoteFileView(rect, "RemoteFileView");
+	fRemoteFileView = new TRemoteFileView("RemoteFileView");
 	fRemoteFileView->AddColumn(nameColumn, CLM_NAME);
 	fRemoteFileView->AddColumn(intNameColumn, CLM_INTERNAL_NAME);
 	fRemoteFileView->AddColumn(new BSizeColumn(B_TRANSLATE("Size"), 80, 60, INT_MAX, B_ALIGN_RIGHT), CLM_SIZE);
@@ -191,47 +147,44 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Group"), 70, 60, INT_MAX, 0), CLM_GROUP);
 	fRemoteFileView->SetTarget(this);
 	fRemoteFileView->SetInvocationMessage(new BMessage(MSG_ENTRY_DOUBLE_CLICKED));
-	bgview->AddChild(fRemoteFileView);
 	intNameColumn->SetVisible(false);
 	fRemoteFileView->SetSortingEnabled(true);
 	fRemoteFileView->SetSortColumn(nameColumn, false, true);
 	fRemoteFileView->SetSelectionColor(kSelectionColor);
 	fRemoteFileView->SetBackgroundColor(kBackgroundColor);
-	fRemoteFileView->SetLatchWidth(24);
+	fRemoteFileView->SetLatchWidth(font.Size()*2);
 	
-	fItemCountView = new BStringView(BRect(0, 0, 80, B_H_SCROLL_BAR_HEIGHT), "StatusView", kZeroItems, B_FOLLOW_LEFT | B_FOLLOW_TOP);
+	fItemCountView = new BStringView("StatusView", kZeroItems);
 	fRemoteFileView->AddStatusView(fItemCountView);
-	fItemCountView->SetViewColor(217, 217, 217);
+	fItemCountView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
 	// CheckBox (Use This Connection)
-	rect.right = bgview->Bounds().right - B_V_SCROLL_BAR_WIDTH - 5;
 	const char* str = B_TRANSLATE("Use this connection");
-	rect.left = rect.right - bgview->StringWidth(str) - 20;
-	rect.top = bgview->Bounds().bottom - 19;
-	rect.bottom = mainMenu->Bounds().bottom;
-	fUseThisConnection = new BCheckBox(BRect(rect),
-		"UseThisConnection", str, NULL, B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
-	bgview->AddChild(fUseThisConnection);
+	fUseThisConnection = new BCheckBox("UseThisConnection", str, NULL, 0);
 	fUseThisConnection->SetValue(1);
 	
 	// Log View
-	rect.left = 5;
-	rect.right = bgview->Bounds().right - B_V_SCROLL_BAR_WIDTH - 5;
-	rect.top = bgview->Bounds().bottom - 95;
-	rect.bottom = bgview->Bounds().bottom - 20;
-	fLogView = new TLogView(rect, "LogView", BRect(2, 2, rect.Width(), rect.Height()));
+	fLogView = new TLogView("LogView");
 	BScrollView *logScrollView = new BScrollView("logScrollView", fLogView,
-		B_FOLLOW_LEFT_RIGHT | B_FOLLOW_BOTTOM, B_WILL_DRAW, false, true);
-	bgview->AddChild(logScrollView);
+		B_WILL_DRAW, false, true);
 	
 	// Status View
-	rect.left = 5;
-	rect.right = fUseThisConnection->Frame().left - 1;
-	rect.top = logScrollView->Frame().bottom + 1;
-	rect.bottom = bgview->Bounds().bottom;
-	fStatusView = new BStringView(rect, "StatusView", "", B_FOLLOW_LEFT_RIGHT | B_FOLLOW_BOTTOM);
-	bgview->AddChild(fStatusView);
+	fStatusView = new BStringView("StatusView", "");
 	
+	BLayoutBuilder::Group<>(this,B_VERTICAL,0)
+		.Add(mainMenu)
+		.Add(mainToolBar)
+		.AddGroup(B_VERTICAL,B_USE_ITEM_SPACING)
+			.SetInsets(B_USE_ITEM_SPACING)
+			.Add(fRemoteFileView)
+			.Add(logScrollView)
+			.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+				.Add(fStatusView,1)
+				.AddGlue(2)
+				.Add(fUseThisConnection,1)
+			.End()
+		.End();
+	;
 	// File Menu
 	fFileMenu = new BMenu(B_TRANSLATE("File"));
 	mainMenu->AddItem(fFileMenu);
@@ -284,10 +237,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fPopUpMenu->SetEnabled(false);
 	fUseThisConnection->SetEnabled(false);
 	fRemoteDirView->SetEnabled(false);
-	fBackward->SetEnabled(false);
-	fForward->SetEnabled(false);
-	fGoparent->SetEnabled(false);
-	fReload->SetEnabled(false);
+	mainToolBar->FindButton(MSG_BACKWARD_CLICKED)->SetEnabled(false);
+	mainToolBar->FindButton(MSG_FORWARD_CLICKED)->SetEnabled(false);
+	mainToolBar->FindButton(MSG_GOPARENT_CLICKED)->SetEnabled(false);
+	mainToolBar->FindButton(MSG_RELOAD_CLICKED)->SetEnabled(false);
 }
 
 
@@ -468,12 +421,12 @@ void TFTPWindow::SetBusy(bool busy)
 	fCommandMenu->SetEnabled(!busy);
 	fPopUpMenu->SetEnabled(!busy);
 	fEncodingMenu->SetEnabled(!busy);
-	fCancelButton->SetEnabled(busy);
-//	fUseThisConnection->SetEnabled(!busy);
-	fBackward->SetEnabled(!busy);
-	fForward->SetEnabled(!busy);
-	fGoparent->SetEnabled(!busy);
-	fReload->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_CANCEL)->SetEnabled(busy);
+	fUseThisConnection->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_BACKWARD_CLICKED)->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_FORWARD_CLICKED)->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_GOPARENT_CLICKED)->SetEnabled(!busy);
+	mainToolBar->FindButton(MSG_RELOAD_CLICKED)->SetEnabled(!busy);
 }
 
 void TFTPWindow::ShowBookmark() const
