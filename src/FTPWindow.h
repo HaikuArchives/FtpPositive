@@ -112,7 +112,7 @@ private:
 	
 	void FtpReportMsgIncoming(BMessage *msg);
 	
-	void AddRemoteFileItem(const char *name, uint32 size,
+	void AddRemoteFileItem(const char *name, int64 size,
 		const char *date, const char *perm, const char *owner, const char *group);
 	
 	void SetBusy(bool busy);

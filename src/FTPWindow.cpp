@@ -379,7 +379,7 @@ void TFTPWindow::FtpReportMsgIncoming(BMessage *msg)
 	return;
 }
 
-void TFTPWindow::AddRemoteFileItem(const char *name, uint32 size,
+void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	const char *date, const char *perm, const char *owner, const char *group)
 {
 	// ディレクトリ、またはファイルタイプのアイコンイメージを取得
