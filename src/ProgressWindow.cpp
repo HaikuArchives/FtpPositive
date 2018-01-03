@@ -40,11 +40,11 @@ TProgressView::TProgressView(const char *name)
 	
 	fCancelButton = new BButton(
 		"CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_TRANSFER_CANCEL));
-	BLayoutBuilder::Group<>(this,B_VERTICAL,2)
-		.SetInsets(10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_SMALL_SPACING)
+		.SetInsets(B_USE_ITEM_SPACING)
 		.Add(fFileNameView)
 		.Add(fStatusBar)
-		.AddGrid(10,10)
+		.AddGrid(B_USE_ITEM_SPACING,B_USE_ITEM_SPACING)
 			.Add(fETAStringView,0,0)
 			.Add(fCancelButton,1,0)
 		.End()
@@ -130,7 +130,7 @@ TProgressWindow::TProgressWindow(BRect frame, const char *title, volatile bool *
 				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	fProgressView = new TProgressView("TransferView");
-	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
 		.Add(fProgressView);
 	SetPulseRate(100000);
 	fAbortFlag = abortFlag;

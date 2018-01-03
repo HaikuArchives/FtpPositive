@@ -33,7 +33,7 @@ static const rgb_color kBackgroundColor = {0xff,0xff,0xff,0xff};
 
 // ----------------------------------- TLogView -------------------------------------
 
-TLogView::TLogView( const char *name)
+TLogView::TLogView(const char *name)
 	:	BTextView(name, B_WILL_DRAW)
 {
 	this->MakeEditable(false);
@@ -167,17 +167,20 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 		B_WILL_DRAW, false, true);
 	
 	// Status View
-	fStatusView = new BStringView("StatusView", "",0);
+	fStatusView = new BStringView("StatusView", "");
 	
-	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,0)
 		.Add(mainMenu)
 		.Add(mainToolBar)
-		.Add(fRemoteFileView)
-		.Add(logScrollView)
-		.AddGrid(10,10)
-			.Add(fStatusView,0,0)
-			.AddGlue(1,0,2)
-			.Add(fUseThisConnection,3,0)
+		.AddGroup(B_VERTICAL,B_USE_ITEM_SPACING)
+			.SetInsets(B_USE_ITEM_SPACING)
+			.Add(fRemoteFileView)
+			.Add(logScrollView)
+			.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+				.Add(fStatusView,1)
+				.AddGlue(2)
+				.Add(fUseThisConnection,1)
+			.End()
 		.End();
 	;
 	// File Menu

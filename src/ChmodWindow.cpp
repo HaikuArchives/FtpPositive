@@ -29,9 +29,9 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 	fOtherExec  = new BCheckBox("OtherExec", "", NULL);
 	fOKButton = new BButton("", B_TRANSLATE("Change"), new BMessage(OK_CLICKED));
 	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
-		.SetInsets(10)
-		.AddGrid(10,10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
+		.SetInsets(B_USE_ITEM_SPACING)
+		.AddGrid(B_USE_ITEM_SPACING,B_USE_ITEM_SPACING)
 			.Add(new BStringView("", B_TRANSLATE("Read:")),0,1)
 			.Add(new BStringView("", B_TRANSLATE("Write:")),0,2)
 			.Add(new BStringView("", B_TRANSLATE("Execute:")),0,3)
@@ -48,9 +48,10 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 			.Add(fOtherWrite,3,2)
 			.Add(fOtherExec,3,3)
 		.End()
-		.AddGrid(10,10)
-			.Add(fOKButton,0,0)
-			.Add(fCancelButton,1,0)
+		.AddStrut(B_USE_BIG_SPACING)
+		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+			.Add(fOKButton)
+			.Add(fCancelButton)
 		.End()
 		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 

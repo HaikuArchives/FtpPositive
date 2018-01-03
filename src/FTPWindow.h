@@ -78,7 +78,7 @@ public:
 private:
 	TFtpLooper *fFtpLooper;
 	TConfigFile *fBookmarkConfig;
-		
+	
 	TLogView *fLogView;
 	TRemoteFileView *fRemoteFileView;
 	BToolBar *mainToolBar;

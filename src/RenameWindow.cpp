@@ -24,12 +24,13 @@ TRenameWindow::TRenameWindow(float x, float y,
 	fOKButton = new BButton("", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
 	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	BLayoutBuilder::Group<>(this,B_VERTICAL,10)
-		.SetInsets(10)
+	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
+		.SetInsets(B_USE_ITEM_SPACING)
 		.Add(fTextControl)
-		.AddGrid(10,10)
-			.Add(fOKButton,0,0)
-			.Add(fCancelButton,1,0)
+		.AddStrut(B_USE_BIG_SPACING)
+		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+			.Add(fOKButton)
+			.Add(fCancelButton)
 		.End()
 		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
