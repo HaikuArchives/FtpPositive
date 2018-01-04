@@ -11,7 +11,7 @@
 typedef struct fp_dirlist_t {
 	char *fd_dir;
 	char *fd_name;
-	ssize_t fd_size;
+	int64 fd_size;
 	char *fd_date;
 	char *fd_permission;
 	char *fd_owner;
@@ -53,7 +53,9 @@ public:
 		}
 		entry->fd_dir = strdup(dir);
 		entry->fd_name = strdup(name);
+
 		entry->fd_size = size;
+
 		entry->fd_date = strdup(date);
 		entry->fd_permission = strdup(permission);
 		entry->fd_owner = strdup(owner);

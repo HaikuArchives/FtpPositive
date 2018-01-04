@@ -130,9 +130,8 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 		char strday[3];
 		sprintf(strday, "%2.2d", atoi(day));
 		strdate << "/" << strday << strtime;
-		
-		// リストに追加
-		status = this->AddEntry(curdir.String(), name, atoi(size), strdate.String(), permission, owner, group);
+
+		status = this->AddEntry(curdir.String(), name, atoll(size), strdate.String(), permission, owner, group);
 		if (status != B_OK) break;
 	}
 	return status;
