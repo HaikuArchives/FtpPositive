@@ -124,7 +124,7 @@ public:
 		if (!r) free(item);
 		return r;
 	};
-	bool AddEntry(const char *path, const char *date, const char *perm, const char *owner, const char *group, int32 size) {
+	bool AddEntry(const char *path, const char *date, const char *perm, const char *owner, const char *group, int64 size) {
 		entry_item *item = (entry_item *)malloc(sizeof(entry_item));
 		if (item == NULL) return false;
 		item->ei_path = new BString(path);

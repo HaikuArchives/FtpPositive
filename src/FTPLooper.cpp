@@ -265,8 +265,9 @@ status_t TFtpLooper::SIZE(const char *remoteFilePath, int64 *size, int32 *reply)
 //		fStrError.SetTo("Invalid response.");
 		return B_ERROR;
 	}
+
 	s++;
-	*size = atoi(s);
+	*size = atoll(s);
 	return B_OK;
 }
 
