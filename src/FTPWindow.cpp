@@ -106,6 +106,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	this->SetSizeLimits(280, maxW, 250, maxH);
 
 	fOpenPanel.SetTarget(BMessenger(this));
+	fOpenPanel.SetButtonLabel(B_DEFAULT_BUTTON, B_TRANSLATE("Upload"));
 
 	BRect rect;
 	
