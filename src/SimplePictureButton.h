@@ -10,6 +10,7 @@ public:
 	
 	static BPicture *ResToPicture(BRect frame, const char *resName, uint32 resType);
 	static BBitmap *ResToBitmap(const char *resName, uint32 resType);
+	static BBitmap *ResVectorToBitmap(const char *resName);
 private:
 };
 
