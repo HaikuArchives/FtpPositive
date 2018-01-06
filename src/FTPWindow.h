@@ -13,6 +13,7 @@
 #include <Menu.h>
 #include <PopUpMenu.h>
 #include <MenuItem.h>
+#include <FilePanel.h>
 #include <TextControl.h>
 #include <CheckBox.h>
 #include <interface/StringView.h>
@@ -93,7 +94,9 @@ private:
 	BMenuItem *fNoEncoder;
 	BCheckBox *fUseThisConnection;
 	BPopUpMenu *fPopUpMenu;
-	
+
+	BFilePanel fOpenPanel;
+
 	BString fCurrentRemoteDir;
 	BString fLocalDir;
 	

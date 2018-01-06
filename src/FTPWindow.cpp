@@ -104,7 +104,9 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	float minW, minH, maxW, maxH;
 	this->GetSizeLimits(&minW, &maxW, &minH, &maxH);
 	this->SetSizeLimits(280, maxW, 250, maxH);
-	
+
+	fOpenPanel.SetTarget(BMessenger(this));
+
 	BRect rect;
 	
 	// Main Menu
@@ -323,6 +325,7 @@ void TFTPWindow::MessageReceived(BMessage *msg)
 		case MSG_MENU_OPEN:            MenuOpen(); break;
 		case MSG_DOWNLOAD_CLICKED:     DownloadClicked(); break;
 		case MSG_UPLOAD_CLICKED:       UploadClicked(); break;
+		case B_REFS_RECEIVED:          Upload(msg); break;
 		default: {
 //			msg->PrintToStream();
 			BWindow::MessageReceived(msg);
@@ -957,6 +960,7 @@ void TFTPWindow::RemoteFileDropped(BMessage *msg)
 
 void TFTPWindow::UploadClicked()
 {
+	fOpenPanel.Show();
 }
 
 void TFTPWindow::Upload(BMessage *msg)
