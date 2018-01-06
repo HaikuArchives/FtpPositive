@@ -119,10 +119,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	rect.top = 1;
 	rect.bottom = 1;
 	
-	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_BACKWARD_UP",(uint32)'BMP '),"Backward","",false);
-	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_FORWARD_UP",(uint32)'BMP '),"Forward","",false);
-	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_GOPARENT_UP",(uint32)'BMP '),"Go to Parent","",false);
-	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,TSimplePictureButton::ResToBitmap("NAVIGATION_RELOAD_UP",(uint32)'BMP '),"Reload","",false);
+	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_BACKWARD"),"Backward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_FORWARD"),"Forward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_GOPARENT"), "Go to Parent","",false);
+	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_RELOAD"),"Reload","",false);
 	
 	// Remote Path View
 	const char* label = B_TRANSLATE("Remote dir :");
