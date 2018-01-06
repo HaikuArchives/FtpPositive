@@ -18,6 +18,7 @@
 #include "FTPWindow.h"
 #include "MimeDB.h"
 #include "RenameWindow.h"
+#include "SizeColumn.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "FTPWindow"
@@ -140,7 +141,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fRemoteFileView = new TRemoteFileView("RemoteFileView");
 	fRemoteFileView->AddColumn(nameColumn, CLM_NAME);
 	fRemoteFileView->AddColumn(intNameColumn, CLM_INTERNAL_NAME);
-	fRemoteFileView->AddColumn(new BSizeColumn(B_TRANSLATE("Size"), 80, 60, INT_MAX, B_ALIGN_RIGHT), CLM_SIZE);
+	fRemoteFileView->AddColumn(new SizeColumn(B_TRANSLATE("Size"), 80, 60, INT_MAX, B_ALIGN_RIGHT), CLM_SIZE);
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Date"), 100, 60, INT_MAX, 0), CLM_DATE);
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Permission"), 90, 60, INT_MAX, 0), CLM_PERMISSION);
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Owner"), 70, 60, INT_MAX, 0), CLM_OWNER);
@@ -383,10 +384,12 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	const char *date, const char *perm, const char *owner, const char *group)
 {
 	// ディレクトリ、またはファイルタイプのアイコンイメージを取得
+	bool isDirectory = false;
 	BBitmap *icon = new BBitmap(BRect(0, 0, B_MINI_ICON - 1, B_MINI_ICON - 1), B_RGBA32);
 	if (strlen(perm) > 0) {
 		if (perm[0] == 'd') {
 			app_mimedb->GetMimeIcon("application/x-vnd.Be-directory", icon, B_MINI_ICON);
+			isDirectory = true;
 		} else {
 			app_mimedb->GetExtensionIcon(name, icon, B_MINI_ICON);
 		}
@@ -406,7 +409,7 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	TIconRow *row = new TIconRow(icon);
 	row->SetField(new BStringField(utf8name.String()), CLM_NAME);
 	row->SetField(new BStringField(name), CLM_INTERNAL_NAME);
-	row->SetField(new BSizeField(size), CLM_SIZE);
+	row->SetField(new BSizeField(isDirectory ? -1 : size), CLM_SIZE);
 	row->SetField(new BStringField(date), CLM_DATE);
 	row->SetField(new BStringField(perm), CLM_PERMISSION);
 	row->SetField(new BStringField(utf8owner.String()), CLM_OWNER);
