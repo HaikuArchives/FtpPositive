@@ -45,6 +45,7 @@ SRCS = BookmarkWindow.cpp \
 	RenameWindow.cpp \
 	SimplePictureButton.cpp \
 	StringEx.cpp \
+	SizeColumn.cpp \
 	TCPStream.cpp \
 	StreamBuff.cpp
 
