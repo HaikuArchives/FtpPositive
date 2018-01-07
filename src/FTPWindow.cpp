@@ -107,6 +107,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 
 	fOpenPanel.SetTarget(BMessenger(this));
 	fOpenPanel.SetButtonLabel(B_DEFAULT_BUTTON, B_TRANSLATE("Upload"));
+	fOpenPanel.Window()->SetTitle(B_TRANSLATE("FtpPositive: Upload"));
 
 	BRect rect;
 	
