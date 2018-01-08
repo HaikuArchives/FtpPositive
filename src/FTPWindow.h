@@ -76,6 +76,7 @@ public:
 	
 	bool QuitRequested();
 	void MessageReceived(BMessage *msg);
+	void FrameResized(float newWidth, float newHeight);
 	
 private:
 	TFtpLooper *fFtpLooper;
