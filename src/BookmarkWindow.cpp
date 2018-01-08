@@ -84,9 +84,9 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 		.End()
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
-			.Add(fSaveAndConnectButton,2)
-			.Add(fSaveButton,1)
 			.Add(cancelButton,1)
+			.Add(fSaveButton,1)
+			.Add(fSaveAndConnectButton,2)
 		.End()
 	.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
