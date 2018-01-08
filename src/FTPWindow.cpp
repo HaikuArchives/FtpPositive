@@ -234,11 +234,11 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	NaviMenu(fPopUpMenu);
 	fPopUpMenu->AddSeparatorItem();
 	FileMenu(fPopUpMenu);
-	
 	// 
-	*fLogView << B_TRANSLATE("Welcome to FtpPositive") << " " << VERSION << "\n" << COPY;
+
+
 	fRemoteFileView->MakeFocus(true);
-	
+	fLogView->SetTextRect(BRect(5,5,-1,-1));
 	fStatusView->SetText(B_TRANSLATE("Idle."));
 	fCommandMenu->SetEnabled(false);
 	fPopUpMenu->SetEnabled(false);
@@ -249,6 +249,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	mainToolBar->FindButton(MSG_GOPARENT_CLICKED)->SetEnabled(false);
 	mainToolBar->FindButton(MSG_RELOAD_CLICKED)->SetEnabled(false);
 	mainToolBar->FindButton(MSG_CANCEL)->Hide();
+	PostMessage(new BMessage(MSG_READY));
 }
 
 
@@ -331,6 +332,12 @@ void TFTPWindow::MessageReceived(BMessage *msg)
 		case MSG_DOWNLOAD_CLICKED:     DownloadClicked(); break;
 		case MSG_UPLOAD_CLICKED:       UploadClicked(); break;
 		case B_REFS_RECEIVED:          Upload(msg); break;
+		case MSG_READY:	{
+							*fLogView << B_TRANSLATE("Welcome to FtpPositive")
+							<< " " << VERSION
+							<< "\n" << COPY;
+							break;
+		}
 		default: {
 //			msg->PrintToStream();
 			BWindow::MessageReceived(msg);
