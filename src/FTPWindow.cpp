@@ -1059,3 +1059,15 @@ void TFTPWindow::Upload(BMessage *msg)
 		BMessenger(fFtpLooper).SendMessage(msg);
 	}
 }
+
+
+// HACK TO minimize glitches in ColumnListView
+// The menubar should still have problems
+// remove when #3037 in haiku is fixed.
+void
+TFTPWindow::FrameResized(float newWidth, float newHeight)
+{
+		fRemoteFileView->Hide();
+		BWindow::FrameResized(newWidth, newHeight);
+		fRemoteFileView->Show();
+}
