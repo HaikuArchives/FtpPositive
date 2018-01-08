@@ -52,6 +52,7 @@ enum {
 	MSG_MENU_OPEN = 'mopn',
 	MSG_DOWNLOAD_CLICKED = 'mdlc',
 	MSG_UPLOAD_CLICKED = 'mupc',
+	MSG_READY= 'mrdy'
 };
 
 
