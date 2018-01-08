@@ -29,8 +29,8 @@ TRenameWindow::TRenameWindow(float x, float y,
 		.Add(fTextControl)
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
-			.Add(fOKButton)
 			.Add(fCancelButton)
+			.Add(fOKButton)
 		.End()
 		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	

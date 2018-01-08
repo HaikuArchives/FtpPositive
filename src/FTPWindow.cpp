@@ -27,6 +27,7 @@ static const char* kZeroItems = B_TRANSLATE("0 items");
 static const char* kNewBookmark = B_TRANSLATE("New bookmark");
 static const char* kCreateDirectory = B_TRANSLATE("Create directory");
 static const char* kNewName = B_TRANSLATE("New name:");
+static const char* kNewDirectory = B_TRANSLATE("New directory:");
 static const char* kError = B_TRANSLATE("Error");
 
 static const rgb_color kSelectionColor = {0xd6,0xe8,0xda,0xff};
@@ -89,7 +90,7 @@ NaviMenu(BMenu* menu)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Back"), new BMessage(MSG_BACKWARD_CLICKED), B_LEFT_ARROW));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Forward"), new BMessage(MSG_FORWARD_CLICKED), B_RIGHT_ARROW));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Parent dir"), new BMessage(MSG_GOPARENT_CLICKED), B_UP_ARROW));
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Refresh"), new BMessage(MSG_RELOAD_CLICKED), '.'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Refresh"), new BMessage(MSG_RELOAD_CLICKED), 'R'));
 }
 
 
@@ -770,7 +771,7 @@ void TFTPWindow::Mkdir()
 	BRect rect(Frame());
 	BString newName, remoteName;
 	if (!(new TRenameWindow(rect.left + 50, rect.top + 50, kCreateDirectory,
-		kNewName, "NewDirectory"))->Go(&newName)) {
+		kNewDirectory, "NewDirectory"))->Go(&newName)) {
 		return;
 	}
 	
