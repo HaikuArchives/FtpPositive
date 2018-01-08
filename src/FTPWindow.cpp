@@ -94,6 +94,82 @@ NaviMenu(BMenu* menu)
 }
 
 
+class CloseButton : public BButton {
+public:
+	CloseButton(BMessage* message)
+		:
+		BButton("close button", NULL, message),
+		fOverCloseRect(false)
+	{
+		// Button is 16x16 regardless of font size
+		SetExplicitMinSize(BSize(15, 15));
+		SetExplicitMaxSize(BSize(15, 15));
+	}
+
+	virtual void Draw(BRect updateRect)
+	{
+		BRect frame = Bounds();
+		BRect closeRect(frame.InsetByCopy(4, 4));
+		rgb_color base = ui_color(B_PANEL_BACKGROUND_COLOR);
+		float tint = B_DARKEN_1_TINT;
+
+		if (fOverCloseRect)
+			tint *= 1.4;
+		else
+			tint *= 1.2;
+
+		if (Value() == B_CONTROL_ON && fOverCloseRect) {
+			// Draw the button frame
+			be_control_look->DrawButtonFrame(this, frame, updateRect,
+				base, base, BControlLook::B_ACTIVATED
+					| BControlLook::B_BLEND_FRAME);
+			be_control_look->DrawButtonBackground(this, frame,
+				updateRect, base, BControlLook::B_ACTIVATED);
+			closeRect.OffsetBy(1, 1);
+			tint *= 1.2;
+		} else {
+			SetHighColor(base);
+			FillRect(updateRect);
+		}
+
+		// Draw the ×
+		base = tint_color(base, tint);
+		SetHighColor(base);
+		SetPenSize(2);
+		StrokeLine(closeRect.LeftTop(), closeRect.RightBottom());
+		StrokeLine(closeRect.LeftBottom(), closeRect.RightTop());
+		SetPenSize(1);
+	}
+
+	virtual void MouseMoved(BPoint where, uint32 transit,
+		const BMessage* dragMessage)
+	{
+		switch (transit) {
+			case B_ENTERED_VIEW:
+				fOverCloseRect = true;
+				Invalidate();
+				break;
+			case B_EXITED_VIEW:
+				fOverCloseRect = false;
+				Invalidate();
+				break;
+			case B_INSIDE_VIEW:
+				fOverCloseRect = true;
+				break;
+			case B_OUTSIDE_VIEW:
+				fOverCloseRect = false;
+				break;
+		}
+
+		BButton::MouseMoved(where, transit, dragMessage);
+	}
+
+private:
+	bool fOverCloseRect;
+};
+
+
+
 // ----------------------------------- TFTPWindow -------------------------------------
 
 TFTPWindow::TFTPWindow(BRect frame, const char *name)
@@ -128,17 +204,19 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_FORWARD"),"Forward","",false);
 	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_GOPARENT"), "Go to Parent","",false);
 	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_RELOAD"),"Reload","",false);
-	
 	// Remote Path View
-	const char* label = B_TRANSLATE("Remote dir :");
+	const char* label = B_TRANSLATE("Remote:");
 	fRemoteDirView = new BTextControl("RemoteDirView", label, "",
 		new BMessage(MSG_REMOTE_PATH_CHANGED));
 	fRemoteDirView->SetDivider(fRemoteDirView->StringWidth(label));
+	mainToolBar->GetLayout()->AddItem(BSpaceLayoutItem::CreateHorizontalStrut(B_USE_BIG_SPACING));
 	mainToolBar->AddView(fRemoteDirView);
 	
 	// Cancel Button
-	mainToolBar->AddAction(new BMessage(MSG_CANCEL),this,NULL,"Cancel","X",false);
-	
+	mainToolBar->GetLayout()->AddItem(BSpaceLayoutItem::CreateHorizontalStrut(B_USE_SMALL_SPACING));
+	mainToolBar->GetLayout()->AddView(new CloseButton(new BMessage(MSG_CANCEL)));
+	mainToolBar->GetLayout()->AddItem(BSpaceLayoutItem::CreateHorizontalStrut(B_USE_SMALL_SPACING));
+	mainToolBar->FindButton(MSG_CANCEL)->SetEnabled(false);
 	// Remote File View
 	BFont font;
 	TStringColumn *nameColumn = new TStringColumn(B_TRANSLATE("Name"), 150, 60, INT_MAX, 0);
@@ -180,11 +258,14 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	BLayoutBuilder::Group<>(this,B_VERTICAL,0)
 		.Add(mainMenu)
 		.Add(mainToolBar)
-		.AddGroup(B_VERTICAL,B_USE_ITEM_SPACING)
-			.SetInsets(B_USE_ITEM_SPACING)
-			.Add(fRemoteFileView)
-			.Add(logScrollView)
-			.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+		.AddGroup(B_VERTICAL,0)
+			.SetInsets(B_USE_ITEM_SPACING, 0, B_USE_ITEM_SPACING, 0)
+			.AddSplit(B_VERTICAL, 0)
+				.Add(fRemoteFileView)
+				.Add(logScrollView)
+			.End()
+			.AddGroup(B_HORIZONTAL, 0)
+			.SetInsets(0, 0, B_USE_ITEM_SPACING, 0)
 				.Add(fStatusView,1)
 				.AddGlue(2)
 				.Add(fUseThisConnection,1)
