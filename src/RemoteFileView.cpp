@@ -33,7 +33,7 @@ int TStringColumn::CompareFields(BField *field1, BField *field2, BRow *row1, BRo
 }
 
 TRemoteFileView::TRemoteFileView(const char *name)
-	:	BColumnListView(name, B_NAVIGABLE, B_FANCY_BORDER,true)
+	:	BColumnListView(name, B_NAVIGABLE)
 {
 	fISReseter = NULL;
 }

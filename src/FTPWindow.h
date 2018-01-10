@@ -29,6 +29,7 @@
 #include "SimplePictureButton.h"
 #include "EncoderAddon.h"
 #include "EncoderAddonManager.h"
+#include "StatusView.h"
 
 
 enum {
@@ -87,7 +88,7 @@ private:
 	TRemoteFileView *fRemoteFileView;
 	BToolBar *mainToolBar;
 	BTextControl *fRemoteDirView;
-	BStringView *fItemCountView;
+	StatusView *fItemCountView;
 	BStringView *fStatusView;
 	BMenu *fFileMenu;
 	BMenu *fConnectMenu;
