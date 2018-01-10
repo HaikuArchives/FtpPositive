@@ -7,6 +7,7 @@
 #include <Entry.h>
 #include <Font.h>
 #include <LayoutBuilder.h>
+#include <MessageFormat.h>
 #include <Messenger.h>
 #include <OS.h>
 #include <stdio.h>
@@ -23,7 +24,7 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "FTPWindow"
 
-static const char* kZeroItems = B_TRANSLATE("0 items");
+static const char* kZeroItems = B_TRANSLATE("no items");
 static const char* kNewBookmark = B_TRANSLATE("New bookmark");
 static const char* kCreateDirectory = B_TRANSLATE("Create directory");
 static const char* kNewName = B_TRANSLATE("New name:");
@@ -157,11 +158,12 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fRemoteFileView->SetSelectionColor(kSelectionColor);
 	fRemoteFileView->SetBackgroundColor(kBackgroundColor);
 	fRemoteFileView->SetLatchWidth(font.Size()*2);
-	
-	fItemCountView = new BStringView("StatusView", kZeroItems);
+
+	BScrollBar* scrollBar = (BScrollBar*)fRemoteFileView->FindView("horizontal_scroll_bar");
+	fItemCountView = new StatusView(scrollBar);
+	fItemCountView->SetText(kZeroItems);
 	fRemoteFileView->AddStatusView(fItemCountView);
-	fItemCountView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-	
+
 	// CheckBox (Use This Connection)
 	const char* str = B_TRANSLATE("Use this connection");
 	fUseThisConnection = new BCheckBox("UseThisConnection", str, NULL, 0);
@@ -400,7 +402,9 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 {
 	// ディレクトリ、またはファイルタイプのアイコンイメージを取得
 	bool isDirectory = false;
-	BBitmap *icon = new BBitmap(BRect(0, 0, B_MINI_ICON - 1, B_MINI_ICON - 1), B_RGBA32);
+	static const float icon_size = BRow().Height() - 2;
+
+	BBitmap *icon = new BBitmap(BRect(0, 0, icon_size - 1, icon_size - 1), B_RGBA32);
 	if (strlen(perm) > 0) {
 		if (perm[0] == 'd') {
 			app_mimedb->GetMimeIcon("application/x-vnd.Be-directory", icon, B_MINI_ICON);
@@ -665,11 +669,15 @@ void TFTPWindow::DirlistChanged(BMessage *msg)
 		path.ReplaceFirst(xpwd_result.String(), "");
 		AddRemoteFileItem(path.String(), size, date.String(), permission.String(), owner.String(), group.String());
 	}
-	
-	BString status;
-	status << count << ' ' << B_TRANSLATE("items");
-	fItemCountView->SetText(status.String());
-	
+
+	BString itemsNumber;
+	static BMessageFormat formatItems(B_TRANSLATE("{0, plural,"
+		"=0{no items}"
+		"=1{1 item}"
+		"other{# items}}" ));
+	formatItems.Format(itemsNumber, count);
+	fItemCountView->SetText(itemsNumber.String());
+
 	BRow *top = fRemoteFileView->RowAt(0);
 	fRemoteFileView->ScrollTo(top);
 }
