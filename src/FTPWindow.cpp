@@ -31,9 +31,6 @@ static const char* kNewName = B_TRANSLATE("New name:");
 static const char* kNewDirectory = B_TRANSLATE("New directory:");
 static const char* kError = B_TRANSLATE("Error");
 
-static const rgb_color kSelectionColor = {0xd6,0xe8,0xda,0xff};
-static const rgb_color kBackgroundColor = {0xff,0xff,0xff,0xff};
-
 
 // ----------------------------------- TLogView -------------------------------------
 
@@ -155,8 +152,6 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	intNameColumn->SetVisible(false);
 	fRemoteFileView->SetSortingEnabled(true);
 	fRemoteFileView->SetSortColumn(nameColumn, false, true);
-	fRemoteFileView->SetSelectionColor(kSelectionColor);
-	fRemoteFileView->SetBackgroundColor(kBackgroundColor);
 	fRemoteFileView->SetLatchWidth(font.Size()*2);
 
 	BScrollBar* scrollBar = (BScrollBar*)fRemoteFileView->FindView("horizontal_scroll_bar");
@@ -172,7 +167,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	// Log View
 	fLogView = new TLogView("LogView");
 	BScrollView *logScrollView = new BScrollView("logScrollView", fLogView,
-		B_WILL_DRAW, false, true);
+		B_WILL_DRAW, false, true, B_PLAIN_BORDER);
 	
 	// Status View
 	fStatusView = new BStringView("StatusView", "");
