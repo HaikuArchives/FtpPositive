@@ -1,6 +1,8 @@
 #include <Application.h>
-#include <LayoutBuilder.h>
 #include <Catalog.h>
+#include <LayoutBuilder.h>
+#include <SeparatorView.h>
+
 #include "RenameWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
@@ -10,27 +12,32 @@ enum {
 	OK_CLICKED = 'okcl',
 };
 
-TRenameWindow::TRenameWindow(float x, float y,
+TRenameWindow::TRenameWindow(BRect frame,
 			const char *winTitle, const char *caption, const char *oldName)
-	:	BWindow(BRect(x, y, x + 340, y + 100), winTitle,
-			B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
+	:	BWindow(BRect(0, 0, 400, 0), winTitle, B_DOCUMENT_WINDOW_LOOK,  B_MODAL_APP_WINDOW_FEEL,
+			B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
-	
-	
+	frame.OffsetBy(50.0, 50.0);
+	MoveTo(frame.LeftTop());
+
 	fTextControl = new BTextControl("NewName", caption, oldName, NULL);
-	fTextControl->SetDivider(fTextControl->StringWidth(caption));
 	fTextControl->SetText(oldName);
+
 	fOKButton = new BButton("", B_TRANSLATE("OK"), new BMessage(OK_CLICKED));
 	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
-		.SetInsets(B_USE_ITEM_SPACING)
-		.Add(fTextControl)
-		.AddStrut(B_USE_BIG_SPACING)
-		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+	BLayoutBuilder::Group<>(this,B_VERTICAL)
+		.AddGroup(B_HORIZONTAL)
+			.SetInsets(B_USE_ITEM_SPACING)
+			.Add(fTextControl)
+		.End()
+		.Add(new BSeparatorView(B_HORIZONTAL))
+		.AddGroup(B_HORIZONTAL)
+			.SetInsets(B_USE_ITEM_SPACING, 0, B_USE_ITEM_SPACING, B_USE_ITEM_SPACING)
+			.AddGlue()
 			.Add(fCancelButton)
 			.Add(fOKButton)
+			.AddGlue()
 		.End()
 		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	

@@ -10,9 +10,11 @@
 #include <MessageFormat.h>
 #include <Messenger.h>
 #include <OS.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <netinet/in.h>
+
 #include "BookmarkWindow.h"
 #include "ChmodWindow.h"
 #include "FtpPositive.h"
@@ -177,7 +179,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 		.Add(mainToolBar)
 		.AddGroup(B_VERTICAL,0)
 			.SetInsets(B_USE_ITEM_SPACING, 0, B_USE_ITEM_SPACING, 0)
-			.AddSplit(B_VERTICAL, 0)
+			.AddSplit(B_VERTICAL, 5)
 				.Add(fRemoteFileView)
 				.Add(logScrollView)
 			.End()
@@ -533,9 +535,8 @@ void TFTPWindow::EncoderChanged()
 
 void TFTPWindow::BookmarkSelected(const char *pathName)
 {
-	BRect rect(Frame());
 	BEntry entry;
-	bool go = (new TBookmarkWindow(rect.left + 50, rect.top + 50, kNewBookmark, TFtpPositive::GetBookmarksDir().String()))->Go(pathName, &entry);
+	bool go = (new TBookmarkWindow(Frame(), kNewBookmark, TFtpPositive::GetBookmarksDir().String()))->Go(pathName, &entry);
 	ClearBookmarks();
 	BDirectory dir(TFtpPositive::GetBookmarksDir());
 	LoadBookmarks(&dir, fConnectMenu);
@@ -753,8 +754,7 @@ void TFTPWindow::Rename()
 	BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
 	
 	// リネーム窓を表示
-	BRect rect(Frame());
-	if (!(new TRenameWindow(rect.left + 50, rect.top + 50,
+	if (!(new TRenameWindow(Frame(),
 		B_TRANSLATE("Rename"), kNewName, nameField->String()))->Go(&newName)) {
 		return;
 	}
@@ -787,9 +787,8 @@ void TFTPWindow::Mkdir()
 	status_t s;
 	
 	// 窓表示
-	BRect rect(Frame());
 	BString newName, remoteName;
-	if (!(new TRenameWindow(rect.left + 50, rect.top + 50, kCreateDirectory,
+	if (!(new TRenameWindow(Frame(), kCreateDirectory,
 		kNewDirectory, "NewDirectory"))->Go(&newName)) {
 		return;
 	}
@@ -862,9 +861,8 @@ void TFTPWindow::Chmod()
 	if (strpermField->String()[9] != '-') mode |= 01;
 	
 	// permission 変更窓を表示
-	BRect rect(Frame());
 	BString newMode;
-	if (!(new TChmodWindow(rect.left + 50, rect.top + 50, B_TRANSLATE("Change permission")))->Go(mode, &newMode))
+	if (!(new TChmodWindow(Frame(), B_TRANSLATE("Change permission")))->Go(mode, &newMode))
 		return;
 	
 	// permission 変更コマンドを送信
