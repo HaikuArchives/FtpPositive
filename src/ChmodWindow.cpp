@@ -1,8 +1,11 @@
 #include <stdlib.h>
+
 #include <Catalog.h>
 #include <ControlLook.h>
-#include <String.h>
 #include <LayoutBuilder.h>
+#include <SeparatorView.h>
+#include <String.h>
+
 #include "ChmodWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
@@ -12,12 +15,15 @@ enum {
 	OK_CLICKED = 'okcl',
 };
 
-TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
-	:	BWindow(BRect(ix, iy, 0,0), title,
-			B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
+TChmodWindow::TChmodWindow(BRect frame, const char *title)
+	:	BWindow(BRect(), title,
+			B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+			B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE
+			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
-	
+	frame.OffsetBy(50.0, 50.0);
+	MoveTo(frame.LeftTop());
+
 	fOwnerRead  = new BCheckBox("OwnerRead", "", NULL);
 	fOwnerWrite = new BCheckBox("OwnerWrite", "", NULL);
 	fOwnerExec  = new BCheckBox("OwnerExec", "", NULL);
@@ -29,9 +35,10 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 	fOtherExec  = new BCheckBox("OtherExec", "", NULL);
 	fOKButton = new BButton("", B_TRANSLATE("Change"), new BMessage(OK_CLICKED));
 	fCancelButton = new BButton("", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
-		.SetInsets(B_USE_ITEM_SPACING)
+
+	BLayoutBuilder::Group<>(this,B_VERTICAL)
 		.AddGrid(B_USE_ITEM_SPACING,B_USE_ITEM_SPACING)
+			.SetInsets(B_USE_ITEM_SPACING)
 			.Add(new BStringView("", B_TRANSLATE("Read:")),0,1)
 			.Add(new BStringView("", B_TRANSLATE("Write:")),0,2)
 			.Add(new BStringView("", B_TRANSLATE("Execute:")),0,3)
@@ -48,8 +55,9 @@ TChmodWindow::TChmodWindow(float ix, float iy, const char *title)
 			.Add(fOtherWrite,3,2)
 			.Add(fOtherExec,3,3)
 		.End()
-		.AddStrut(B_USE_BIG_SPACING)
-		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+		.Add(new BSeparatorView(B_HORIZONTAL))
+		.AddGroup(B_HORIZONTAL)
+			.SetInsets(B_USE_ITEM_SPACING, 0, B_USE_ITEM_SPACING, B_USE_ITEM_SPACING)
 			.Add(fCancelButton)
 			.Add(fOKButton)
 		.End()

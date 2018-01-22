@@ -1,11 +1,12 @@
-#include <View.h>
-#include <String.h>
 #include <Alert.h>
 #include <ControlLook.h>
+#include <File.h>
 #include <LayoutBuilder.h>
 #include <Messenger.h>
-#include <File.h>
 #include <Path.h>
+#include <String.h>
+#include <View.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,16 +25,16 @@ enum {
 static const char* kCancel = B_TRANSLATE("Cancel");
 static const char* kOK = B_TRANSLATE("OK");
 
-TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char *dir)
-	:	BWindow(BRect(x, y, 0,0), title, B_FLOATING_WINDOW_LOOK,
-				B_MODAL_APP_WINDOW_FEEL, B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS )
+TBookmarkWindow::TBookmarkWindow(BRect frame, const char *title, const char *dir)
+	:	BWindow(BRect(0, 0, 350, 0), title, B_DOCUMENT_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+			B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
+	frame.OffsetBy(50.0, 50.0);
+	MoveTo(frame.LeftTop());
+
 	fBookmarkDir.SetTo(dir);
-	
 	fNewBookmark = true;
-	
-	float lx = 10, rx = Bounds().right - 10, div = 70;
-	
+
 	fBookmarkName = new TOAEdit("BookmarkName", B_TRANSLATE("Name:"), B_TRANSLATE("New bookmark"), new BMessage(EDIT_CHANGED));
 	fHostAddress = new TOAEdit("HostAddress", B_TRANSLATE("Address:"), "", new BMessage(EDIT_CHANGED));
 	fPort = new TOAEdit("Port", B_TRANSLATE("Port:"), "21", new BMessage(EDIT_CHANGED));
@@ -42,18 +43,7 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 	fEncoder = new TOAEdit("Encoder", B_TRANSLATE("Encoder:"), "", NULL);
 	fRemotePath = new TOAEdit("RemotePath", B_TRANSLATE("Remote path:"), "", NULL);
 	fLocalPath = new TOAEdit("LocalPath", B_TRANSLATE("Local path:"), TFtpPositive::GetDefaultLocalDir().String(), NULL);
-	
-	fBookmarkName->SetDivider(div);
-	fHostAddress->SetDivider(div);
-	fPort->SetDivider(div);
-	fUsername->SetDivider(div);
-	fPassword->SetDivider(div);
-	fEncoder->SetDivider(div);
-	fRemotePath->SetDivider(div);
-	fLocalPath->SetDivider(div);
-	
-	
-	
+
 	fSaveAndConnectButton = new BButton("Connect", B_TRANSLATE("Connect"), new BMessage(CONNECT_CLICKED));
 	fSaveAndConnectButton->SetEnabled(false);
 	
@@ -84,9 +74,11 @@ TBookmarkWindow::TBookmarkWindow(float x, float y, const char *title, const char
 		.End()
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
+			.AddGlue()
 			.Add(cancelButton,1)
 			.Add(fSaveButton,1)
 			.Add(fSaveAndConnectButton,2)
+			.AddGlue()
 		.End()
 	.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
