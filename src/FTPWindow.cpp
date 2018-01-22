@@ -28,9 +28,9 @@
 
 static const char* kZeroItems = B_TRANSLATE("no items");
 static const char* kNewBookmark = B_TRANSLATE("New bookmark");
-static const char* kCreateDirectory = B_TRANSLATE("Create directory");
+static const char* kCreateDirectory = B_TRANSLATE("Create folder");
 static const char* kNewName = B_TRANSLATE("New name:");
-static const char* kNewDirectory = B_TRANSLATE("New directory:");
+static const char* kNewDirectory = B_TRANSLATE("New folder:");
 static const char* kError = B_TRANSLATE("Error");
 
 
@@ -78,7 +78,7 @@ FileMenu(BMenu* menu)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Download"), new BMessage(MSG_DOWNLOAD_CLICKED), 'D'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Upload"), new BMessage(MSG_UPLOAD_CLICKED), 'U'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete"), new BMessage(MSG_DELETE), 'T'));
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Rename/Move"), new BMessage(MSG_RENAME), 'E'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Rename"), new BMessage(MSG_RENAME), 'E'));
 	menu->AddItem(new BMenuItem(kCreateDirectory, new BMessage(MSG_MKDIR), 'M'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Copy FTP URL"), new BMessage(MSG_COPYURL), 'C'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Change permissions"), new BMessage(MSG_CHMOD), 'J'));
@@ -89,7 +89,7 @@ NaviMenu(BMenu* menu)
 {
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Back"), new BMessage(MSG_BACKWARD_CLICKED), B_LEFT_ARROW));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Forward"), new BMessage(MSG_FORWARD_CLICKED), B_RIGHT_ARROW));
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Parent dir"), new BMessage(MSG_GOPARENT_CLICKED), B_UP_ARROW));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Parent folder"), new BMessage(MSG_GOPARENT_CLICKED), B_UP_ARROW));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Refresh"), new BMessage(MSG_RELOAD_CLICKED), 'R'));
 }
 
@@ -123,11 +123,16 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	rect.top = 1;
 	rect.bottom = 1;
 	
-	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_BACKWARD"),"Backward","",false);
-	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_FORWARD"),"Forward","",false);
-	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_GOPARENT"), "Go to Parent","",false);
-	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_RELOAD"),"Reload","",false);
-	mainToolBar->AddAction(new BMessage(MSG_CANCEL),this,TSimplePictureButton::ResVectorToBitmap("NAVIGATION_STOP"),"Cancel","",false);
+	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,
+		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_BACKWARD"),"Backward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,
+		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_FORWARD"),"Forward","",false);
+	mainToolBar->AddAction(new BMessage(MSG_GOPARENT_CLICKED),this,
+		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_GOPARENT"), "Go to Parent","",false);
+	mainToolBar->AddAction(new BMessage(MSG_RELOAD_CLICKED),this,
+		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_RELOAD"),"Reload","",false);
+	mainToolBar->AddAction(new BMessage(MSG_CANCEL),this,
+		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_STOP"),"Cancel","",false);
 	// Remote Path View
 	const char* label = B_TRANSLATE("Remote:");
 	fRemoteDirView = new BTextControl("RemoteDirView", label, "",
@@ -146,7 +151,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fRemoteFileView->AddColumn(intNameColumn, CLM_INTERNAL_NAME);
 	fRemoteFileView->AddColumn(new SizeColumn(B_TRANSLATE("Size"), 80, 60, INT_MAX, B_ALIGN_RIGHT), CLM_SIZE);
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Date"), 100, 60, INT_MAX, 0), CLM_DATE);
-	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Permission"), 90, 60, INT_MAX, 0), CLM_PERMISSION);
+	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Permissions"), 90, 60, INT_MAX, 0), CLM_PERMISSION);
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Owner"), 70, 60, INT_MAX, 0), CLM_OWNER);
 	fRemoteFileView->AddColumn(new BStringColumn(B_TRANSLATE("Group"), 70, 60, INT_MAX, 0), CLM_GROUP);
 	fRemoteFileView->SetTarget(this);
@@ -184,7 +189,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 				.Add(logScrollView)
 			.End()
 			.AddGroup(B_HORIZONTAL, 0)
-			.SetInsets(0, 0, B_USE_ITEM_SPACING, 0)
+				.SetInsets(0, 3, B_USE_ITEM_SPACING, 0)
 				.Add(fStatusView,1)
 				.AddGlue(2)
 				.Add(fUseThisConnection,1)
@@ -196,7 +201,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	mainMenu->AddItem(fFileMenu);
 	fFileMenu->AddItem(new BMenuItem(B_TRANSLATE("About FtpPositive"), new BMessage(B_ABOUT_REQUESTED)));
 	fFileMenu->AddSeparatorItem();
-	fFileMenu->AddItem(new BMenuItem(B_TRANSLATE("Close"), new BMessage(B_QUIT_REQUESTED), 'W'));
+	fFileMenu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
 	
 	// Connect Menu
 	fConnectMenu = new BMenu(B_TRANSLATE("Connect"));
@@ -753,12 +758,17 @@ void TFTPWindow::Rename()
 	BStringField *nameField = (BStringField *)row->GetField(CLM_NAME);
 	BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
 	
-	// リネーム窓を表示
+	// リネーム窓を表
+	BString oldname(nameField->String());
+	BString title(B_TRANSLATE("Rename '%oldFileName%'"));
+	title.ReplaceFirst("%oldFileName%", oldname);
+
 	if (!(new TRenameWindow(Frame(),
-		B_TRANSLATE("Rename"), kNewName, nameField->String()))->Go(&newName)) {
+			title, kNewName, oldname))->Go(&newName)) {
 		return;
 	}
-	if (strcmp(nameField->String(), newName.String()) == 0) return;
+	if (strcmp(nameField->String(), newName.String()) == 0)
+		return;
 	
 	// ファイル名変更コマンド送信
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
@@ -789,9 +799,8 @@ void TFTPWindow::Mkdir()
 	// 窓表示
 	BString newName, remoteName;
 	if (!(new TRenameWindow(Frame(), kCreateDirectory,
-		kNewDirectory, "NewDirectory"))->Go(&newName)) {
+			kNewDirectory, B_TRANSLATE("New folder")))->Go(&newName))
 		return;
-	}
 	
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
@@ -862,7 +871,7 @@ void TFTPWindow::Chmod()
 	
 	// permission 変更窓を表示
 	BString newMode;
-	if (!(new TChmodWindow(Frame(), B_TRANSLATE("Change permission")))->Go(mode, &newMode))
+	if (!(new TChmodWindow(Frame(), B_TRANSLATE("Change permissions")))->Go(mode, &newMode))
 		return;
 	
 	// permission 変更コマンドを送信
@@ -893,10 +902,20 @@ void TFTPWindow::Delete()
 {
 	BMessage entries;
 	BRect rect;
-	if (fRemoteFileView->GetSelectedEntries(&entries, &rect) == 0) return;
-	
-	if ((new BAlert("", B_TRANSLATE("Really delete?"), B_TRANSLATE("Yes"),
-		B_TRANSLATE("No"), NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT))->Go() == 1)
+	if (fRemoteFileView->GetSelectedEntries(&entries, &rect) == 0)
+		return;
+
+	int32 count;
+	for (int32 i = 0; entries.GetInfo(B_MESSAGE_TYPE, i, NULL, NULL, &count) == B_OK; i++ );
+
+	BString alertText;
+	static BMessageFormat formatText(B_TRANSLATE("{0, plural,"
+		"=1{Deleting this file cannot be undone.\nAre you sure?}"
+		"other{Deleting these # files cannot be undone.\nAre you sure?}}"));
+	formatText.Format(alertText, count);
+
+	if ((new BAlert("", alertText, B_TRANSLATE("Delete"),
+		B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT))->Go() == 1)
 		return;
 	status_t s;
 	entries.what = FTP_DELETE;
