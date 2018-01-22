@@ -26,7 +26,7 @@ static const char* kCancel = B_TRANSLATE("Cancel");
 static const char* kOK = B_TRANSLATE("OK");
 
 TBookmarkWindow::TBookmarkWindow(BRect frame, const char *title, const char *dir)
-	:	BWindow(BRect(0, 0, 350, 0), title, B_DOCUMENT_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	:	BWindow(BRect(0, 0, 350, 0), title, B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 			B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	frame.OffsetBy(50.0, 50.0);
@@ -53,7 +53,7 @@ TBookmarkWindow::TBookmarkWindow(BRect frame, const char *title, const char *dir
 	BButton *cancelButton = new BButton("Cancel", kCancel, new BMessage(B_QUIT_REQUESTED));
 	
 	BLayoutBuilder::Group<>(this,B_VERTICAL)
-		.SetInsets(B_USE_ITEM_SPACING)
+		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(2,2)
 			.Add(fBookmarkName->CreateLabelLayoutItem(),0,0)
 			.Add(fBookmarkName->CreateTextViewLayoutItem(),1,0)
@@ -72,13 +72,12 @@ TBookmarkWindow::TBookmarkWindow(BRect frame, const char *title, const char *dir
 			.Add(fLocalPath->CreateLabelLayoutItem(),0,7)
 			.Add(fLocalPath->CreateTextViewLayoutItem(),1,7)
 		.End()
-		.AddStrut(B_USE_BIG_SPACING)
-		.AddGroup(B_HORIZONTAL,B_USE_ITEM_SPACING)
-			.AddGlue()
+		.AddStrut(B_USE_DEFAULT_SPACING)
+		.AddGroup(B_HORIZONTAL,B_USE_DEFAULT_SPACING)
 			.Add(cancelButton,1)
+			.AddGlue()
 			.Add(fSaveButton,1)
 			.Add(fSaveAndConnectButton,2)
-			.AddGlue()
 		.End()
 	.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	
@@ -178,7 +177,7 @@ status_t TBookmarkWindow::Save()
 	BPath path;
 	fEntry.GetPath(&path);
 	BFile file(path.Path(), B_CREATE_FILE | B_WRITE_ONLY);
-	const char* str = B_TRANSLATE("Bookmark save failed");
+	const char* str = B_TRANSLATE("Couldn't save bookmark");
 	if (file.InitCheck() != B_OK) {
 		BString emsg;
 		emsg << str << ".\n" << strerror(file.InitCheck());
@@ -215,7 +214,7 @@ void TBookmarkWindow::Load(const char *pathName)
 {
 	TConfigFile config(pathName);
 	if (config.Status() != B_OK) {
-		BString msg(B_TRANSLATE("Bookmark load error"));
+		BString msg(B_TRANSLATE("Couldn't load bookmark"));
 		msg << ".\n" << strerror(config.Status()) << "\n" << pathName;
 		(new BAlert("", msg.String(), kOK))->Go();
 		return;

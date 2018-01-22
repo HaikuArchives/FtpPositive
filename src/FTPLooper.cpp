@@ -1,13 +1,19 @@
 #include <stdio.h>
 #include <netinet/in.h>
-#include <Path.h>
-#include <File.h>
-#include <Entry.h>
-#include <Messenger.h>
+
+#include <Catalog.h>
 #include <Directory.h>
+#include <Entry.h>
+#include <File.h>
+#include <Messenger.h>
+#include <Path.h>
+
 #include "EncoderAddonManager.h"
 #include "FTPLooper.h"
 #include "TCPStream.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "FTPLooper"
 
 #define RECEIVE_BUFF_SIZE 65536
 #define POLLING_INTERVAL 5000000
@@ -531,7 +537,7 @@ void TFtpLooper::Download(BMessage *msg)
 	if (msg->FindRect("rect", &rect) == B_OK) {
 		rect.left += 80;
 		rect.top += 80;
-		rect.right = rect.left + 600;
+		rect.right = rect.left + 300;
 		rect.bottom = rect.top + 182;
 	}
 	
@@ -558,11 +564,15 @@ void TFtpLooper::Download(BMessage *msg)
 				fprintf(stderr, "creating directory %s\n", utf8localPath.String());
 				status_t s = create_directory(utf8localPath.String(), 0755);
 				if ((s != B_OK) && (!ignore)) {
-					BString emsg("Error creating directory ");
-					emsg << "\"" << utf8localPath.String() << "\".\n" << strerror(s);
-					int32 reply = (new BAlert("", emsg.String(), "Ignore All", "Cancel", "Continue"))->Go();
-					if (reply == 0) ignore = true; else
-					if (reply == 1) break;
+					BString alertMsg(B_TRANSLATE("Error creating folder '%path%'.\n%error"));
+					alertMsg.ReplaceFirst("%path%", utf8localPath.String());
+					alertMsg.ReplaceFirst("%error%", strerror(s));
+					int32 reply = (new BAlert("", alertMsg,
+						B_TRANSLATE("Ignore all"), B_TRANSLATE("Cancel"), B_TRANSLATE("Continue")))->Go();
+					if (reply == 0)
+						ignore = true;
+					else if (reply == 1)
+						break;
 				}
 			} else {
 				// ファイルをダウンロード
@@ -1070,9 +1080,13 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 
 status_t TFtpLooper::_download_alert(const char *name, const char *err)
 {
-	char alertMsg[1000];
-	snprintf(alertMsg, sizeof(alertMsg), "Downloading: %s\n%s", name, err);
-	if ((new BAlert("", alertMsg, "Cancel", "Continue"))->Go() == 0) return B_ERROR;
+	BString alertMsg(B_TRANSLATE("Downloading: %filename%\n%error%"));
+	alertMsg.ReplaceFirst("%filename%", name);
+	alertMsg.ReplaceFirst("%error%", err);
+	if ((new BAlert("", alertMsg,
+			B_TRANSLATE("Cancel"), B_TRANSLATE("Continue")))->Go() == 0)
+		return B_ERROR;
+
 	return B_OK;
 }
 
@@ -1103,8 +1117,8 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 				BPath path(localFilePath);
 				char alertMsg[1000];
 				snprintf(alertMsg, sizeof(alertMsg),
-					"A local file with the same name as \"%s\" already exists.\n"
-					"Would you like to overwrite or resume the download of the file?\n\n", path.Leaf());
+					B_TRANSLATE("A local file with the name \"%s\" already exists.\n\n"
+					"Would you like to resume, overwrite or skip the download of the file?\n\n"), path.Leaf());
 				TDontAskAgainAlert *alert = new TDontAskAgainAlert("", alertMsg,
 					"Resume", "Overwrite", "Skip", dontAsk);
 				*defaultAnswer = alert->Go();
@@ -1211,9 +1225,13 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 
 status_t TFtpLooper::_upload_alert(const char *name, const char *err)
 {
-	char alertMsg[1000];
-	snprintf(alertMsg, sizeof(alertMsg), "Uploading: %s\n%s", name, err);
-	if ((new BAlert("", alertMsg, "Cancel", "Continue"))->Go() == 0) return B_ERROR;
+	BString alertMsg(B_TRANSLATE("Uploading: %filename%\n%error%"));
+	alertMsg.ReplaceFirst("%filename%", name);
+	alertMsg.ReplaceFirst("%error%", err);
+	if ((new BAlert("", alertMsg,
+			B_TRANSLATE("Cancel"), B_TRANSLATE("Continue")))->Go() == 0)
+		return B_ERROR;
+
 	return B_OK;
 }
 
@@ -1239,10 +1257,11 @@ status_t TFtpLooper::UploadDir(const char *dirName)
 
 int32 TFtpLooper::UploadLinkAlert(const char *name, int32 *dontAskTraverse)
 {
-	BString alertMsg;
-	alertMsg << "The entry named\n\"" << name << "\"\nis Symbolic Link. What do you want to do?\n\n";
+	BString alertMsg(B_TRANSLATE("The entry\n\"%name%\"\nis a symbolic link. What to do?\n\n"));
+	alertMsg.ReplaceFirst("%name%", name);
+
 	int32 traverseWantTo = (new TDontAskAgainAlert("", alertMsg.String(),
-				"Ignore", "Upload as original name", "Upload as link name", dontAskTraverse))->Go();
+		"Cancel", "Upload with original name", "Upload with link name", dontAskTraverse))->Go();
 	return traverseWantTo;
 }
 

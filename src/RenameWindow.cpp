@@ -14,7 +14,7 @@ enum {
 
 TRenameWindow::TRenameWindow(BRect frame,
 			const char *winTitle, const char *caption, const char *oldName)
-	:	BWindow(BRect(0, 0, 400, 0), winTitle, B_DOCUMENT_WINDOW_LOOK,  B_MODAL_APP_WINDOW_FEEL,
+	:	BWindow(BRect(0, 0, 400, 0), winTitle, B_TITLED_WINDOW_LOOK,  B_MODAL_APP_WINDOW_FEEL,
 			B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	frame.OffsetBy(50.0, 50.0);
@@ -37,7 +37,6 @@ TRenameWindow::TRenameWindow(BRect frame,
 			.AddGlue()
 			.Add(fCancelButton)
 			.Add(fOKButton)
-			.AddGlue()
 		.End()
 		.View()->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	

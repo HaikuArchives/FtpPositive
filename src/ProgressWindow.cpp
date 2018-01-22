@@ -1,11 +1,14 @@
 #include <stdio.h>
-#include <LayoutBuilder.h>
-#include <Font.h>
+
+#include <Alert.h>
 #include <Catalog.h>
 #include <Entry.h>
 #include <File.h>
+#include <Font.h>
+#include <LayoutBuilder.h>
 #include <Path.h>
-#include <Alert.h>
+#include <StringForSize.h>
+
 #include "ProgressWindow.h"
 #include "FTPLooper.h"
 
@@ -20,35 +23,40 @@ extern const char* kAppName;
 TProgressView::TProgressView(const char *name)
 	:	BView(name, B_PULSE_NEEDED | B_SUPPORTS_LAYOUT)
 {
-	BFont font;
-
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 		
-	fFileNameView = new BStringView(
-		"FileNameView", "");
-	AddChild(fFileNameView);
-	
-	fStatusBar = new BStatusBar(
-		"StatusBar", "FileName", " / 0");
+	BFont font(be_bold_font);
+	fFileNameView = new BStringView("FileNameView", "");
+	fFileNameView->SetFont(&font);
+	fFileNameView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+
+	fStatusBar = new BStatusBar("StatusBar", "FileName", " / 0");
 	fStatusBar->SetTrailingText("0");
 	fStatusBar->SetBarHeight(font.Size() + 1);
 	
 	fAvgStringView = new BStringView("AvgStringView", "999999.9KB/s");
-	
+	fAvgStringView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+
+	fETALabelView = new BStringView(B_TRANSLATE("ETALabel"), "Time left:");
+	fETALabelView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+
 	fETAStringView = new BStringView("ETAStringView", "99999:99");
-	fETAStringView->SetAlignment(B_ALIGN_RIGHT);
+	fETAStringView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	
 	fCancelButton = new BButton(
 		"CancelButton", B_TRANSLATE("Cancel"), new BMessage(MSG_TRANSFER_CANCEL));
-	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_SMALL_SPACING)
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_ITEM_SPACING)
 		.Add(fFileNameView)
 		.Add(fStatusBar)
-		.AddGrid(B_USE_ITEM_SPACING,B_USE_ITEM_SPACING)
-			.Add(fETAStringView,0,0)
-			.Add(fCancelButton,1,0)
-		.End()
-	;
+		.AddGroup(B_HORIZONTAL)
+			.Add(fETALabelView)
+			.Add(fETAStringView)
+			.AddGlue(10)
+			.Add(fCancelButton)
+		.End();
+
 	fCurrentValue = 0;
 }
 
@@ -72,9 +80,16 @@ void TProgressView::SetTo(const char *fileName, int64 size, bool upload)
 {
 	fFileNameView->SetText(fileName);
 	BString trailingLabel(" / ");
-	trailingLabel << size;
+
+	char fileSize[B_PATH_NAME_LENGTH];
+	string_for_size(size, fileSize, sizeof(fileSize));
+	trailingLabel.Append(fileSize);
+
 	BString trailingText;
-	trailingText << fStatusBar->CurrentValue();
+	char currentSize[B_PATH_NAME_LENGTH];
+	string_for_size((int64)fStatusBar->CurrentValue(), currentSize, sizeof(currentSize));
+	trailingText.Append(currentSize);
+
 	fCurrentValue = 0;
 	fStatusBar->Reset("", trailingLabel.String());
 	fStatusBar->Update(0, "", trailingText.String());
@@ -88,7 +103,10 @@ void TProgressView::SetTo(const char *fileName, int64 size, bool upload)
 void TProgressView::Update()
 {
 	BString trailingText;
-	trailingText << (int)fStatusBar->CurrentValue();
+	char currentSize[B_PATH_NAME_LENGTH];
+	string_for_size((int64)fStatusBar->CurrentValue(), currentSize, sizeof(currentSize));
+	trailingText.Append(currentSize);
+
 	float delta = fCurrentValue - fStatusBar->CurrentValue();
 	fStatusBar->Update(delta, "", trailingText.String());
 	
@@ -127,11 +145,12 @@ void TProgressView::SetValue(off_t currentValue)
 
 TProgressWindow::TProgressWindow(BRect frame, const char *title, volatile bool *abortFlag)
 	:	BWindow(frame, title, B_FLOATING_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-				B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
+				B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	fProgressView = new TProgressView("TransferView");
-	BLayoutBuilder::Group<>(this,B_VERTICAL,B_USE_ITEM_SPACING)
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.Add(fProgressView);
+
 	SetPulseRate(100000);
 	fAbortFlag = abortFlag;
 }
@@ -143,15 +162,17 @@ TProgressWindow::~TProgressWindow()
 bool TProgressWindow::QuitRequested()
 {
 	if (CurrentMessage() == NULL) return true;
-	if (!IsHidden()) Hide();
+	if (!IsHidden())
+		Hide();
 	return false;
 }
 
 bool TProgressWindow::Abort()
 {
-	BAlert *alert = new BAlert(kAppName, B_TRANSLATE("Really cancel?"),
-							B_TRANSLATE("Yes"), B_TRANSLATE("No"), NULL,
-							B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+	BAlert *alert = new BAlert(kAppName,
+		B_TRANSLATE("Do you want to abort the transfer?\n"),
+		B_TRANSLATE("Abort"), B_TRANSLATE("Continue"), NULL,
+		B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	if (alert->Go() == 0) {
 		*fAbortFlag = true;
 		return true;
