@@ -109,19 +109,11 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fOpenPanel.SetButtonLabel(B_DEFAULT_BUTTON, B_TRANSLATE("Upload"));
 	fOpenPanel.Window()->SetTitle(B_TRANSLATE("FtpPositive: Upload"));
 
-	BRect rect;
-	
 	// Main Menu
 	BMenuBar *mainMenu = new BMenuBar("MainMenuBar");
 	
 	// Tool Bar
 	mainToolBar = new BToolBar(B_HORIZONTAL);
-	
-	// Forward, Backward, Upfolder
-	rect.left = 0;
-	rect.right = 0;
-	rect.top = 1;
-	rect.bottom = 1;
 	
 	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,
 		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_BACKWARD"),"Backward","",false);
@@ -133,6 +125,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_RELOAD"),"Reload","",false);
 	mainToolBar->AddAction(new BMessage(MSG_CANCEL),this,
 		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_STOP"),"Cancel","",false);
+
 	// Remote Path View
 	const char* label = B_TRANSLATE("Remote:");
 	fRemoteDirView = new BTextControl("RemoteDirView", label, "",
@@ -185,9 +178,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 		.AddGroup(B_VERTICAL,0)
 			.SetInsets(B_USE_ITEM_SPACING, 0, B_USE_ITEM_SPACING, 0)
 			.AddSplit(B_VERTICAL, 5)
-				.Add(fRemoteFileView)
-				.Add(logScrollView)
-			.End()
+			.GetSplitView(&fSplitView)
+			.Add(fRemoteFileView)
+			.Add(logScrollView)
+		.End()
 			.AddGroup(B_HORIZONTAL, 0)
 				.SetInsets(0, 3, B_USE_ITEM_SPACING, 0)
 				.Add(fStatusView,1)
@@ -195,7 +189,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 				.Add(fUseThisConnection,1)
 			.End()
 		.End();
-	;
+
 	// File Menu
 	fFileMenu = new BMenu(B_TRANSLATE("File"));
 	mainMenu->AddItem(fFileMenu);
@@ -238,8 +232,6 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	NaviMenu(fPopUpMenu);
 	fPopUpMenu->AddSeparatorItem();
 	FileMenu(fPopUpMenu);
-	// 
-
 
 	fRemoteFileView->MakeFocus(true);
 	fLogView->SetTextRect(BRect(5,5,-1,-1));
@@ -254,6 +246,17 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	mainToolBar->FindButton(MSG_RELOAD_CLICKED)->SetEnabled(false);
 	mainToolBar->FindButton(MSG_CANCEL)->Hide();
 	PostMessage(new BMessage(MSG_READY));
+
+	// Set Split View
+	BString v;
+	v.SetTo(""); app_config->Read("weight_top",		&v, "173");	fSplitView->SetItemWeight(0, atof(v.String()), false);
+	v.SetTo(""); app_config->Read("weight_bottom",	&v, "75");	fSplitView->SetItemWeight(1, atof(v.String()), true);
+
+	v.SetTo(""); app_config->Read("collaps_top", &v, "false");
+	fSplitView->SetItemCollapsed(0, (v.ICompare("true") == 0) ? true : false);
+
+	v.SetTo(""); app_config->Read("collaps_bottom", &v, "false");
+	fSplitView->SetItemCollapsed(1, (v.ICompare("true") == 0) ? true : false);
 }
 
 
@@ -264,6 +267,12 @@ TFTPWindow::~TFTPWindow()
 	s.SetTo(""); s << (int)Frame().top;    app_config->Write("frame_top",    s.String());
 	s.SetTo(""); s << (int)Frame().right;  app_config->Write("frame_right",  s.String());
 	s.SetTo(""); s << (int)Frame().bottom; app_config->Write("frame_bottom", s.String());
+
+	s.SetTo(""); s << fSplitView->ItemWeight((int32)0);   	app_config->Write("weight_top", 	s.String());
+	s.SetTo(""); s << fSplitView->ItemWeight((int32)1);   	app_config->Write("weight_bottom", 	s.String());
+	s.SetTo(""); s << fSplitView->IsItemCollapsed((bool)0);	app_config->Write("collaps_top", 	s.String());
+	s.SetTo(""); s << fSplitView->IsItemCollapsed((bool)1);	app_config->Write("collaps_bottom",	s.String());
+
 	Clear();
 }
 
