@@ -1118,7 +1118,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 				char alertMsg[1000];
 				snprintf(alertMsg, sizeof(alertMsg),
 					B_TRANSLATE("A local file with the name \"%s\" already exists.\n\n"
-					"Would you like to resume, overwrite or skip the download of the file?\n\n"), path.Leaf());
+					"Would you like to resume, overwrite or skip the download of the file?\n"), path.Leaf());
 				TDontAskAgainAlert *alert = new TDontAskAgainAlert("", alertMsg,
 					"Resume", "Overwrite", "Skip", dontAsk);
 				*defaultAnswer = alert->Go();
@@ -1257,7 +1257,7 @@ status_t TFtpLooper::UploadDir(const char *dirName)
 
 int32 TFtpLooper::UploadLinkAlert(const char *name, int32 *dontAskTraverse)
 {
-	BString alertMsg(B_TRANSLATE("The entry\n\"%name%\"\nis a symbolic link. What to do?\n\n"));
+	BString alertMsg(B_TRANSLATE("The entry\n\"%name%\"\nis a symbolic link. What to do?\n"));
 	alertMsg.ReplaceFirst("%name%", name);
 
 	int32 traverseWantTo = (new TDontAskAgainAlert("", alertMsg.String(),

@@ -366,6 +366,7 @@ void TFTPWindow::FtpReportMsgIncoming(BMessage *msg)
 				//->Lock();
 //				fFtpLooper->Quit();
 				fFtpLooper = NULL;
+				this->SetTitle(kAppName);
 			}
 			return;
 		}
@@ -561,8 +562,6 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 		return;
 	}
 	
-	this->SetTitle(path.Leaf());
-	
 	BString encoder, port, remotepath;
 	fBookmarkConfig->Read("host", &fHost, "");
 	fBookmarkConfig->Read("username", &fUsername, "");
@@ -573,6 +572,10 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 	fBookmarkConfig->Read("localpath", &fLocalDir, TFtpPositive::GetDefaultLocalDir().String());
 	
 	fPort = atoi(port.String());
+
+	BString title(kAppName);
+	title << " - " << path.Leaf() << " (" << fHost.String() << ":" << port.String() << ")";
+	this->SetTitle(title.String());
 	
 	fNoEncoder->SetMarked(true);
 	if (encoder.Length() > 0) {
@@ -587,7 +590,7 @@ status_t TFTPWindow::Connect(const char *remoteDir)
 {
 	status_t s;
 	SetBusy(true);
-	fStatusView->SetText(B_TRANSLATE("Connecting..."));
+	fStatusView->SetText(B_TRANSLATE("Connecting" B_UTF8_ELLIPSIS));
 	
 	if (fFtpLooper != NULL) {
 		fFtpLooper->Abort();
@@ -604,12 +607,7 @@ status_t TFTPWindow::Connect(const char *remoteDir)
 	if ((s = BMessenger(fFtpLooper).SendMessage(&msg)) != B_OK) {
 		*fLogView << kError << ": " << strerror(s) << "\n";
 		return B_ERROR;
-	}
-	
-	BString title(fHost.String());
-	title << " - " << kAppName;
-	this->SetTitle(title.String());
-	
+	}	
 	return B_OK;
 }
 
@@ -620,7 +618,7 @@ void TFTPWindow::PasvList()
 		*fLogView << kError << ": " << strerror(s) << "\n";
 		return;
 	}
-	fStatusView->SetText(B_TRANSLATE("Getting directory listing..."));
+	fStatusView->SetText(B_TRANSLATE("Getting directory listing" B_UTF8_ELLIPSIS));
 	SetBusy(true);
 }
 
@@ -686,7 +684,7 @@ void TFTPWindow::DirlistChanged(BMessage *msg)
 status_t TFTPWindow::ReconnectIfDisconnected()
 {
 	if (fFtpLooper == NULL) {
-		*fLogView << B_TRANSLATE("Reconnecting") << "...\n";
+		*fLogView << B_TRANSLATE("Reconnecting" B_UTF8_ELLIPSIS) << "\n";
 		return Connect(fCurrentRemoteDir.String());
 	}
 	return B_OK;
@@ -910,8 +908,8 @@ void TFTPWindow::Delete()
 
 	BString alertText;
 	static BMessageFormat formatText(B_TRANSLATE("{0, plural,"
-		"=1{Deleting this file cannot be undone.\nAre you sure?}"
-		"other{Deleting these # files cannot be undone.\nAre you sure?}}"));
+		"=1{Deleting this item cannot be undone.\nAre you sure?}"
+		"other{Deleting these # items cannot be undone.\nAre you sure?}}"));
 	formatText.Format(alertText, count);
 
 	if ((new BAlert("", alertText, B_TRANSLATE("Delete"),
