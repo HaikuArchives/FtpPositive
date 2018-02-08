@@ -229,9 +229,9 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	// PopupMenu
 	fPopUpMenu = new BPopUpMenu("PopUpMenu");
 	fPopUpMenu->SetRadioMode(false);
-	NaviMenu(fPopUpMenu);
-	fPopUpMenu->AddSeparatorItem();
 	FileMenu(fPopUpMenu);
+	fPopUpMenu->AddSeparatorItem();
+	NaviMenu(fPopUpMenu);
 
 	fRemoteFileView->MakeFocus(true);
 	fLogView->SetTextRect(BRect(5,5,-1,-1));
@@ -938,9 +938,14 @@ void TFTPWindow::MenuOpen()
 	BPoint point;
 	uint32 buttons;
 	fRemoteFileView->GetMouse(&point, &buttons);
+
+	if ((buttons & B_SECONDARY_MOUSE_BUTTON) == 0)
+		return;
+
 	fRemoteFileView->ConvertToScreen(&point);
 	BMenuItem *selected = fPopUpMenu->Go(point, false, true, BRect(point.x, point.y, point.x, point.y));
-	if (selected) BMessenger(this).SendMessage(selected->Command());
+	if (selected)
+		BMessenger(this).SendMessage(selected->Command());
 }
 
 void TFTPWindow::DragReply(BMessage *msg)

@@ -1,7 +1,9 @@
+#include <stdio.h>
 #include <strings.h>
+
 #include <Messenger.h>
 #include <Mime.h>
-#include <stdio.h>
+
 #include "RemoteFileView.h"
 #include "FTPWindow.h"
 
@@ -36,6 +38,8 @@ TRemoteFileView::TRemoteFileView(const char *name)
 	:	BColumnListView(name, B_NAVIGABLE)
 {
 	fISReseter = NULL;
+
+	SetSelectionMessage(new BMessage(MSG_MENU_OPEN));
 }
 
 TRemoteFileView::~TRemoteFileView()
@@ -98,14 +102,6 @@ void TRemoteFileView::KeyDown(const char *bytes, int32 numBytes)
 			}
 		}
 	}
-}
-
-void TRemoteFileView::MouseDown(BPoint point)
-{
-	BPoint currentPos;
-	uint32 buttons;
-	GetMouse(&currentPos, &buttons);
-	if (buttons == 2) BMessenger(this->Window()).SendMessage(MSG_MENU_OPEN);
 }
 
 uint32 TRemoteFileView::GetSelectedEntries(BMessage *entries, BRect *rect)
