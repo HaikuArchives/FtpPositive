@@ -201,7 +201,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fConnectMenu = new BMenu(B_TRANSLATE("Connect"));
 	mainMenu->AddItem(fConnectMenu);
 	fConnectMenu->AddItem(new BMenuItem(kNewBookmark, new BMessage(MSG_NEW_BOOKMARK), 'N'));
-	fConnectMenu->AddItem(new BMenuItem(B_TRANSLATE("Show bookmarks"), new BMessage(MSG_SHOW_BOOKMARK), 'B'));
+	fConnectMenu->AddItem(new BMenuItem(B_TRANSLATE("Manage bookmarks"), new BMessage(MSG_SHOW_BOOKMARK), 'B'));
 	fConnectMenu->AddSeparatorItem();
 	
 	BDirectory dir(TFtpPositive::GetBookmarksDir());
@@ -235,7 +235,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 
 	fRemoteFileView->MakeFocus(true);
 	fLogView->SetTextRect(BRect(5,5,-1,-1));
-	fStatusView->SetText(B_TRANSLATE("Idle."));
+	fStatusView->SetText(B_TRANSLATE("Idle"));
 	fCommandMenu->SetEnabled(false);
 	fPopUpMenu->SetEnabled(false);
 	fUseThisConnection->SetEnabled(false);
@@ -346,9 +346,7 @@ void TFTPWindow::MessageReceived(BMessage *msg)
 		case MSG_UPLOAD_CLICKED:       UploadClicked(); break;
 		case B_REFS_RECEIVED:          Upload(msg); break;
 		case MSG_READY:	{
-							*fLogView << B_TRANSLATE("Welcome to FtpPositive")
-							<< " " << VERSION
-							<< "\n" << COPY;
+							*fLogView << B_TRANSLATE("Welcome to FtpPositive\n\n");
 							break;
 		}
 		default: {

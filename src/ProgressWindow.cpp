@@ -37,7 +37,7 @@ TProgressView::TProgressView(const char *name)
 	fAvgStringView = new BStringView("AvgStringView", "999999.9KB/s");
 	fAvgStringView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	fETALabelView = new BStringView(B_TRANSLATE("ETALabel"), "Time left:");
+	fETALabelView = new BStringView("ETALabel", B_TRANSLATE("Time left:"));
 	fETALabelView->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fETAStringView = new BStringView("ETAStringView", "99999:99");

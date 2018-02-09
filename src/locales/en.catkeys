@@ -1,0 +1,108 @@
+1	English	application/x-vnd.momoziro-FtpPositive	3075200542
+About FtpPositive	FTPWindow		About FtpPositive
+Skip	FTPLooper		Skip
+New folder:	FTPWindow		New folder:
+Rename	FTPWindow		Rename
+FtpPositive: Upload	FTPWindow		FtpPositive: Upload
+Idle	FTPWindow		Idle
+Disconnected by remote host.	FTPClient		Disconnected by remote host.
+New folder	FTPWindow		New folder
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n
+Couldn't save bookmark	FTPLooper		Couldn't save bookmark
+Owner	ChmodWindow		Owner
+Remote:	FTPWindow		Remote:
+Suspended.	FTPWindow		Suspended.
+Error: Download failed.	FTPLooper		Error: Download failed.
+Name	FTPWindow		Name
+Upload with link name	FTPLooper		Upload with link name
+Abort	ProgressWindow		Abort
+Cancel	ProgressWindow		Cancel
+Copy FTP URL	FTPWindow		Copy FTP URL
+Forward	FTPWindow		Forward
+Downloading: %filename%\n%error%	FTPLooper		Downloading: %filename%\n%error%
+Upload with original name	FTPLooper		Upload with original name
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}
+Internal name	FTPWindow		Internal name
+Remote path:	FTPLooper		Remote path:
+Copyright ©momoziro 2007\nAll rights reserved.\n\n	FtpPositive		Copyright ©momoziro 2007\nAll rights reserved.\n\n
+Refresh	FTPWindow		Refresh
+Idle	FTPLooper		Idle
+Continue	ProgressWindow		Continue
+Other	ChmodWindow		Other
+Command	FTPWindow		Command
+Overwrite	FTPLooper		Overwrite
+Resume	FTPLooper		Resume
+Disconnected.	FTPClient		Disconnected.
+Upload	FTPWindow		Upload
+no items	FTPWindow		no items
+Owner	FTPWindow		Owner
+OK	FTPWindow		OK
+Rename '%oldFileName%'	FTPWindow		Rename '%oldFileName%'
+Encoding	FTPWindow		Encoding
+Uploading: %filename%\n%error%	FTPLooper		Uploading: %filename%\n%error%
+Quit	FTPWindow		Quit
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{no items}=1{1 item}other{# items}}
+Port:	FTPLooper		Port:
+Error: Could not spawn download thread.\n	FTPLooper		Error: Could not spawn download thread.\n
+Error creating folder '%path%'.\n%error	FTPLooper		Error creating folder '%path%'.\n%error
+Do you want to abort the transfer?\n	ProgressWindow		Do you want to abort the transfer?\n
+FtpPositive	System name		FtpPositive
+Delete	FTPWindow		Delete
+Disconnected.\n	FTPLooper		Disconnected.\n
+New name:	FTPWindow		New name:
+Parent folder	FTPWindow		Parent folder
+OK	FTPLooper		OK
+Connect	FTPWindow		Connect
+Don't ask again	FTPLooper		Don't ask again
+Error:	FTPLooper		Error:
+Getting directory list…	FTPLooper		Getting directory list…
+Ignore all	FTPLooper		Ignore all
+Cancel	FTPWindow		Cancel
+Error: Could not spawn thread.\n	FTPLooper		Error: Could not spawn thread.\n
+Permissions	FTPWindow		Permissions
+Reconnecting…	FTPWindow		Reconnecting…
+Connecting to %host% (%port%)\n	FTPLooper		Connecting to %host% (%port%)\n
+Uploading '%remotepath%'\n	FTPLooper		Uploading '%remotepath%'\n
+Read:	ChmodWindow		Read:
+Group	ChmodWindow		Group
+Change	ChmodWindow		Change
+Date	FTPWindow		Date
+OK	RenameWindow		OK
+Cancel	RenameWindow		Cancel
+File	FTPWindow		File
+Connect	FTPLooper		Connect
+Execute:	ChmodWindow		Execute:
+Size	FTPWindow		Size
+Change permissions	FTPWindow		Change permissions
+Name:	FTPLooper		Name:
+Connecting…	FTPWindow		Connecting…
+Cancel	FTPLooper		Cancel
+Time left:	ProgressWindow		Time left:
+FtpPositive	FtpPositive		FtpPositive
+Cancel	ChmodWindow		Cancel
+Error	FTPWindow		Error
+Getting directory listing…	FTPWindow		Getting directory listing…
+Disconnected.	FTPLooper		Disconnected.
+Encoder:	FTPLooper		Encoder:
+Couldn't load bookmark	FTPLooper		Couldn't load bookmark
+New bookmark	FTPWindow		New bookmark
+Write:	ChmodWindow		Write:
+Getting directory list…%transferred%. Finished.	FTPLooper		Getting directory list…%transferred%. Finished.
+Manage bookmarks	FTPWindow		Manage bookmarks
+User name:	FTPLooper		User name:
+None	FTPWindow		None
+Use this connection	FTPWindow		Use this connection
+Password:	FTPLooper		Password:
+Create folder	FTPWindow		Create folder
+Back	FTPWindow		Back
+Group	FTPWindow		Group
+Continue	FTPLooper		Continue
+Download	FTPWindow		Download
+Welcome to FtpPositive\n\n	FTPWindow		Welcome to FtpPositive\n\n
+Address:	FTPLooper		Address:
+OK	FtpPositive		OK
+Save	FTPLooper		Save
+Getting directory list…%transferred%	FTPLooper		Getting directory list…%transferred%
+New bookmark	FTPLooper		New bookmark
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		The entry\n\"%name%\"\nis a symbolic link. What to do?\n
+Local path:	FTPLooper		Local path:

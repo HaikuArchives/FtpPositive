@@ -258,7 +258,7 @@ private:
 	BMessageRunner *fPollingTimer;
 	
 	BString fHost;
-	uint16 fPort;
+	uint32 fPort;
 	BString fUsername;
 	BString fPassword;
 	TDirentParser *fDirentParser;

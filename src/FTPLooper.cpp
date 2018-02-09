@@ -7,6 +7,7 @@
 #include <File.h>
 #include <Messenger.h>
 #include <Path.h>
+#include <StringForSize.h>
 
 #include "EncoderAddonManager.h"
 #include "FTPLooper.h"
@@ -70,9 +71,10 @@ status_t TFtpLooper::SendResultMessage(status_t e)
 	BMessage result;
 	switch(e) {
 		case EPIPE: 
-			return SendResultMessage(&result, REQ_KILL_ME, "Disconnected.", "Disconnected.\n", false);
+			return SendResultMessage(&result, REQ_KILL_ME, B_TRANSLATE("Disconnected."),
+				B_TRANSLATE("Disconnected.\n"), false);
 		default:
-			return SendResultMessage(&result, REQ_NO_REQUEST, "Idle.", "", false);
+			return SendResultMessage(&result, REQ_NO_REQUEST, B_TRANSLATE("Idle"), "", false);
 	}
 }
 
@@ -186,7 +188,7 @@ status_t TFtpLooper::PASV(struct sockaddr_in *addr, int32 *reply)
 	if ((e = Readres(reply, &lastLine)) != B_OK) return e;
 	
 	if ((cp = strchr(lastLine.String(), '(')) == NULL) {
-//		fStrError.SetTo("Invalid Response.");
+//		fStrError.SetTo(B_TRANSLATE("Invalid Response."));
 		return B_OK;
 	}
 	cp++;
@@ -225,13 +227,13 @@ status_t TFtpLooper::XPWD(BString *result, int32 *reply)
 	
 	char *s = strchr(lastLine.String(), '"');
 	if (!s) {
-//		fStrError.SetTo("Invalid response.");
+//		fStrError.SetTo(B_TRANSLATE("Invalid response."));
 		return B_ERROR;
 	}
 	s++;
 	char *f = strchr(s, '"');
 	if (!f) {
-//		fStrError.SetTo("Invalid response.");
+//		fStrError.SetTo(B_TRANSLATE("Invalid response."));
 		return B_ERROR;
 	}
 	*f = 0;
@@ -268,7 +270,7 @@ status_t TFtpLooper::SIZE(const char *remoteFilePath, int64 *size, int32 *reply)
 	
 	char *s = strchr(lastLine.String(), '"');
 	if (!s) {
-//		fStrError.SetTo("Invalid response.");
+//		fStrError.SetTo(B_TRANSLATE("Invalid response."));
 		return B_ERROR;
 	}
 
@@ -396,12 +398,17 @@ void TFtpLooper::Connect(BMessage *msg)
 {
 	fAbort = false;
 	
-	BString remoteDir;
 	int32 r;
 	status_t e;
-	_LOG << "Connecting to " << fHost << " (" << (int)fPort << ")\n" << _FLUSH;
-	
-	// 接続
+	BString remoteDir;
+	BString text(B_TRANSLATE("Connecting to %host% (%port%)\n"));
+	BString port("");
+	port << (uint32)fPort;
+	text.ReplaceFirst("%host%", fHost);
+	text.ReplaceFirst("%port%", port);
+
+	_LOG << text << _FLUSH;
+
 	if (fFtpClient->Connect(fHost.String(), fPort) != B_OK) {
 		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
 		goto _err_exit;
@@ -469,7 +476,7 @@ void TFtpLooper::GetDirList()
 		}
 		
 		entryList.AddString("xpwd", xpwd_result);
-		SendResultMessage(&entryList, REQ_WALKED, "Idle.", "", false);
+		SendResultMessage(&entryList, REQ_WALKED, B_TRANSLATE("Idle"), "", false);
 		
 		return;
 	}
@@ -789,7 +796,7 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 	// CWD
 	if (strlen(dirPath) != 0) {
 		if (CWD(dirPath, &r) != B_OK) {
-			_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+			_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 			return B_ERROR;
 		}
 		if ((r < 200) || (r > 299)) return B_ERROR;
@@ -797,52 +804,57 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 	
 	// PASV モード
 	if (PASV(&addr, &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	if ((r < 200) || (r > 299)) return B_ERROR;
 	
 	// LIST
 	if (LIST(&addr, true, "", "-alLR") != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	
 	// データ受信
 	TTCPStream tcpStream(&mallocIO, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_DOWNLOAD);
 	if (tcpStream.Status() != B_OK) {
-		_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	
 	e = Readres(&r);
 	if (e != B_OK) {
-		_LOG << "Error: " << strerror(e) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(e) << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	if ((r < 100) || (r > 199)) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	
 	if (tcpStream.Go() != B_OK) {
-		_LOG << "Error: Could not spawn thread.\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error: Could not spawn thread.\n") << _FLUSH;
 		return B_ERROR;
 	}
-	
+
 	int64 transferredSize;
+
 	while ((!fAbort) && (tcpStream.Result(&transferredSize) == EINPROGRESS)) {
-		BString text("Getting directory list... ");
-		text << transferredSize << " bytes.";
+		char size[B_PATH_NAME_LENGTH];
+		string_for_size(transferredSize, size, sizeof(size));
+		BString text(B_TRANSLATE("Getting directory list" B_UTF8_ELLIPSIS "%transferred%"));
+		text.ReplaceFirst("%transferred%", size);
 		SendStatusMessage(text.String());
 		snooze(1000);
 	}
 	if ((!fAbort) && (tcpStream.Result(&transferredSize) == B_OK)) {
-		BString text("Getting directory list... ");
-		text << transferredSize << " bytes. Done.";
+		char size[B_PATH_NAME_LENGTH];
+		string_for_size(transferredSize, size, sizeof(size));
+		BString text(B_TRANSLATE("Getting directory list" B_UTF8_ELLIPSIS "%transferred%. Finished."));
+		text.ReplaceFirst("%transferred%", size);
 		SendStatusMessage(text.String());
 	} else {
-		_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 	}
 	if (fAbort) return B_ERROR;
 	
@@ -885,7 +897,7 @@ void TFtpLooper::ListRDirList(BMessage *msg, TEntryList *pathList)
 	// カレントディレクトリの保存
 	BString xpwd_result;
 	if (XPWD(&xpwd_result, &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return;
 	}
 	if ((r < 200) || (r > 299)) return;
@@ -913,7 +925,7 @@ void TFtpLooper::ListRDirList(BMessage *msg, TEntryList *pathList)
 	
 	// カレントディレクトリの復元
 	if (CWD(xpwd_result.String(), &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return;
 	}
 }
@@ -942,7 +954,7 @@ void TFtpLooper::RecurseDirList(BMessage *msg, TEntryList *pathList)
 	// カレントディレクトリの保存
 	BString xpwd_result;
 	if (XPWD(&xpwd_result, &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return;
 	}
 	if ((r < 200) || (r > 299)) return;
@@ -968,7 +980,7 @@ void TFtpLooper::RecurseDirList(BMessage *msg, TEntryList *pathList)
 	
 	// カレントディレクトリの復元
 	if (CWD(xpwd_result.String(), &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return;
 	}
 }
@@ -983,7 +995,7 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 	// CWD
 	if (strlen(dirPath) != 0) {
 		if (CWD(dirPath, &r) != B_OK) {
-			_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+			_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 			return B_ERROR;
 		}
 		if ((r < 200) || (r > 299)) return B_ERROR;
@@ -991,52 +1003,52 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 	
 	// PASV モード
 	if (PASV(&addr, &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	if ((r < 200) || (r > 299)) return B_ERROR;
 	
 	// LIST
 	if (LIST(&addr, true, "", option) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	
 	// データ受信
 	TTCPStream tcpStream(&mallocIO, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_DOWNLOAD);
 	if (tcpStream.Status() != B_OK) {
-		_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	
 	e = Readres(&r);
 	if (e != B_OK) {
-		_LOG << "Error: " << strerror(e) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(e) << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	if ((e != B_OK) || (r < 100) || (r > 199)) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
 	}
 	
 	if (tcpStream.Go() != B_OK) {
-		_LOG << "Error: Could not spawn thread.\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error: Could not spawn thread.\n") << _FLUSH;
 		return B_ERROR;
 	}
 	
 	int64 transferredSize;
 	while ((!fAbort) && (tcpStream.Result(&transferredSize) == EINPROGRESS)) {
-		BString text("Getting directory list... ");
-		text << transferredSize << " bytes.";
+		BString text(B_TRANSLATE("Getting directory list" B_UTF8_ELLIPSIS));
+		text << " " << transferredSize << " bytes.";
 		SendStatusMessage(text.String());
 		snooze(1000);
 	}
 	if ((!fAbort) && (tcpStream.Result(&transferredSize) == B_OK)) {
-		BString text("Getting directory list... ");
-		text << transferredSize << " bytes. Done.";
+		BString text(B_TRANSLATE("Getting directory list" B_UTF8_ELLIPSIS));
+		text << " " << transferredSize << " bytes. Done.";
 		SendStatusMessage(text.String());
 	} else {
-		_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 	}
 	fAbort = false;
 	
@@ -1120,7 +1132,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 					B_TRANSLATE("A local file with the name \"%s\" already exists.\n\n"
 					"Would you like to resume, overwrite or skip the download of the file?\n"), path.Leaf());
 				TDontAskAgainAlert *alert = new TDontAskAgainAlert("", alertMsg,
-					"Resume", "Overwrite", "Skip", dontAsk);
+					B_TRANSLATE("Resume"), B_TRANSLATE("Overwrite"), B_TRANSLATE("Skip"), dontAsk);
 				*defaultAnswer = alert->Go();
 			}
 			switch(*defaultAnswer){
@@ -1141,13 +1153,13 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 			break;
 		}
 		default:
-			_LOG << "Error: Download failed. " << strerror(localFile.InitCheck()) << "\n" << _FLUSH;
+			_LOG << B_TRANSLATE("Error: Download failed.") << " " << strerror(localFile.InitCheck()) << "\n" << _FLUSH;
 			return _download_alert(remoteFilePath, strerror(localFile.InitCheck()));
 	}
 	
 	// PASV モード
 	if (PASV(&addr, &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _download_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	if ((r < 200) || (r > 299)) {
@@ -1156,7 +1168,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 	
 	// BIN モード
 	if (TYPE("I", &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _download_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	if ((r < 200) || (r > 299)) {
@@ -1166,7 +1178,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 	// REST (レジュームする場合)
 	if (startPos > 0) {
 		if (REST(startPos, &r) != B_OK) {
-			_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+			_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 			return _download_alert(remoteFilePath, fFtpClient->StrError());
 		}
 		if ((r < 300) || (r > 399)) {
@@ -1176,14 +1188,14 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 	
 	// RETR
 	if (RETR(remoteFilePath) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _download_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	
 	// ファイル受信
 	TTCPStream tcpStream(&localFile, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_DOWNLOAD);
 	if (tcpStream.Status() != B_OK) {
-		_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 		return _download_alert(remoteFilePath, strerror(tcpStream.Status()));
 	}
 	
@@ -1196,8 +1208,8 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 	}
 	
 	if (tcpStream.Go() != B_OK) {
-		_LOG << "Error: Could not spawn download thread.\n" << _FLUSH;
-		return _download_alert(remoteFilePath, "Error: Could not spawn download thread.\n");
+		_LOG << B_TRANSLATE("Error: Could not spawn download thread.\n") << _FLUSH;
+		return _download_alert(remoteFilePath, B_TRANSLATE("Error: Could not spawn download thread.\n"));
 	}
 	
 	int64 transferredSize;
@@ -1214,7 +1226,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 			e = Readres(&r);
 		} else {
 			//
-			_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+			_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 		}
 	}
 	
@@ -1237,7 +1249,9 @@ status_t TFtpLooper::_upload_alert(const char *name, const char *err)
 
 status_t TFtpLooper::UploadDir(const char *dirName)
 {
-	_LOG << "Creating directory " << dirName << "\n" << _FLUSH;
+	BString text("Creating directory '%directory%'\n");
+	text.ReplaceFirst("%directory%", dirName);
+	_LOG << text << _FLUSH;
 	fprintf(stderr, "Creating directory %s\n", dirName);
 	
 	status_t e = B_OK;
@@ -1245,7 +1259,7 @@ status_t TFtpLooper::UploadDir(const char *dirName)
 	
 	// MKD
 	if ((e = MKD(dirName, &r)) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return e;
 	}
 	if ((r < 200) || (r > 299)) {
@@ -1261,7 +1275,8 @@ int32 TFtpLooper::UploadLinkAlert(const char *name, int32 *dontAskTraverse)
 	alertMsg.ReplaceFirst("%name%", name);
 
 	int32 traverseWantTo = (new TDontAskAgainAlert("", alertMsg.String(),
-		"Cancel", "Upload with original name", "Upload with link name", dontAskTraverse))->Go();
+		B_TRANSLATE("Cancel"), B_TRANSLATE("Upload with original name"),
+		B_TRANSLATE("Upload with link name"), dontAskTraverse))->Go();
 	return traverseWantTo;
 }
 
@@ -1404,7 +1419,9 @@ void TFtpLooper::Upload(BMessage *msg)
 status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 	TProgressWindow *progressWindow)
 {
-	_LOG << "Uploading " << remoteFilePath << "\n" << _FLUSH;
+	BString text(B_TRANSLATE("Uploading '%remotepath%'\n"));
+	text.ReplaceFirst("%remotepath%", remoteFilePath);
+	_LOG << text << _FLUSH;
 	fprintf(stderr, "Uploading %s\n", remoteFilePath);
 	
 	status_t e;
@@ -1417,7 +1434,7 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 	
 	// PASV モード
 	if (PASV(&addr, &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _upload_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	if ((r < 200) || (r > 299)) {
@@ -1426,7 +1443,7 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 	
 	// BIN モード
 	if (TYPE("I", &r) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _upload_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	if ((r < 200) || (r > 299)) {
@@ -1435,14 +1452,14 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 	
 	// STOR
 	if (STOR(remoteFilePath) != B_OK) {
-		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _upload_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	
 	// ファイル送信
 	TTCPStream tcpStream(&localFile, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_UPLOAD);
 	if (tcpStream.Status() != B_OK) {
-		_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 		return _upload_alert(remoteFilePath, strerror(tcpStream.Status()));
 	}
 	
@@ -1455,8 +1472,8 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 	}
 	
 	if (tcpStream.Go() != B_OK) {
-		_LOG << "Error: Could not spawn thread.\n" << _FLUSH;
-		return _upload_alert(remoteFilePath, "Error: Could not spawn thread.\n");
+		_LOG << B_TRANSLATE("Error: Could not spawn thread.\n") << _FLUSH;
+		return _upload_alert(remoteFilePath, B_TRANSLATE("Error: Could not spawn thread.\n"));
 	}
 	
 	int64 transferredSize;
@@ -1474,7 +1491,7 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 			_LOG << fFtpClient->StrReply() << _FLUSH;
 		} else {
 			//
-			_LOG << "Error: " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
+			_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
 		}
 	}
 	

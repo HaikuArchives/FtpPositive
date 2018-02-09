@@ -1,5 +1,7 @@
+#include <Catalog.h>
 #include <DataIO.h>
 #include <OS.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -11,8 +13,11 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <errno.h>
+
 #include "FTPClient.h"
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "FTPClient"
 
 TFTPClient::TFTPClient()
 {
@@ -119,7 +124,7 @@ status_t TFTPClient::Connect(const char *address, uint16 port)
 void TFTPClient::Disconnect()
 {
 	fStatus = EPIPE;
-	fStrError.SetTo("Disconnected.");
+	fStrError.SetTo(B_TRANSLATE("Disconnected."));
 	if (fControlEndpoint != 0) close(fControlEndpoint);
 	fControlEndpoint = 0;
 	fAbort = true;
@@ -219,7 +224,7 @@ int32 TFTPClient::ReceiverThread(void *self)
 			}
 		} else if (recvSize == 0) {
 			// 切断された
-			Self->fStrError.SetTo("Disconnected by remote host.");
+			Self->fStrError.SetTo(B_TRANSLATE("Disconnected by remote host."));
 			Self->fStatus = EPIPE;
 		} else {
 			// 受信あり
