@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <AboutWindow.h>
 #include <Alert.h>
 #include <Catalog.h>
 #include <FindDirectory.h>
@@ -15,14 +17,15 @@
 #include "MimeDB.h"
 #include "EncoderAddonManager.h"
 
-const char* kAppName = B_TRANSLATE("FtpPositive");
+const char* kAppName = B_TRANSLATE_SYSTEM_NAME("FtpPositive");
+const char* kAppsignature = "application/x-vnd.momoziro-FtpPositive";
 
 TConfigFile *app_config;
 
 
 	
 TFtpPositive::TFtpPositive()
-	:	BApplication("application/x-vnd.momoziro-FtpPositive")
+	:	BApplication(kAppsignature)
 {
 	BRect frame;
 	BString v;
@@ -66,13 +69,32 @@ TFtpPositive::~TFtpPositive()
 	
 void TFtpPositive::AboutRequested()
 {
-	BString str(kAppName);
-	str += ' ';
-	str += VERSION;
-	str += '\n';
-	str += COPY;
-
-	(new BAlert("", str, B_TRANSLATE("OK")))->Go();
+	BAboutWindow* about = new BAboutWindow(kAppName, kAppsignature);
+	const char* extraCopyrights[] = {
+		"2009 Momoziro",
+		"2013 Kacper Kasper",
+		"2014 Frederik Modeen",
+		"2017 Augustin Cavalier, Joel Koreth, Owen Pan, Sergei Reznikov",
+		"2018 Humdinger, Janus, Ryo Kenrie Wongso, Xiang Fan",
+		NULL
+	};
+	const char* authors[] = {
+		B_TRANSLATE("Momoziro (original author)"),
+		"Augustin Cavalier",
+		"Humdinger",
+		"Kacper Kasper",
+		"Joel Koreth",
+		"Janus",
+		"Frederik Modeen",
+		"Owen Pan",
+		"Sergei Reznikov",
+		"Ryo Kenrie Wongso",
+		"Xiang Fan",
+		NULL
+	};
+	about->AddCopyright(2007, "Momoziro", extraCopyrights);
+	about->AddAuthors(authors);
+	about->Show();
 }
 
 

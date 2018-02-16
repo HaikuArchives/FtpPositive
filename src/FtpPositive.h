@@ -6,11 +6,6 @@
 #include "FTPWindow.h"
 #include "ConfigFile.h"
 
-
-#define VERSION "1.0"
-#define COPY B_TRANSLATE("Copyright ©momoziro 2007\nAll rights reserved.\n\n")
-
-
 extern const char* kAppName;
 
 
