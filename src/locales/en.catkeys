@@ -1,10 +1,11 @@
-1	English	application/x-vnd.momoziro-FtpPositive	3075200542
+1	English	application/x-vnd.momoziro-FtpPositive	4159590733
 About FtpPositive	FTPWindow		About FtpPositive
 Skip	FTPLooper		Skip
 New folder:	FTPWindow		New folder:
 Rename	FTPWindow		Rename
 FtpPositive: Upload	FTPWindow		FtpPositive: Upload
 Idle	FTPWindow		Idle
+Momoziro (original author)	FtpPositive		Momoziro (original author)
 Disconnected by remote host.	FTPClient		Disconnected by remote host.
 New folder	FTPWindow		New folder
 A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n
@@ -24,7 +25,6 @@ Upload with original name	FTPLooper		Upload with original name
 {0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}
 Internal name	FTPWindow		Internal name
 Remote path:	FTPLooper		Remote path:
-Copyright ©momoziro 2007\nAll rights reserved.\n\n	FtpPositive		Copyright ©momoziro 2007\nAll rights reserved.\n\n
 Refresh	FTPWindow		Refresh
 Idle	FTPLooper		Idle
 Continue	ProgressWindow		Continue
@@ -78,7 +78,6 @@ Name:	FTPLooper		Name:
 Connecting…	FTPWindow		Connecting…
 Cancel	FTPLooper		Cancel
 Time left:	ProgressWindow		Time left:
-FtpPositive	FtpPositive		FtpPositive
 Cancel	ChmodWindow		Cancel
 Error	FTPWindow		Error
 Getting directory listing…	FTPWindow		Getting directory listing…
@@ -100,7 +99,6 @@ Continue	FTPLooper		Continue
 Download	FTPWindow		Download
 Welcome to FtpPositive\n\n	FTPWindow		Welcome to FtpPositive\n\n
 Address:	FTPLooper		Address:
-OK	FtpPositive		OK
 Save	FTPLooper		Save
 Getting directory list…%transferred%	FTPLooper		Getting directory list…%transferred%
 New bookmark	FTPLooper		New bookmark
