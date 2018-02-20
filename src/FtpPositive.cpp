@@ -71,7 +71,7 @@ void TFtpPositive::AboutRequested()
 {
 	BAboutWindow* about = new BAboutWindow(kAppName, kAppsignature);
 	const char* extraCopyrights[] = {
-		"2009 Momoziro",
+		"2007 Momoziro",
 		"2013 Kacper Kasper",
 		"2014 Frederik Modeen",
 		"2017 Augustin Cavalier, Joel Koreth, Owen Pan, Sergei Reznikov",
