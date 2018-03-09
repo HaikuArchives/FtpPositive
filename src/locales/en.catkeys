@@ -1,4 +1,4 @@
-1	English	application/x-vnd.momoziro-FtpPositive	4159590733
+1	English	application/x-vnd.momoziro-FtpPositive	3895514942
 About FtpPositive	FTPWindow		About FtpPositive
 Skip	FTPLooper		Skip
 New folder:	FTPWindow		New folder:
@@ -12,6 +12,7 @@ A local file with the name \"%s\" already exists.\n\nWould you like to resume, o
 Couldn't save bookmark	FTPLooper		Couldn't save bookmark
 Owner	ChmodWindow		Owner
 Remote:	FTPWindow		Remote:
+Error creating folder '%path%'.\n%error%	FTPLooper		Error creating folder '%path%'.\n%error%
 Suspended.	FTPWindow		Suspended.
 Error: Download failed.	FTPLooper		Error: Download failed.
 Name	FTPWindow		Name
@@ -44,7 +45,6 @@ Quit	FTPWindow		Quit
 {0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{no items}=1{1 item}other{# items}}
 Port:	FTPLooper		Port:
 Error: Could not spawn download thread.\n	FTPLooper		Error: Could not spawn download thread.\n
-Error creating folder '%path%'.\n%error	FTPLooper		Error creating folder '%path%'.\n%error
 Do you want to abort the transfer?\n	ProgressWindow		Do you want to abort the transfer?\n
 FtpPositive	System name		FtpPositive
 Delete	FTPWindow		Delete

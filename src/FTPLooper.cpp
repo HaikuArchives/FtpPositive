@@ -571,7 +571,7 @@ void TFtpLooper::Download(BMessage *msg)
 				fprintf(stderr, "creating directory %s\n", utf8localPath.String());
 				status_t s = create_directory(utf8localPath.String(), 0755);
 				if ((s != B_OK) && (!ignore)) {
-					BString alertMsg(B_TRANSLATE("Error creating folder '%path%'.\n%error"));
+					BString alertMsg(B_TRANSLATE("Error creating folder '%path%'.\n%error%"));
 					alertMsg.ReplaceFirst("%path%", utf8localPath.String());
 					alertMsg.ReplaceFirst("%error%", strerror(s));
 					int32 reply = (new BAlert("", alertMsg,
