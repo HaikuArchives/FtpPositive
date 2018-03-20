@@ -257,6 +257,11 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 
 	v.SetTo(""); app_config->Read("collaps_bottom", &v, "false");
 	fSplitView->SetItemCollapsed(1, (v.ICompare("true") == 0) ? true : false);
+
+	v.SetTo(""); app_config->Read("encoding", &v, B_TRANSLATE("None"));
+	BMenuItem* item = fEncodingMenu->FindItem(v);
+	if (item != NULL)
+		item->SetMarked(true);
 }
 
 
@@ -272,6 +277,10 @@ TFTPWindow::~TFTPWindow()
 	s.SetTo(""); s << fSplitView->ItemWeight((int32)1);   	app_config->Write("weight_bottom", 	s.String());
 	s.SetTo(""); s << fSplitView->IsItemCollapsed((bool)0);	app_config->Write("collaps_top", 	s.String());
 	s.SetTo(""); s << fSplitView->IsItemCollapsed((bool)1);	app_config->Write("collaps_bottom",	s.String());
+
+	BMenuItem* item = fEncodingMenu->FindMarked();
+	if (item != NULL)
+		s.SetTo(""); s << item->Label(); app_config->Write("encoding", s.String());
 
 	Clear();
 }
