@@ -1,108 +1,106 @@
-1	English	application/x-vnd.momoziro-FtpPositive	3075200542
+1	German	application/x-vnd.momoziro-FtpPositive	3895514942
 About FtpPositive	FTPWindow		Über FtpPositive
-Skip	FTPLooper		Überspringen
 New folder:	FTPWindow		Neuer Ordner:
 Rename	FTPWindow		Umbenennen
 FtpPositive: Upload	FTPWindow		FtpPositive: Upload
 Idle	FTPWindow		Leerlauf
-Disconnected by remote host.	FTPClient		Verbindung vom Server unterbrochen.
 New folder	FTPWindow		Neuer Ordner
-A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Eine lokale Datei namens \"%s\" gibt es bereits.\n\nSoll sie weiter übertragen, überschrieben oder übersprungen werden?\n
-Couldn't save bookmark	FTPLooper		Lesezeichen konnte nicht gespeichert werden
-Owner	ChmodWindow		Besitzer
 Remote:	FTPWindow		Server:
 Suspended.	FTPWindow		Angehalten.
-Error: Download failed.	FTPLooper		Fehler: Download fehlgeschlagen.
 Name	FTPWindow		Name
-Upload with link name	FTPLooper		Mit Namen der Verküpfung hochladen
-Abort	ProgressWindow		Abbrechen
-Cancel	ProgressWindow		Abbrechen
 Copy FTP URL	FTPWindow		FTP URL kopieren
 Forward	FTPWindow		Vorwärts
-Downloading: %filename%\n%error%	FTPLooper		Download: %filename%\n%error%
-Upload with original name	FTPLooper		Mit Originalnamen hochladen
 {0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Ein Löschen des Objekts kann nicht rückgängig gemacht werden.\nTrotzdem löschen?}other{Ein Löschen dieser # Objekte kann nicht rückgängig gemacht werden.\nTrotzdem löschen?}}
 Internal name	FTPWindow		Interner Name
-Remote path:	FTPLooper		Server Pfad:
-Copyright ©momoziro 2007\nAll rights reserved.\n\n	FtpPositive		Copyright ©momoziro 2007\nAlle Rechte vorbehalten.\n\n
 Refresh	FTPWindow		Aktualisieren
-Idle	FTPLooper		Leerlauf
-Continue	ProgressWindow		Weiter übertragen
-Other	ChmodWindow		Andere
 Command	FTPWindow		Befehl
-Overwrite	FTPLooper		Überschreiben
-Resume	FTPLooper		Weiter übertragen
-Disconnected.	FTPClient		Verbindung getrennt.
 Upload	FTPWindow		Upload
 no items	FTPWindow		keine
 Owner	FTPWindow		Besitzer
 OK	FTPWindow		OK
 Rename '%oldFileName%'	FTPWindow		Umbennen von '%oldFileName%'
 Encoding	FTPWindow		Kodierung
-Uploading: %filename%\n%error%	FTPLooper		Upload: %filename%\n%error%
 Quit	FTPWindow		Beenden
 {0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{keine}=1{1 Objekt}other{# Objekte}}
-Port:	FTPLooper		Port:
-Error: Could not spawn download thread.\n	FTPLooper		Fehler: Konnte keinen Download Thread erzeugen.\n
-Error creating folder '%path%'.\n%error	FTPLooper		Fehler beim Anlegen des Ordners '%path%'.\n%error
-Do you want to abort the transfer?\n	ProgressWindow		Soll die Übertragung abgebrochen werden?\n
-FtpPositive	System name		FtpPositive
 Delete	FTPWindow		Löschen
-Disconnected.\n	FTPLooper		Verbindung getrennt.\n
 New name:	FTPWindow		Neuer Name:
 Parent folder	FTPWindow		Übergeordneter Ordner
-OK	FTPLooper		OK
 Connect	FTPWindow		Verbinden
+Cancel	FTPWindow		Abbrechen
+Permissions	FTPWindow		Berechtigungen
+Reconnecting…	FTPWindow		Wiederverbinden…
+Date	FTPWindow		Datum
+File	FTPWindow		Datei
+Size	FTPWindow		Größe
+Change permissions	FTPWindow		Berechtigungen ändern
+Connecting…	FTPWindow		Verbinden…
+Error	FTPWindow		Fehler
+Getting directory listing…	FTPWindow		Hole Ordnerliste…
+New bookmark	FTPWindow		Neues Lesezeichen
+Manage bookmarks	FTPWindow		Lesezeichen verwalten
+None	FTPWindow		Keine
+Use this connection	FTPWindow		Diese Verbindung benutzen
+Create folder	FTPWindow		Ordner anlegen
+Back	FTPWindow		Zurück
+Group	FTPWindow		Gruppe
+Download	FTPWindow		Download
+Welcome to FtpPositive\n\n	FTPWindow		Willkommen zu FtpPositive\n\n
+Skip	FTPLooper		Überspringen
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Eine lokale Datei namens \"%s\" gibt es bereits.\n\nSoll sie weiter übertragen, überschrieben oder übersprungen werden?\n
+Couldn't save bookmark	FTPLooper		Lesezeichen konnte nicht gespeichert werden
+Error: Download failed.	FTPLooper		Fehler: Download fehlgeschlagen.
+Upload with link name	FTPLooper		Mit Namen der Verküpfung hochladen
+Downloading: %filename%\n%error%	FTPLooper		Download: %filename%\n%error%
+Upload with original name	FTPLooper		Mit Originalnamen hochladen
+Remote path:	FTPLooper		Server Pfad:
+Idle	FTPLooper		Leerlauf
+Overwrite	FTPLooper		Überschreiben
+Resume	FTPLooper		Weiter übertragen
+Uploading: %filename%\n%error%	FTPLooper		Upload: %filename%\n%error%
+Port:	FTPLooper		Port:
+Error: Could not spawn download thread.\n	FTPLooper		Fehler: Konnte keinen Download Thread erzeugen.\n
+Disconnected.\n	FTPLooper		Verbindung getrennt.\n
+OK	FTPLooper		OK
 Don't ask again	FTPLooper		Nicht mehr nachfragen
 Error:	FTPLooper		Fehler:
 Getting directory list…	FTPLooper		Hole Ordnerliste…
 Ignore all	FTPLooper		Alle ignorieren
-Cancel	FTPWindow		Abbrechen
 Error: Could not spawn thread.\n	FTPLooper		Fehler: Thread nicht erzeugt werden.\n
-Permissions	FTPWindow		Berechtigungen
-Reconnecting…	FTPWindow		Wiederverbinden…
 Connecting to %host% (%port%)\n	FTPLooper		Verbindung mit %host% (%port%)\n
 Uploading '%remotepath%'\n	FTPLooper		Upload von '%remotepath%'\n
-Read:	ChmodWindow		Lesen:
-Group	ChmodWindow		Gruppe
-Change	ChmodWindow		Ändern
-Date	FTPWindow		Datum
-OK	RenameWindow		OK
-Cancel	RenameWindow		Abbrechen
-File	FTPWindow		Datei
 Connect	FTPLooper		Verbinden
-Execute:	ChmodWindow		Ausführen:
-Size	FTPWindow		Größe
-Change permissions	FTPWindow		Berechtigungen ändern
 Name:	FTPLooper		Name:
-Connecting…	FTPWindow		Verbinden…
 Cancel	FTPLooper		Abbrechen
-Time left:	ProgressWindow		Zeit übrig:
-FtpPositive	FtpPositive		FtpPositive
-Cancel	ChmodWindow		Abbrechen
-Error	FTPWindow		Fehler
-Getting directory listing…	FTPWindow		Hole Ordnerliste…
 Disconnected.	FTPLooper		Verbindung getrennt.
 Encoder:	FTPLooper		Kodierung:
 Couldn't load bookmark	FTPLooper		Lesezeichen konnte nicht geladen werden
-New bookmark	FTPWindow		Neues Lesezeichen
-Write:	ChmodWindow		Schreiben:
 Getting directory list…%transferred%. Finished.	FTPLooper		Hole Ordnerliste…%transferred%. Fertig.
-Manage bookmarks	FTPWindow		Lesezeichen verwalten
 User name:	FTPLooper		Benutzername:
-None	FTPWindow		Keine
-Use this connection	FTPWindow		Diese Verbindung benutzen
 Password:	FTPLooper		Kennwort:
-Create folder	FTPWindow		Ordner anlegen
-Back	FTPWindow		Zurück
-Group	FTPWindow		Gruppe
 Continue	FTPLooper		Weiter übertragen
-Download	FTPWindow		Download
-Welcome to FtpPositive\n\n	FTPWindow		Willkommen zu FtpPositive\n\n
 Address:	FTPLooper		Adresse:
-OK	FtpPositive		OK
 Save	FTPLooper		Speichern
 Getting directory list…%transferred%	FTPLooper		Hole Ordnerliste…%transferred%
 New bookmark	FTPLooper		Neues Lesezeichen
 The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Das Objekt\n"%name%\"\nist eine symbolische Verknüpfung. Was tun?\n
 Local path:	FTPLooper		Lokaler Pfad:
+Error creating folder '%path%'.\n%error%	FTPLooper		Fehler beim Anlegen des Ordners '%path%'.\n%error%
+Disconnected by remote host.	FTPClient		Verbindung vom Server unterbrochen.
+Disconnected.	FTPClient		Verbindung getrennt.
+Owner	ChmodWindow		Besitzer
+Other	ChmodWindow		Andere
+Read:	ChmodWindow		Lesen:
+Group	ChmodWindow		Gruppe
+Change	ChmodWindow		Ändern
+Execute:	ChmodWindow		Ausführen:
+Cancel	ChmodWindow		Abbrechen
+Write:	ChmodWindow		Schreiben:
+Abort	ProgressWindow		Abbrechen
+Cancel	ProgressWindow		Abbrechen
+Continue	ProgressWindow		Weiter übertragen
+Do you want to abort the transfer?\n	ProgressWindow		Soll die Übertragung abgebrochen werden?\n
+Time left:	ProgressWindow		Zeit übrig:
+FtpPositive	System name		FtpPositive
+OK	RenameWindow		OK
+Cancel	RenameWindow		Abbrechen
+Momoziro (original author)	FtpPositive		Momoziro (der ursprüngliche Autor)

@@ -1,0 +1,106 @@
+1	Swedish	application/x-vnd.momoziro-FtpPositive	3895514942
+About FtpPositive	FTPWindow		Om FtpPositive
+New folder:	FTPWindow		Ny mapp:
+Rename	FTPWindow		Byt namn
+FtpPositive: Upload	FTPWindow		FtpPositive: Uppladdning
+Idle	FTPWindow		Inaktiv
+New folder	FTPWindow		Ny mapp
+Remote:	FTPWindow		Fjärranslutning:
+Suspended.	FTPWindow		Upphängd.
+Name	FTPWindow		Namn
+Copy FTP URL	FTPWindow		Kopiera FTP-adress
+Forward	FTPWindow		Framåt
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Borttagning av filen kan inte ångras.\nÄr du säker?}other{Borttagning av # filer kan inte ångras.\nÄr du säker?}}
+Internal name	FTPWindow		Internt namn
+Refresh	FTPWindow		Uppdatera
+Command	FTPWindow		Kommando
+Upload	FTPWindow		Ladda upp
+no items	FTPWindow		inga filer
+Owner	FTPWindow		Ägare
+OK	FTPWindow		OK
+Rename '%oldFileName%'	FTPWindow		Byt namn på '%oldFileName%'
+Encoding	FTPWindow		Kodning
+Quit	FTPWindow		Avsluta
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{inga filer}=1{1 fil}other{# filer}}
+Delete	FTPWindow		Radera
+New name:	FTPWindow		Nytt namn:
+Parent folder	FTPWindow		Föräldramapp
+Connect	FTPWindow		Anslut
+Cancel	FTPWindow		Avbryt
+Permissions	FTPWindow		Rättigheter
+Reconnecting…	FTPWindow		Återansluter…
+Date	FTPWindow		Datum
+File	FTPWindow		Arkiv
+Size	FTPWindow		Storlek
+Change permissions	FTPWindow		Ändra rättigheter
+Connecting…	FTPWindow		Ansluter…
+Error	FTPWindow		Fel
+Getting directory listing…	FTPWindow		Hämtar kataloglista...
+New bookmark	FTPWindow		Nytt bokmärke
+Manage bookmarks	FTPWindow		Hantera bokmärken
+None	FTPWindow		Inga
+Use this connection	FTPWindow		Använd denna anslutning
+Create folder	FTPWindow		Skapa mapp
+Back	FTPWindow		Bakåt
+Group	FTPWindow		Grupp
+Download	FTPWindow		Ladda ner
+Welcome to FtpPositive\n\n	FTPWindow		Välkommen till FtpPositive\n\n
+Skip	FTPLooper		Hoppa över
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		En lokal fil med namnet \"%s\" finns redan.\n\nSkulle du vilja återuppta, skriva över eller hoppa över nedladdningen av filen?\n
+Couldn't save bookmark	FTPLooper		Kunde inte spara bokmärke
+Error: Download failed.	FTPLooper		Fel: Nedladdningen misslyckades.
+Upload with link name	FTPLooper		Ladda upp med länknamn
+Downloading: %filename%\n%error%	FTPLooper		Laddar ner: %filename%\n%error%
+Upload with original name	FTPLooper		Ladda upp med originalnamn
+Remote path:	FTPLooper		Fjärrsökväg:
+Idle	FTPLooper		Inaktiv
+Overwrite	FTPLooper		Skriv över
+Resume	FTPLooper		Återuppta
+Uploading: %filename%\n%error%	FTPLooper		Laddar upp: %filename%\n%error%
+Port:	FTPLooper		Port:
+Error: Could not spawn download thread.\n	FTPLooper		Fel: Kunde inte starta nedladdningstråd.\n
+Disconnected.\n	FTPLooper		Bortkopplad.\n
+OK	FTPLooper		OK
+Don't ask again	FTPLooper		Fråga inte igen
+Error:	FTPLooper		Fel:
+Getting directory list…	FTPLooper		Hämtar kataloglista...
+Ignore all	FTPLooper		Ignorera alla
+Error: Could not spawn thread.\n	FTPLooper		Fel: Kunde inte starta tråd.\n
+Connecting to %host% (%port%)\n	FTPLooper		Ansluter till %host% (%port%)\n
+Uploading '%remotepath%'\n	FTPLooper		Laddar upp '%remotepath%'\n
+Connect	FTPLooper		Anslut
+Name:	FTPLooper		Namn:
+Cancel	FTPLooper		Avbryt
+Disconnected.	FTPLooper		Bortkopplad.
+Encoder:	FTPLooper		Kodning:
+Couldn't load bookmark	FTPLooper		Kunde inte ladda bokmärket
+Getting directory list…%transferred%. Finished.	FTPLooper		Hämtning av kataloglista...%transferred%. Slutförd.
+User name:	FTPLooper		Användarnamn:
+Password:	FTPLooper		Lösenord:
+Continue	FTPLooper		Fortsätt
+Address:	FTPLooper		Adress:
+Save	FTPLooper		Spara
+Getting directory list…%transferred%	FTPLooper		Hämtar kataloglista…%transferred%
+New bookmark	FTPLooper		Nytt bokmärke
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Filen\n\"%name%\"\när en symbolisk länk. Vad ska jag göra?\n
+Local path:	FTPLooper		Lokal sökväg:
+Error creating folder '%path%'.\n%error%	FTPLooper		Fel vid skapande av mapp '%path%'.\n%error%
+Disconnected by remote host.	FTPClient		Frånkopplad av fjärrvärden.
+Disconnected.	FTPClient		Bortkopplad.
+Owner	ChmodWindow		Ägare
+Other	ChmodWindow		Annan
+Read:	ChmodWindow		Läs:
+Group	ChmodWindow		Grupp
+Change	ChmodWindow		Ändra
+Execute:	ChmodWindow		Exekvera:
+Cancel	ChmodWindow		Avbryt
+Write:	ChmodWindow		Skriv:
+Abort	ProgressWindow		Avbryt
+Cancel	ProgressWindow		Avbryt
+Continue	ProgressWindow		Fortsätt
+Do you want to abort the transfer?\n	ProgressWindow		Vill du avbryta överföringen?\n
+Time left:	ProgressWindow		Tid kvar:
+FtpPositive	System name		FtpPositive
+OK	RenameWindow		OK
+Cancel	RenameWindow		Avbryt
+Momoziro (original author)	FtpPositive		Momoziro (ursprunglig upphovsman)

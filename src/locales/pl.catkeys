@@ -1,0 +1,106 @@
+1	Polish	application/x-vnd.momoziro-FtpPositive	3895514942
+About FtpPositive	FTPWindow		O FtpPositive
+New folder:	FTPWindow		Nowy katalog:
+Rename	FTPWindow		Zmień nazwę
+FtpPositive: Upload	FTPWindow		FtpPositive: Wysyłanie
+Idle	FTPWindow		Bezczynny
+New folder	FTPWindow		Nowy katalog
+Remote:	FTPWindow		Zdalny komputer:
+Suspended.	FTPWindow		Zawieszony.
+Name	FTPWindow		Nazwa
+Copy FTP URL	FTPWindow		Kopiuj URL FTP
+Forward	FTPWindow		Dalej
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Usunięcia tego elementu nie można cofnąć.\nNa pewno chcesz to zrobić?}few{Usunięcia tych # elementów nie można cofnąć.\nNa pewno chcesz to zrobić?}many{Usunięcia tych # elementów nie można cofnąć.\nNa pewno chcesz to zrobić?}other{Usunięcia tej # elementu nie można cofnąć.\nNa pewno chcesz to zrobić?}}
+Internal name	FTPWindow		Nazwa wewnętrzna
+Refresh	FTPWindow		Odśwież
+Command	FTPWindow		Polecenie
+Upload	FTPWindow		Wyślij
+no items	FTPWindow		brak elementów
+Owner	FTPWindow		Właściciel
+OK	FTPWindow		OK
+Rename '%oldFileName%'	FTPWindow		Zmień nazwę „%oldFileName%”
+Encoding	FTPWindow		Kodowanie
+Quit	FTPWindow		Zakończ
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{brak elementów}=1{1 element}few{# elementy}many{# elementów}other{# elementu}}
+Delete	FTPWindow		Usuń
+New name:	FTPWindow		Nowa nazwa:
+Parent folder	FTPWindow		Katalog nadrzędny
+Connect	FTPWindow		Połącz
+Cancel	FTPWindow		Anuluj
+Permissions	FTPWindow		Uprawnienia
+Reconnecting…	FTPWindow		Odzyskiwanie połączenia…
+Date	FTPWindow		Data
+File	FTPWindow		Plik
+Size	FTPWindow		Rozmiar
+Change permissions	FTPWindow		Zmień uprawnienia
+Connecting…	FTPWindow		Łączenie…
+Error	FTPWindow		Błąd
+Getting directory listing…	FTPWindow		Pobieranie listy katalogów…
+New bookmark	FTPWindow		Nowa zakładka
+Manage bookmarks	FTPWindow		Zarządzaj zakładkami
+None	FTPWindow		Brak
+Use this connection	FTPWindow		Użyj tego połączenia
+Create folder	FTPWindow		Utwórz katalog
+Back	FTPWindow		Wstecz
+Group	FTPWindow		Grupa
+Download	FTPWindow		Pobierz
+Welcome to FtpPositive\n\n	FTPWindow		Witaj w FtpPositive\n\n
+Skip	FTPLooper		Pomiń
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Lokalny plik o nazwie „%s” już istnieje.\n\nChcesz wznowić, nadpisać czy pominąć pobieranie pliku?\n
+Couldn't save bookmark	FTPLooper		Nie udało się zapisać zakładki
+Error: Download failed.	FTPLooper		Błąd: pobieranie nieudane.
+Upload with link name	FTPLooper		Wyślij z nazwą dowiązania
+Downloading: %filename%\n%error%	FTPLooper		Pobieranie: %filename%\n%error%
+Upload with original name	FTPLooper		Wyślij z nazwą pierwotną
+Remote path:	FTPLooper		Zdalna ścieżka:
+Idle	FTPLooper		Bezczynny
+Overwrite	FTPLooper		Nadpisz
+Resume	FTPLooper		Wznów
+Uploading: %filename%\n%error%	FTPLooper		Wysyłanie: %filename%\n%error%
+Port:	FTPLooper		Port:
+Error: Could not spawn download thread.\n	FTPLooper		Błąd: nie udało się utworzyć wątku pobierania.\n
+Disconnected.\n	FTPLooper		Rozłączono.\n
+OK	FTPLooper		OK
+Don't ask again	FTPLooper		Nie pytaj ponownie
+Error:	FTPLooper		Błąd:
+Getting directory list…	FTPLooper		Pobieranie listy katalogów…
+Ignore all	FTPLooper		Ignoruj wszystkie
+Error: Could not spawn thread.\n	FTPLooper		Błąd: nie udało się utworzyć wątku.\n
+Connecting to %host% (%port%)\n	FTPLooper		Łączenie z %host% (%port%)\n
+Uploading '%remotepath%'\n	FTPLooper		Wysyłanie „%remotepath%”\n
+Connect	FTPLooper		Połącz
+Name:	FTPLooper		Nazwa:
+Cancel	FTPLooper		Anuluj
+Disconnected.	FTPLooper		Rozłączono.
+Encoder:	FTPLooper		Kodowanie:
+Couldn't load bookmark	FTPLooper		Nie udało się załadować zakładki
+Getting directory list…%transferred%. Finished.	FTPLooper		Pobieranie listy katalogów…%transferred%. Zakończono.
+User name:	FTPLooper		Nazwa użytkownika:
+Password:	FTPLooper		Hasło:
+Continue	FTPLooper		Kontynuuj
+Address:	FTPLooper		Adres:
+Save	FTPLooper		Zapisz
+Getting directory list…%transferred%	FTPLooper		Pobieranie listy katalogów…%transferred%
+New bookmark	FTPLooper		Nowa zakładka
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Wpis\n„%name%”\njest dowiązaniem symbolicznym. Co zrobić?\n
+Local path:	FTPLooper		Lokalna ścieżka:
+Error creating folder '%path%'.\n%error%	FTPLooper		Błąd podczas tworzenia katalogu „%path%”.\n%error%
+Disconnected by remote host.	FTPClient		Rozłączony przez zdalny serwer.
+Disconnected.	FTPClient		Rozłączony.
+Owner	ChmodWindow		Właściciel
+Other	ChmodWindow		Inni
+Read:	ChmodWindow		Odczyt:
+Group	ChmodWindow		Grupa
+Change	ChmodWindow		Zmień
+Execute:	ChmodWindow		Wykonywanie:
+Cancel	ChmodWindow		Anuluj
+Write:	ChmodWindow		Zapis:
+Abort	ProgressWindow		Przerwij
+Cancel	ProgressWindow		Anuluj
+Continue	ProgressWindow		Kontynuuj
+Do you want to abort the transfer?\n	ProgressWindow		Chcesz przerwać transfer?\n
+Time left:	ProgressWindow		Pozostało czasu:
+FtpPositive	System name		FtpPositive
+OK	RenameWindow		OK
+Cancel	RenameWindow		Anuluj
+Momoziro (original author)	FtpPositive		Momoziro (pierwotny autor)
