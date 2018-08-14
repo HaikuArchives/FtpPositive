@@ -7,7 +7,7 @@
 #include <Entry.h>
 #include <Font.h>
 #include <LayoutBuilder.h>
-#include <MessageFormat.h>
+#include <StringFormat.h>
 #include <Messenger.h>
 #include <OS.h>
 
@@ -100,7 +100,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 {
 	fFtpLooper = NULL;
 	fBookmarkConfig = NULL;
-	
+
 	float minW, minH, maxW, maxH;
 	this->GetSizeLimits(&minW, &maxW, &minH, &maxH);
 	this->SetSizeLimits(280, maxW, 250, maxH);
@@ -111,10 +111,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 
 	// Main Menu
 	BMenuBar *mainMenu = new BMenuBar("MainMenuBar");
-	
+
 	// Tool Bar
 	mainToolBar = new BToolBar(B_HORIZONTAL);
-	
+
 	mainToolBar->AddAction(new BMessage(MSG_BACKWARD_CLICKED),this,
 		TSimplePictureButton::ResVectorToBitmap("NAVIGATION_BACKWARD"),"Backward","",false);
 	mainToolBar->AddAction(new BMessage(MSG_FORWARD_CLICKED),this,
@@ -163,15 +163,15 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	const char* str = B_TRANSLATE("Use this connection");
 	fUseThisConnection = new BCheckBox("UseThisConnection", str, NULL, 0);
 	fUseThisConnection->SetValue(1);
-	
+
 	// Log View
 	fLogView = new TLogView("LogView");
 	BScrollView *logScrollView = new BScrollView("logScrollView", fLogView,
 		B_WILL_DRAW, false, true, B_PLAIN_BORDER);
-	
+
 	// Status View
 	fStatusView = new BStringView("StatusView", "");
-	
+
 	BLayoutBuilder::Group<>(this,B_VERTICAL,0)
 		.Add(mainMenu)
 		.Add(mainToolBar)
@@ -196,24 +196,24 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fFileMenu->AddItem(new BMenuItem(B_TRANSLATE("About FtpPositive"), new BMessage(B_ABOUT_REQUESTED)));
 	fFileMenu->AddSeparatorItem();
 	fFileMenu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
-	
+
 	// Connect Menu
 	fConnectMenu = new BMenu(B_TRANSLATE("Connect"));
 	mainMenu->AddItem(fConnectMenu);
 	fConnectMenu->AddItem(new BMenuItem(kNewBookmark, new BMessage(MSG_NEW_BOOKMARK), 'N'));
 	fConnectMenu->AddItem(new BMenuItem(B_TRANSLATE("Manage bookmarks"), new BMessage(MSG_SHOW_BOOKMARK), 'B'));
 	fConnectMenu->AddSeparatorItem();
-	
+
 	BDirectory dir(TFtpPositive::GetBookmarksDir());
 	LoadBookmarks(&dir, fConnectMenu);
-	
+
 	// Command Menu
 	fCommandMenu = new BMenu(B_TRANSLATE("Command"));
 	mainMenu->AddItem(fCommandMenu);
 	FileMenu(fCommandMenu);
 	fCommandMenu->AddSeparatorItem();
 	NaviMenu(fCommandMenu);
-	
+
 	// Encoding Menu
 	fEncodingMenu = new BMenu(B_TRANSLATE("Encoding"));
 	mainMenu->AddItem(fEncodingMenu);
@@ -225,7 +225,7 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	for (int32 i = 0; i < encoder_addon_manager->CountAddons(); i++) {
 		fEncodingMenu->AddItem(new BMenuItem(encoder_addon_manager->NameAt(i), new BMessage(MSG_ENCODER_SELECTED)));
 	}
-	
+
 	// PopupMenu
 	fPopUpMenu = new BPopUpMenu("PopUpMenu");
 	fPopUpMenu->SetRadioMode(false);
@@ -294,19 +294,19 @@ void TFTPWindow::Clear()
 		delete dir;
 	}
 	fWalkHistory.MakeEmpty();
-	
+
 	if (fBookmarkConfig) {
 		delete fBookmarkConfig;
 		fBookmarkConfig = NULL;
 	}
-	
+
 	fRemoteFileView->Clear();
 	fRemoteDirView->SetText("");
 	fCurrentRemoteDir.SetTo("");
 	fRemoteFileView->SetRemoteDir("");
 	fItemCountView->SetText(kZeroItems);
 	this->SetTitle(kAppName);
-	
+
 	fStatusView->SetText(B_TRANSLATE("Suspended."));
 }
 
@@ -434,7 +434,7 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	} else {
 		app_mimedb->GetExtensionIcon(name, icon, B_MINI_ICON);
 	}
-	
+
 	// ファイル名・オーナー名・グループ名文字コード変換
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
@@ -442,7 +442,7 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	encoder_addon_manager->ConvertToLocalName(name, &utf8name);
 	encoder_addon_manager->ConvertToLocalName(owner, &utf8owner);
 	encoder_addon_manager->ConvertToLocalName(group, &utf8group);
-	
+
 	// リスト表示
 	TIconRow *row = new TIconRow(icon);
 	row->SetField(new BStringField(utf8name.String()), CLM_NAME);
@@ -481,11 +481,11 @@ void TFTPWindow::ShowBookmark() const
 {
 	BEntry entry(TFtpPositive::GetBookmarksDir());
 	if (entry.InitCheck() != B_OK) return;
-	
+
 	BMessage msg(B_REFS_RECEIVED);
 	entry_ref ref;
 	if (entry.GetRef(&ref) != B_OK) return;
-	
+
 	msg.AddRef("refs", &ref);
 	BMessenger("application/x-vnd.Be-TRAK").SendMessage(&msg);
 }
@@ -503,7 +503,7 @@ status_t TFTPWindow::LoadBookmarks(BDirectory *dir, BMenu *menu)
 	BEntry entry;
 	char leafName[B_FILE_NAME_LENGTH];
 	if ((e = dir->InitCheck()) != B_OK) return e;
-	
+
 	while (dir->GetNextEntry(&entry) == B_OK) {
 		entry.GetName(leafName);
 		if (entry.IsDirectory()) {
@@ -515,7 +515,7 @@ status_t TFTPWindow::LoadBookmarks(BDirectory *dir, BMenu *menu)
 			AddBookmark(&entry, menu);
 		}
 	}
-	
+
 	return B_OK;
 }
 
@@ -526,12 +526,12 @@ status_t TFTPWindow::AddBookmark(BEntry *entry, BMenu *menu)
 	BString host;
 	conf.Read("host", &host, "");
 	if (host.Length() == 0) return B_ERROR;
-	
+
 	BMessage *msg = new BMessage(MSG_BOOKMARK_SELECTED);
 	msg->AddString("entry", path.Path());
 	BMenuItem *item = new BMenuItem(path.Leaf(), msg);
 	menu->AddItem(item);
-	
+
 	return B_OK;
 }
 
@@ -539,14 +539,14 @@ void TFTPWindow::EncoderChanged()
 {
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem == NULL) return;
-	
+
 	fp_text_convert_t encoderAddonFunc = encoder_addon_manager->FuncAt(encMenuItem->Label());
-	
+
 	for(int32 i = 0; i < fRemoteFileView->CountRows(); i++) {
 		BRow *row = fRemoteFileView->RowAt(i);
-		BStringField *nameField = (BStringField *)row->GetField(CLM_NAME);		
-		BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);	
-			
+		BStringField *nameField = (BStringField *)row->GetField(CLM_NAME);
+		BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
+
 		// ファイル名文字コード変換
 		BString utf8name(intNameField->String());
 		if (encoderAddonFunc != NULL) encoderAddonFunc(intNameField->String(), &utf8name, true);
@@ -563,9 +563,9 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 	BDirectory dir(TFtpPositive::GetBookmarksDir());
 	LoadBookmarks(&dir, fConnectMenu);
 	if (!go) return;
-	
+
 	Clear();
-	
+
 	BPath path;
 	entry.GetPath(&path);
 	fBookmarkConfig = new TConfigFile(path.Path());
@@ -577,7 +577,7 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 		fBookmarkConfig = NULL;
 		return;
 	}
-	
+
 	BString encoder, port, remotepath;
 	fBookmarkConfig->Read("host", &fHost, "");
 	fBookmarkConfig->Read("username", &fUsername, "");
@@ -586,19 +586,19 @@ void TFTPWindow::BookmarkSelected(const char *pathName)
 	fBookmarkConfig->Read("encoder", &encoder, "");
 	fBookmarkConfig->Read("remotepath", &remotepath, "");
 	fBookmarkConfig->Read("localpath", &fLocalDir, TFtpPositive::GetDefaultLocalDir().String());
-	
+
 	fPort = atoi(port.String());
 
 	BString title(kAppName);
 	title << " - " << path.Leaf() << " (" << fHost.String() << ":" << port.String() << ")";
 	this->SetTitle(title.String());
-	
+
 	fNoEncoder->SetMarked(true);
 	if (encoder.Length() > 0) {
 		BMenuItem *encItem = fEncodingMenu->FindItem(encoder.String());
 		if (encItem) encItem->SetMarked(true);
 	}
-	
+
 	Connect(remotepath.String());
 }
 
@@ -607,14 +607,14 @@ status_t TFTPWindow::Connect(const char *remoteDir)
 	status_t s;
 	SetBusy(true);
 	fStatusView->SetText(B_TRANSLATE("Connecting" B_UTF8_ELLIPSIS));
-	
+
 	if (fFtpLooper != NULL) {
 		fFtpLooper->Abort();
 		fFtpLooper->Lock();
 		fFtpLooper->Quit();
 		fFtpLooper = NULL;
 	}
-	
+
 	fFtpLooper = new TFtpLooper(this, fHost.String(), fPort, fUsername.String(), fPassword.String(),
 		new TGenericDirentParser());
 	fFtpLooper->Run();
@@ -623,7 +623,7 @@ status_t TFTPWindow::Connect(const char *remoteDir)
 	if ((s = BMessenger(fFtpLooper).SendMessage(&msg)) != B_OK) {
 		*fLogView << kError << ": " << strerror(s) << "\n";
 		return B_ERROR;
-	}	
+	}
 	return B_OK;
 }
 
@@ -641,7 +641,7 @@ void TFTPWindow::PasvList()
 void TFTPWindow::Chdir(const char *dir)
 {
 	if (ReconnectIfDisconnected() != B_OK) return;
-	
+
 	status_t s;
 	BMessage msg(FTP_CHDIR);
 	if ((s = msg.AddString("dir", dir)) != B_OK) {
@@ -658,14 +658,14 @@ void TFTPWindow::Chdir(const char *dir)
 void TFTPWindow::DirlistChanged(BMessage *msg)
 {
 	fRemoteFileView->Clear();
-	
+
 	BString xpwd_result;
 	if (msg->FindString("xpwd", &xpwd_result) != B_OK) {
 	}
-	
+
 	int32 count;
 	type_code type;
-	
+
 	msg->GetInfo("entry", &type, &count);
 	for(int32 i = 0; i < count; i++) {
 		BMessage entry;
@@ -686,7 +686,7 @@ void TFTPWindow::DirlistChanged(BMessage *msg)
 	}
 
 	BString itemsNumber;
-	static BMessageFormat formatItems(B_TRANSLATE("{0, plural,"
+	static BStringFormat formatItems(B_TRANSLATE("{0, plural,"
 		"=0{no items}"
 		"=1{1 item}"
 		"other{# items}}" ));
@@ -710,16 +710,16 @@ void TFTPWindow::RemoteFileDoubleClicked()
 {
 	BRow *row = fRemoteFileView->CurrentSelection();
 	if (row == NULL) return;
-	
+
 	BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
 	BStringField *strpermField = (BStringField *)row->GetField(CLM_PERMISSION);
-	
+
 	if (strpermField->String()[0] == 'd') {
 		// open directory
 		this->Chdir(intNameField->String());
 	} else {
 		// open file
-		
+
 	}
 }
 
@@ -762,16 +762,16 @@ void TFTPWindow::ReloadClicked()
 void TFTPWindow::Rename()
 {
 	if (ReconnectIfDisconnected() != B_OK) return;
-	
+
 	status_t s;
 	BString newName, remoteName;
-	
+
 	BRow *row = fRemoteFileView->CurrentSelection();
 	if (row == NULL) return;
-	
+
 	BStringField *nameField = (BStringField *)row->GetField(CLM_NAME);
 	BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
-	
+
 	// リネーム窓を表
 	BString oldname(nameField->String());
 	BString title(B_TRANSLATE("Rename '%oldFileName%'"));
@@ -783,12 +783,12 @@ void TFTPWindow::Rename()
 	}
 	if (strcmp(nameField->String(), newName.String()) == 0)
 		return;
-	
+
 	// ファイル名変更コマンド送信
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
 	encoder_addon_manager->ConvertToRemoteName(newName.String(), &remoteName);
-	
+
 	BMessage msg(FTP_RENAME);
 	if ((s = msg.AddString("from", intNameField->String())) != B_OK) {
 		*fLogView << kError << ": " << strerror(s) << "\n";
@@ -802,26 +802,26 @@ void TFTPWindow::Rename()
 		*fLogView << kError << ": " << strerror(s) << "\n";
 		return;
 	}
-	
+
 	SetBusy(true);
 }
 
 void TFTPWindow::Mkdir()
 {
 	status_t s;
-	
+
 	// 窓表示
 	BString newName, remoteName;
 	if (!(new TRenameWindow(Frame(), kCreateDirectory,
 			kNewDirectory, B_TRANSLATE("New folder")))->Go(&newName))
 		return;
-	
+
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
 	encoder_addon_manager->ConvertToRemoteName(newName.String(), &remoteName);
-	
+
 	if (ReconnectIfDisconnected() != B_OK) return;
-	
+
 	BMessage msg(FTP_MKDIR);
 	if ((s = msg.AddString("dir_name", remoteName.String())) != B_OK) {
 		*fLogView << kError << ": " << strerror(s) << "\n";
@@ -831,7 +831,7 @@ void TFTPWindow::Mkdir()
 		*fLogView << kError << ": " << strerror(s) << "\n";
 		return;
 	}
-	
+
 	SetBusy(true);
 }
 
@@ -882,12 +882,12 @@ void TFTPWindow::Chmod()
 	if (strpermField->String()[7] != '-') mode |= 04;
 	if (strpermField->String()[8] != '-') mode |= 02;
 	if (strpermField->String()[9] != '-') mode |= 01;
-	
+
 	// permission 変更窓を表示
 	BString newMode;
 	if (!(new TChmodWindow(Frame(), B_TRANSLATE("Change permissions")))->Go(mode, &newMode))
 		return;
-	
+
 	// permission 変更コマンドを送信
 	if (ReconnectIfDisconnected() != B_OK) return;
 	BMessage msg(FTP_SITE_2);
@@ -923,7 +923,7 @@ void TFTPWindow::Delete()
 	for (int32 i = 0; entries.GetInfo(B_MESSAGE_TYPE, i, NULL, NULL, &count) == B_OK; i++ );
 
 	BString alertText;
-	static BMessageFormat formatText(B_TRANSLATE("{0, plural,"
+	static BStringFormat formatText(B_TRANSLATE("{0, plural,"
 		"=1{Deleting this item cannot be undone.\nAre you sure?}"
 		"other{Deleting these # items cannot be undone.\nAre you sure?}}"));
 	formatText.Format(alertText, count);
@@ -963,7 +963,7 @@ void TFTPWindow::DragReply(BMessage *msg)
 	BPath path(&local_dir_ref);
 	if (strcmp(path.Path(), "/") == 0) return;
 	if (msg->FindMessage("_previous_", &previous) != B_OK) return;
-	
+
 	Download(&previous, &local_dir_ref);
 }
 
@@ -972,7 +972,7 @@ void TFTPWindow::DownloadClicked()
 	BMessage entries;
 	BRect rect;
 	if (fRemoteFileView->GetSelectedEntries(&entries, &rect) == 0) return;
-	
+
 	entry_ref ref;
 	BEntry entry(fLocalDir.String());
 	if (entry.InitCheck() != B_OK) entry.SetTo(TFtpPositive::GetDefaultLocalDir().String());
@@ -993,10 +993,10 @@ void TFTPWindow::Download(BMessage *entries, entry_ref *localDir)
 	}
 	if (dlmsg.AddRef("local_dir", localDir) != B_OK) return;
 	if (dlmsg.AddString("remote_dir_name", fCurrentRemoteDir) != B_OK) return;
-	
+
 	BRect rect(Frame());
 	dlmsg.AddRect("rect", rect);
-	
+
 	if (fUseThisConnection->Value()) {
 		if (ReconnectIfDisconnected() != B_OK) return;
 		status_t s;
@@ -1025,7 +1025,7 @@ void TFTPWindow::Upload(BMessage *msg)
 {
 	BRect rect(Frame());
 	msg->AddRect("rect", rect);
-	
+
 	if (fUseThisConnection->Value()) {
 		if (ReconnectIfDisconnected() != B_OK) return;
 		msg->what = FTP_UPLOAD;
