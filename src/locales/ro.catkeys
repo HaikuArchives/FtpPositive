@@ -1,0 +1,106 @@
+1	Romanian	application/x-vnd.momoziro-FtpPositive	3895514942
+About FtpPositive	FTPWindow		Despre FtpPositive
+New folder:	FTPWindow		Dosar nou:
+Rename	FTPWindow		Redenumește
+FtpPositive: Upload	FTPWindow		FtpPositive: Încărcare
+Idle	FTPWindow		În așteptare
+New folder	FTPWindow		Dosar nou
+Remote:	FTPWindow		La distanță:
+Suspended.	FTPWindow		Suspendat.
+Name	FTPWindow		Nume
+Copy FTP URL	FTPWindow		Copiază URL FTP
+Forward	FTPWindow		Înainte
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Ștergerea acestui element nu poate fi refăcută.\nSunteți sigur?}other{Ștergerea acestor # elemente nu poate fi refăcută.\nSunteți sigur?}}
+Internal name	FTPWindow		Nume intern
+Refresh	FTPWindow		Actualizează
+Command	FTPWindow		Comandă
+Upload	FTPWindow		Încarcă
+no items	FTPWindow		fără elemente
+Owner	FTPWindow		Deținător
+OK	FTPWindow		OK
+Rename '%oldFileName%'	FTPWindow		Redenumește '%oldFileName%'
+Encoding	FTPWindow		Codare
+Quit	FTPWindow		Ieșire
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{fără elemente}=1{1 element}other{# elemente}}
+Delete	FTPWindow		Șterge
+New name:	FTPWindow		Nume nou:
+Parent folder	FTPWindow		Dosar superior
+Connect	FTPWindow		Conectare
+Cancel	FTPWindow		Anulează
+Permissions	FTPWindow		Permisiuni
+Reconnecting…	FTPWindow		Se reconectează...
+Date	FTPWindow		Dată
+File	FTPWindow		Fișier
+Size	FTPWindow		Dimensiune
+Change permissions	FTPWindow		Modifică permisiunile
+Connecting…	FTPWindow		Se conectează...
+Error	FTPWindow		Eroare
+Getting directory listing…	FTPWindow		Se obține listarea de dosare...
+New bookmark	FTPWindow		Favorit nou
+Manage bookmarks	FTPWindow		Administrare favorite
+None	FTPWindow		Nimic
+Use this connection	FTPWindow		Utilizează această conexiune
+Create folder	FTPWindow		Creează dosar
+Back	FTPWindow		Înapoi
+Group	FTPWindow		Grup
+Download	FTPWindow		Descarcă
+Welcome to FtpPositive\n\n	FTPWindow		Bine ați venit la FtpPositive\n\n
+Skip	FTPLooper		Sari
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un fișier local cu numele \„%s\” există deja.\n\nDoriți să continuați, să suprascrieți sau să săriți descărcarea fișierului?\n
+Couldn't save bookmark	FTPLooper		Nu s-a putut salva favoritul
+Error: Download failed.	FTPLooper		Eroare: Descărcarea a eșuat.
+Upload with link name	FTPLooper		Încarcă utilizând numele legătură
+Downloading: %filename%\n%error%	FTPLooper		Se descarcă: %filename%\n%error%
+Upload with original name	FTPLooper		Încarcă utilizând numele original
+Remote path:	FTPLooper		Cale la distanță:
+Idle	FTPLooper		În așteptare
+Overwrite	FTPLooper		Suprascrie
+Resume	FTPLooper		Continuă
+Uploading: %filename%\n%error%	FTPLooper		Se încarcă: %filename%\n%error%
+Port:	FTPLooper		Port:
+Error: Could not spawn download thread.\n	FTPLooper		Eroare: Nu s-a putut crea threadul de descărcare.\n
+Disconnected.\n	FTPLooper		Deconectat.\n
+OK	FTPLooper		OK
+Don't ask again	FTPLooper		Nu întreba din nou
+Error:	FTPLooper		Eroare:
+Getting directory list…	FTPLooper		Se obține lista de dosare...
+Ignore all	FTPLooper		Ignoră tot
+Error: Could not spawn thread.\n	FTPLooper		Eroare: Nu s-a putut crea threadul.\n
+Connecting to %host% (%port%)\n	FTPLooper		Se conectează la %host% (%port%)\n
+Uploading '%remotepath%'\n	FTPLooper		Se încarcă '%remotepath%'\n
+Connect	FTPLooper		Conectare
+Name:	FTPLooper		Nume:
+Cancel	FTPLooper		Anulează
+Disconnected.	FTPLooper		Deconectat.
+Encoder:	FTPLooper		Codor:
+Couldn't load bookmark	FTPLooper		Nu s-a putut încărca favoritul
+Getting directory list…%transferred%. Finished.	FTPLooper		Se obține lista de dosare...%transferred%. Terminat.
+User name:	FTPLooper		Nume de utilizator:
+Password:	FTPLooper		Parolă:
+Continue	FTPLooper		Continuă
+Address:	FTPLooper		Adresă:
+Save	FTPLooper		Salvează
+Getting directory list…%transferred%	FTPLooper		Se obține lista de dosare...%transferred%
+New bookmark	FTPLooper		Favorit nou
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Intrarea\n\„%name%\”\neste o legătură simbolică. Ce trebuie făcut?\n
+Local path:	FTPLooper		Cale locală:
+Error creating folder '%path%'.\n%error%	FTPLooper		Eroare la crearea dosarului '%path%'.\n%error%
+Disconnected by remote host.	FTPClient		Deconectat de serverul la distanță.
+Disconnected.	FTPClient		Deconectat.
+Owner	ChmodWindow		Deținător
+Other	ChmodWindow		Altele
+Read:	ChmodWindow		Citire:
+Group	ChmodWindow		Grup
+Change	ChmodWindow		Modifică
+Execute:	ChmodWindow		Execută:
+Cancel	ChmodWindow		Anulează
+Write:	ChmodWindow		Scriere:
+Abort	ProgressWindow		Anulează
+Cancel	ProgressWindow		Anulează
+Continue	ProgressWindow		Continuă
+Do you want to abort the transfer?\n	ProgressWindow		Doriți să anulați transferul?\n
+Time left:	ProgressWindow		Timp rămas:
+FtpPositive	System name		FtpPositive
+OK	RenameWindow		OK
+Cancel	RenameWindow		Anulează
+Momoziro (original author)	FtpPositive		Momoziro (autor original)

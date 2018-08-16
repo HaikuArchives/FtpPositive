@@ -1,0 +1,106 @@
+1	Spanish	application/x-vnd.momoziro-FtpPositive	3895514942
+About FtpPositive	FTPWindow		Acerca de FtpPositive
+New folder:	FTPWindow		Nueva carpeta:
+Rename	FTPWindow		Renombrar
+FtpPositive: Upload	FTPWindow		FtpPositive: Subir
+Idle	FTPWindow		Inactivo
+New folder	FTPWindow		Nueva carpeta
+Remote:	FTPWindow		Remoto:
+Suspended.	FTPWindow		Suspendido.
+Name	FTPWindow		Nombre
+Copy FTP URL	FTPWindow		Copiar FTP URL
+Forward	FTPWindow		Adelante
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{El borrado de este ítem no se puede deshacer.\n¿Está seguro?}other{El borrado de estos # ítems no se puede deshacer.\n¿Está seguro?}}
+Internal name	FTPWindow		Nombre interno
+Refresh	FTPWindow		Actualizar
+Command	FTPWindow		Comando
+Upload	FTPWindow		Subir
+no items	FTPWindow		no hay items
+Owner	FTPWindow		Propietario
+OK	FTPWindow		Aceptar
+Rename '%oldFileName%'	FTPWindow		Renombrar '%oldFileName%'
+Encoding	FTPWindow		Codificación
+Quit	FTPWindow		Salir
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{no items}=1{1 item}other{# items}}
+Delete	FTPWindow		Borrar
+New name:	FTPWindow		Nuevo nombre:
+Parent folder	FTPWindow		Carpeta superior
+Connect	FTPWindow		Conectar
+Cancel	FTPWindow		Cancelar
+Permissions	FTPWindow		Permisos
+Reconnecting…	FTPWindow		Reconectando…
+Date	FTPWindow		Fecha
+File	FTPWindow		Archivo
+Size	FTPWindow		Tamaño
+Change permissions	FTPWindow		Cambiar permisos
+Connecting…	FTPWindow		Conectando…
+Error	FTPWindow		Error
+Getting directory listing…	FTPWindow		Obteniendo listado del directorio…
+New bookmark	FTPWindow		Nuevo marcador
+Manage bookmarks	FTPWindow		Administrar marcadores
+None	FTPWindow		Ninguno
+Use this connection	FTPWindow		Usar esta conexión
+Create folder	FTPWindow		Crear carpeta
+Back	FTPWindow		Volver
+Group	FTPWindow		Grupo
+Download	FTPWindow		Descargar
+Welcome to FtpPositive\n\n	FTPWindow		Bienvenido a FtpPositive\n\n
+Skip	FTPLooper		Omitir
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un archivo local con el nombre \"%s\" ya existe.\n\n¿Desea continuar, sobreescribir u omitir la descarga del archivo?\n
+Couldn't save bookmark	FTPLooper		No se pudo guardar el marcador
+Error: Download failed.	FTPLooper		Error: Descarga fallida.
+Upload with link name	FTPLooper		Subir con nombre de enlace
+Downloading: %filename%\n%error%	FTPLooper		Descargando: %filename%\n%error%
+Upload with original name	FTPLooper		Subir con nombre original
+Remote path:	FTPLooper		Ubicación remota:
+Idle	FTPLooper		Inactivo
+Overwrite	FTPLooper		Sobreescribir
+Resume	FTPLooper		Continuar
+Uploading: %filename%\n%error%	FTPLooper		Subiendo: %filename%\n%error%
+Port:	FTPLooper		Puerto:
+Error: Could not spawn download thread.\n	FTPLooper		Error: No se pudo generar el hilo de descarga.\n
+Disconnected.\n	FTPLooper		Desconectado.\n
+OK	FTPLooper		Aceptar
+Don't ask again	FTPLooper		No volver a preguntar
+Error:	FTPLooper		Error:
+Getting directory list…	FTPLooper		Obteniendo el listado del directorio…
+Ignore all	FTPLooper		Ignorar todos
+Error: Could not spawn thread.\n	FTPLooper		Error: No se pudo generar el hilo.\n
+Connecting to %host% (%port%)\n	FTPLooper		Conectando a %host% (%port%)\n
+Uploading '%remotepath%'\n	FTPLooper		Subiendo '%remotepath%'\n
+Connect	FTPLooper		Conectar
+Name:	FTPLooper		Nombre:
+Cancel	FTPLooper		Cancelar
+Disconnected.	FTPLooper		Desconectado.
+Encoder:	FTPLooper		Codificación:
+Couldn't load bookmark	FTPLooper		No se pudo cargar el marcador
+Getting directory list…%transferred%. Finished.	FTPLooper		Obteniendo el listado del directorio…%transferred%. Finalizado.
+User name:	FTPLooper		Usuario:
+Password:	FTPLooper		Contraseña:
+Continue	FTPLooper		Continuar
+Address:	FTPLooper		Ubicación:
+Save	FTPLooper		Guardar
+Getting directory list…%transferred%	FTPLooper		Obteniendo el listado del directorio…%transferred%
+New bookmark	FTPLooper		Nuevo marcador
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		La entrada\n\"%name%\"\nes un enlace simbólico. ¿Qué desea hacer?\n
+Local path:	FTPLooper		Ubicación local:
+Error creating folder '%path%'.\n%error%	FTPLooper		Error al crear carpeta '%path%'.\n%error%
+Disconnected by remote host.	FTPClient		Desconectado por el host remoto.
+Disconnected.	FTPClient		Desconectado.
+Owner	ChmodWindow		Propietario
+Other	ChmodWindow		Otro
+Read:	ChmodWindow		Leer:
+Group	ChmodWindow		Grupo
+Change	ChmodWindow		Cambiar
+Execute:	ChmodWindow		Ejecutar:
+Cancel	ChmodWindow		Cancelar
+Write:	ChmodWindow		Escribir:
+Abort	ProgressWindow		Cancelar
+Cancel	ProgressWindow		Cancelar
+Continue	ProgressWindow		Continuar
+Do you want to abort the transfer?\n	ProgressWindow		¿Desea abortar la transferencia?\n
+Time left:	ProgressWindow		Tiempo restante:
+FtpPositive	System name		FtpPositive
+OK	RenameWindow		Aceptar
+Cancel	RenameWindow		Cancelar
+Momoziro (original author)	FtpPositive		Momoziro (autor original)
