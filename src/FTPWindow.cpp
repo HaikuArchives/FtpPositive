@@ -96,7 +96,7 @@ NaviMenu(BMenu* menu)
 // ----------------------------------- TFTPWindow -------------------------------------
 
 TFTPWindow::TFTPWindow(BRect frame, const char *name)
-	:	BWindow(frame, name, B_DOCUMENT_WINDOW, 0)
+	:	BWindow(frame, name, B_TITLED_WINDOW, 0)
 {
 	fFtpLooper = NULL;
 	fBookmarkConfig = NULL;
