@@ -56,7 +56,7 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 		}
 		if (st == 0) {
 			st = 1;
-			if (strcmp(option, "R") != 0) {
+			if (strcmp(option, "R") == 0) {
 				curdir.SetTo(p);
 				if (curdir.String()[curdir.Length() - 1] == ':') curdir.ReplaceLast(":", "");
 				i++;		// ディレクトリ名の次は total または空行なので無視
@@ -75,10 +75,10 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 			strparse(p, dlist, &itemCount);
 			if (itemCount != 10) continue;
 			permission = dlist[0];
-			//num        = dlist[1];
+			num        = dlist[1];
 			owner      = dlist[2];
 			group      = dlist[3];
-			//cparam     = dlist[4];
+			cparam     = dlist[4];
 			size       = dlist[5];
 			month      = dlist[6];
 			day        = dlist[7];
@@ -89,7 +89,7 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 			strparse(p, dlist, &itemCount);
 			if (itemCount != 9) continue;
 			permission = dlist[0];
-			//num        = dlist[1];
+			num        = dlist[1];
 			owner      = dlist[2];
 			group      = dlist[3];
 			size       = dlist[4];
