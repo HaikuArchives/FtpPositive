@@ -39,7 +39,7 @@ status_t TConfigFile::Load()
 					return ENOMEM;
 				}
 				if (!fList.AddItem(item)) {
-					delete item;
+					free(item);
 					fclose(fd);
 					return ENOMEM;
 				}
@@ -105,7 +105,7 @@ status_t TConfigFile::Write(const char *key, const char *value)
 	}
 	if ((item = (config_t *)calloc(sizeof(config_t), 1)) == NULL) return ENOMEM;
 	if (!fList.AddItem(item)) {
-		delete item;
+		free(item);
 		return ENOMEM;
 	}
 	strncpy(item->key, _key.String(), sizeof(item->key));

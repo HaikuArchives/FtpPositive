@@ -48,7 +48,7 @@ void TStringEx::TrimRight()
 	const char *str = this->String();
 	int len = this->Length();
 	int i, j = 0;
-	for(i=len-1; str[i]==' ' && i>=0; i--) j++;
+	for(i=len-1; i>=0 && str[i]==' '; i--) j++;
 	if (j<=0) return;
 	
 	char *blk = (char *)malloc(j+1);
