@@ -20,32 +20,32 @@ Owner	FTPWindow		Owner
 OK	FTPWindow		OK
 Rename '%oldFileName%'	FTPWindow		Rename '%oldFileName%'
 Encoding	FTPWindow		Encoding
-Quit	FTPWindow		Quit
+Quit	FTPWindow		Выйти
 {0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{no items}=1{1 item}other{# items}}
 Delete	FTPWindow		Delete
 New name:	FTPWindow		New name:
 Parent folder	FTPWindow		Parent folder
 Connect	FTPWindow		Connect
-Cancel	FTPWindow		Cancel
+Cancel	FTPWindow		Отмена
 Permissions	FTPWindow		Permissions
 Reconnecting…	FTPWindow		Reconnecting…
 Date	FTPWindow		Date
-File	FTPWindow		File
-Size	FTPWindow		Size
+File	FTPWindow		Файл
+Size	FTPWindow		Размер
 Change permissions	FTPWindow		Change permissions
 Connecting…	FTPWindow		Connecting…
-Error	FTPWindow		Error
+Error	FTPWindow		Ошибка
 Getting directory listing…	FTPWindow		Getting directory listing…
-New bookmark	FTPWindow		New bookmark
-Manage bookmarks	FTPWindow		Manage bookmarks
+New bookmark	FTPWindow		Новая закладка
+Manage bookmarks	FTPWindow		Управление закладками
 None	FTPWindow		None
 Use this connection	FTPWindow		Use this connection
 Create folder	FTPWindow		Create folder
-Back	FTPWindow		Back
+Back	FTPWindow		Назад
 Group	FTPWindow		Group
 Download	FTPWindow		Download
 Welcome to FtpPositive\n\n	FTPWindow		Welcome to FtpPositive\n\n
-Skip	FTPLooper		Skip
+Skip	FTPLooper		Пропустить
 A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n
 Couldn't save bookmark	FTPLooper		Couldn't save bookmark
 Error: Download failed.	FTPLooper		Error: Download failed.
@@ -54,10 +54,10 @@ Downloading: %filename%\n%error%	FTPLooper		Downloading: %filename%\n%error%
 Upload with original name	FTPLooper		Upload with original name
 Remote path:	FTPLooper		Remote path:
 Idle	FTPLooper		Idle
-Overwrite	FTPLooper		Overwrite
-Resume	FTPLooper		Resume
+Overwrite	FTPLooper		Перезаписать
+Resume	FTPLooper		Возобновить
 Uploading: %filename%\n%error%	FTPLooper		Uploading: %filename%\n%error%
-Port:	FTPLooper		Port:
+Port:	FTPLooper		Порт:
 Error: Could not spawn download thread.\n	FTPLooper		Error: Could not spawn download thread.\n
 Disconnected.\n	FTPLooper		Disconnected.\n
 OK	FTPLooper		OK
@@ -69,19 +69,19 @@ Error: Could not spawn thread.\n	FTPLooper		Error: Could not spawn thread.\n
 Connecting to %host% (%port%)\n	FTPLooper		Connecting to %host% (%port%)\n
 Uploading '%remotepath%'\n	FTPLooper		Uploading '%remotepath%'\n
 Connect	FTPLooper		Connect
-Name:	FTPLooper		Name:
-Cancel	FTPLooper		Cancel
+Name:	FTPLooper		Имя:
+Cancel	FTPLooper		Отмена
 Disconnected.	FTPLooper		Disconnected.
 Encoder:	FTPLooper		Encoder:
 Couldn't load bookmark	FTPLooper		Couldn't load bookmark
 Getting directory list…%transferred%. Finished.	FTPLooper		Getting directory list…%transferred%. Finished.
-User name:	FTPLooper		User name:
-Password:	FTPLooper		Password:
+User name:	FTPLooper		Имя пользователя:
+Password:	FTPLooper		Пароль:
 Continue	FTPLooper		Continue
 Address:	FTPLooper		Address:
-Save	FTPLooper		Save
+Save	FTPLooper		Сохранить
 Getting directory list…%transferred%	FTPLooper		Getting directory list…%transferred%
-New bookmark	FTPLooper		New bookmark
+New bookmark	FTPLooper		Новая закладка
 The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		The entry\n\"%name%\"\nis a symbolic link. What to do?\n
 Local path:	FTPLooper		Local path:
 Error creating folder '%path%'.\n%error%	FTPLooper		Error creating folder '%path%'.\n%error%
@@ -93,7 +93,7 @@ Read:	ChmodWindow		Read:
 Group	ChmodWindow		Group
 Change	ChmodWindow		Change
 Execute:	ChmodWindow		Execute:
-Cancel	ChmodWindow		Cancel
+Cancel	ChmodWindow		Отмена
 Write:	ChmodWindow		Write:
 Abort	ProgressWindow		Abort
 Cancel	ProgressWindow		Cancel
@@ -102,5 +102,5 @@ Do you want to abort the transfer?\n	ProgressWindow		Do you want to abort the tr
 Time left:	ProgressWindow		Time left:
 FtpPositive	System name		FtpPositive
 OK	RenameWindow		OK
-Cancel	RenameWindow		Cancel
+Cancel	RenameWindow		Отмена
 Momoziro (original author)	FtpPositive		Momoziro (original author)
