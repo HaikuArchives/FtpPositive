@@ -48,17 +48,19 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 	// 解析
 	for(int32 i = 0; i < list.CountItems(); i++) {
 		p = (char *)list.ItemAt(i);
+		size_t length = strlen(p);
 		
 		// 空白行は無視。但し、次行はディレクトリ名と仮定(再帰モード時)
-		if (strlen(p) == 0) {
+		if (length == 0) {
 			st = 0;
 			continue;
 		}
 		if (st == 0) {
 			st = 1;
 			if (strcmp(option, "R") == 0) {
-				curdir.SetTo(p);
-				if (curdir.String()[curdir.Length() - 1] == ':') curdir.ReplaceLast(":", "");
+				if (p[length - 1] == ':')
+					--length;
+				curdir.SetTo(p, length);
 				i++;		// ディレクトリ名の次は total または空行なので無視
 				continue;
 			}
@@ -68,17 +70,24 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 		if (strchr("-dlc", *p) == NULL) continue;
 		
 		uint32 itemCount;
-		char *dlist[10], *permission, *num, *owner, *group, *cparam, *size, *month, *day, *houryear, *name;
+		char* dlist[10];
+		char* permission;
+		char* owner;
+		char* group;
+		char* size;
+		char* month;
+		char* day;
+		char* houryear;
+		char* name;
+
 		memset(dlist, 0, sizeof(dlist));
 		if (*p == 'c') {
 			itemCount = 10;
 			strparse(p, dlist, &itemCount);
 			if (itemCount != 10) continue;
 			permission = dlist[0];
-			num        = dlist[1];
 			owner      = dlist[2];
 			group      = dlist[3];
-			cparam     = dlist[4];
 			size       = dlist[5];
 			month      = dlist[6];
 			day        = dlist[7];
@@ -89,7 +98,6 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 			strparse(p, dlist, &itemCount);
 			if (itemCount != 9) continue;
 			permission = dlist[0];
-			num        = dlist[1];
 			owner      = dlist[2];
 			group      = dlist[3];
 			size       = dlist[4];
