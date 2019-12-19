@@ -253,10 +253,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	v.SetTo(""); app_config->Read("weight_bottom",	&v, "75");	fSplitView->SetItemWeight(1, atof(v.String()), true);
 
 	v.SetTo(""); app_config->Read("collaps_top", &v, "false");
-	fSplitView->SetItemCollapsed(0, (v.ICompare("true") == 0) ? true : false);
+	fSplitView->SetItemCollapsed(0, v.ICompare("true") == 0);
 
 	v.SetTo(""); app_config->Read("collaps_bottom", &v, "false");
-	fSplitView->SetItemCollapsed(1, (v.ICompare("true") == 0) ? true : false);
+	fSplitView->SetItemCollapsed(1, v.ICompare("true") == 0);
 
 	v.SetTo(""); app_config->Read("encoding", &v, B_TRANSLATE("None"));
 	BMenuItem* item = fEncodingMenu->FindItem(v);
@@ -359,7 +359,6 @@ void TFTPWindow::MessageReceived(BMessage *msg)
 							break;
 		}
 		default: {
-//			msg->PrintToStream();
 			BWindow::MessageReceived(msg);
 		}
 	}
@@ -379,8 +378,7 @@ void TFTPWindow::FtpReportMsgIncoming(BMessage *msg)
 			if (fFtpLooper) {
 				fFtpLooper->Abort();
 				BMessenger(fFtpLooper).SendMessage(B_QUIT_REQUESTED);
-				//->Lock();
-//				fFtpLooper->Quit();
+				delete fFtpLooper;
 				fFtpLooper = NULL;
 				this->SetTitle(kAppName);
 			}
@@ -844,17 +842,14 @@ void TFTPWindow::CopyUrl()
 		= ((BStringField *)row->GetField(CLM_INTERNAL_NAME))->String();
 
 	BString url;
-	if (fCurrentRemoteDir.Length() > 0 &&
-		fCurrentRemoteDir[fCurrentRemoteDir.Length() - 1] == '/') {
-
-		url << "ftp://" << fHost << ":" << fPort
-			<< fCurrentRemoteDir << intName;
-	} else {
-		url << "ftp://" << fHost << ":" << fPort
-			<< fCurrentRemoteDir << "/" << intName;
+	url << "ftp://" << fHost << ":" << fPort << fCurrentRemoteDir;
+	if (fCurrentRemoteDir.Length() == 0
+	    || fCurrentRemoteDir[fCurrentRemoteDir.Length() - 1] != '/') {
+		url << "/";
 	}
+	url << intName;
 
-	BMessage *clip = (BMessage *)NULL;
+	BMessage *clip = NULL;
 	if (be_clipboard->Lock()) {
 		be_clipboard->Clear();
 		if (clip = be_clipboard->Data()) {
