@@ -106,7 +106,6 @@ int32 TTCPStream::ReceiveFunc(void *self)
 	bigtime_t limit = system_time() + Self->fWaitTime;
 	while (!Self->fAborted) {
 		recvSize = read(Self->fEndpoint, Self->fBuffer, Self->fBufferSize);
-//		printf("%d\n", (int)recvSize);
 		if (recvSize < 0) {
 			// 受信データが無い or エラー
 			int e = errno;
@@ -127,15 +126,7 @@ int32 TTCPStream::ReceiveFunc(void *self)
 		} else {	
 			// 受信あり
 			limit = system_time() + Self->fWaitTime;
-			Self->fTransferredSize += Self->fDataIO->Write(Self->fBuffer, recvSize);
-/*			
-			if (d > recvSize) {
-				sleeptime += 1;
-			} else {
-				sleeptime -= 1;
-			}
-			printf("size=%d sleep=%d\n", (int)recvSize, (int)sleeptime);
-*/			
+			Self->fTransferredSize += Self->fDataIO->Write(Self->fBuffer, recvSize);	
 		}
 		snooze(sleeptime);
 	}
