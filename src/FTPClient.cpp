@@ -110,11 +110,7 @@ status_t TFTPClient::Connect(const char *address, uint16 port)
 		fStrError.SetTo(strerror(err));
 		if ((err != 0) && (err != EISCONN) && (err != EINPROGRESS) && (err != EALREADY)) return err;
 	}
-	
-	// blocking mode
-//	if ((err = SetBlockingMode(true)) != B_OK) return err;
-//	snooze(500000);
-	
+
 	// 受信スレッド開始
 	err = resume_thread(fReceiverThreadID);
 	
