@@ -34,8 +34,7 @@ TFTPClient::TFTPClient()
 		fStrError.SetTo(strerror(fStatus));
 		return;
 	}
-	
-	// 受信スレッド生成
+
 	fReceiverThreadID = spawn_thread(TFTPClient::ReceiverThread,
 		"receiver_thread", B_NORMAL_PRIORITY, this);
 	if (fReceiverThreadID < 0) {
@@ -114,8 +113,7 @@ status_t TFTPClient::Connect(const char *address, uint16 port)
 	// blocking mode
 //	if ((err = SetBlockingMode(true)) != B_OK) return err;
 //	snooze(500000);
-	
-	// 受信スレッド開始
+
 	err = resume_thread(fReceiverThreadID);
 	
 	return err;
@@ -151,7 +149,6 @@ status_t TFTPClient::SetBlockingMode(bool wouldBlock)
 	return B_OK;
 }
 
-// コマンド送信
 status_t TFTPClient::SendCmd(const char *command, uint32 commandLen)
 {
 	fAbort = false;
@@ -170,7 +167,6 @@ status_t TFTPClient::SendCmd(const char *command, uint32 commandLen)
 	return B_OK;
 }
 
-// 受信文字列を一行ずつ取得
 status_t TFTPClient::GetLastMessage(BString *str, int32 *reply, bool *isLast)
 {
 	*reply = 0;
@@ -205,7 +201,6 @@ const char *TFTPClient::StrReply() const
 	return fStrReply.String();
 }
 
-// 受信スレッド関数
 int32 TFTPClient::ReceiverThread(void *self)
 {
 	TFTPClient *Self = (TFTPClient *)self;
@@ -215,19 +210,15 @@ int32 TFTPClient::ReceiverThread(void *self)
 	while(!Self->fAbort) {
 		recvSize = read(Self->fControlEndpoint, recvBuff, sizeof(recvBuff));
 		if (recvSize < 0) {
-			// 受信データが無い or エラー
 			int e = errno;
 			if (e != EAGAIN) {
-				// エラー
 				Self->fStrError.SetTo(strerror(e));
 				Self->fStatus = EPIPE;
 			}
 		} else if (recvSize == 0) {
-			// 切断された
 			Self->fStrError.SetTo(B_TRANSLATE("Disconnected by remote host."));
 			Self->fStatus = EPIPE;
 		} else {
-			// 受信あり
 			acquire_sem(Self->fSemID);
 			Self->fReplyBuff->AddStream(recvBuff, recvSize);
 			release_sem(Self->fSemID);
