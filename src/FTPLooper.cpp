@@ -416,21 +416,21 @@ void TFtpLooper::Connect(BMessage *msg)
 	e = Readres(&r);
 	if ((e != B_OK) || (r < 200) || (r > 299)) goto _err_exit;
 	
-	// ID 送り
+	// ID feed
 	if (USER(fUsername.String(), &r) != B_OK) {
 		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
 		goto _err_exit;
 	}
 	if ((r < 300) || (r > 399)) goto _err_exit;
 	
-	//パスワード送り
+	// Send password
 	if (PASS(fPassword.String(), &r) != B_OK) {
 		_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
 		goto _err_exit;
 	}
 	if ((r < 200) || (r > 299)) goto _err_exit;
 	
-	// 最初のディレクトリ一覧取得
+	// Get the first directory listing
 	if (msg->FindString("dir", &remoteDir) == B_OK) {
 		Chdir(msg);
 	} else {
@@ -453,7 +453,7 @@ void TFtpLooper::GetDirList()
 	TEntryList pathList;
 	
 	if (PasvList("", &pathList, "-alL") == B_OK) {
-		// カレントディレクトリの確認
+		// Check the current directory
 		BString xpwd_result;
 		if ((e = XPWD(&xpwd_result, &r)) != B_OK) {
 			_LOG << "Error: " << fFtpClient->StrError() << "\n" << _FLUSH;
@@ -502,7 +502,7 @@ void TFtpLooper::Chdir(BMessage *msg)
 	}
 //	if ((r < 200) || (r > 299)) goto _err_exit;
 	
-	// 移動後、ディレクトリ一覧取得
+	// After moving, get directory list
 	GetDirList();
 	return;
 	
@@ -526,7 +526,7 @@ void TFtpLooper::Download(BMessage *msg)
 	
 	fAbort = false;
 	
-	// 階層下のファイル・ディレクトリを全て取得
+	// Get all files and directories under the hierarchy
 	TEntryList pathList;
 	switch(fDownloadListingMode) {
 		case DL_LIST_R_MODE:  ListRDirList(msg, &pathList);   break;
@@ -567,7 +567,7 @@ void TFtpLooper::Download(BMessage *msg)
 			encoder_addon_manager->ConvertToLocalName(localPathName.String(), &utf8localPath);
 			utf8localPath.Prepend(dirpath.Path());
 			if (item->ei_permission->String()[0] == 'd') {
-				// ディレクトリを作る
+				// Make a directory
 				fprintf(stderr, "creating directory %s\n", utf8localPath.String());
 				status_t s = create_directory(utf8localPath.String(), 0755);
 				if ((s != B_OK) && (!ignore)) {
@@ -582,7 +582,7 @@ void TFtpLooper::Download(BMessage *msg)
 						break;
 				}
 			} else {
-				// ファイルをダウンロード
+				// Download file
 				fprintf(stderr, "downloading %s -> %s\n", remotePathName.String(), utf8localPath.String());
 				if (PasvDownload(utf8localPath.String(), remotePathName.String(),
 								item->ei_size, progressWindow, &dontAsk, &defaultAnswer) != B_OK) {
@@ -627,7 +627,7 @@ void TFtpLooper::Rename(BMessage *msg)
 	}
 	if ((r < 200) || (r > 299)) goto _err_exit;
 	
-	// ディレクトリ一覧再取得
+	// Re-acquire directory list
 	GetDirList();
 	return;
 	
@@ -654,7 +654,7 @@ void TFtpLooper::Mkdir(BMessage *msg)
 	}
 	if ((r < 200) || (r > 299)) goto _err_exit;
 	
-	// ディレクトリ一覧再取得
+	// Re-acquire directory list
 	GetDirList();
 	return;
 	
@@ -681,7 +681,7 @@ void TFtpLooper::Site(BMessage *msg)
 	}
 	if ((r < 200) || (r > 299)) goto _err_exit;
 	
-	// ディレクトリ一覧再取得
+	// Re-acquire directory list
 	GetDirList();
 	return;
 	
@@ -710,7 +710,7 @@ void TFtpLooper::Site2(BMessage *msg)
 		if (fAbort) break;
 	}
 	
-	// ディレクトリ一覧再取得
+	// Re-acquire directory list
 	GetDirList();
 	return;
 	
@@ -720,14 +720,14 @@ _err_exit:
 	return;
 }
 
-// 階層下のファイル・ディレクトリを全て削除
+// Delete all files and directories under the hierarchy
 void TFtpLooper::Delete(BMessage *msg)
 {
 	fAbort = false;
 	
 	status_t e = B_OK;
 	
-	// 階層下のファイル・ディレクトリを全て取得
+	// Get all files and directories under the hierarchy
 	TEntryList pathList;
 	switch(fDownloadListingMode) {
 		case DL_LIST_R_MODE:  ListRDirList(msg, &pathList);   break;
@@ -737,7 +737,7 @@ void TFtpLooper::Delete(BMessage *msg)
 			return;
 	}
 	
-	// ファイルを全て削除
+	// Delete all files
 	for(int32 i = 0; i < pathList.CountItems(); i++) {
 		entry_item *item = pathList.EntryAt(i);
 		if (item->ei_permission->String()[0] != 'd') {
@@ -745,7 +745,7 @@ void TFtpLooper::Delete(BMessage *msg)
 		}
 	}
 	
-	// ディレクトリ削除
+	// Delete directory
 	for(int32 i = pathList.CountItems() - 1; i >= 0; i--) {
 		entry_item *item = pathList.EntryAt(i);
 		if (item->ei_permission->String()[0] == 'd') {
@@ -753,12 +753,12 @@ void TFtpLooper::Delete(BMessage *msg)
 		}
 	}
 	
-	// ディレクトリ一覧再取得
+	// Re-acquire directory list
 	GetDirList();
 	return;
 }
 
-// ファイルまたはディレクトリを削除
+// Delete file or directory
 status_t TFtpLooper::DeleteEntry(const char *remotePath, bool isDirectory)
 {
 	int32 r;
@@ -802,7 +802,7 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 		if ((r < 200) || (r > 299)) return B_ERROR;
 	}
 	
-	// PASV モード
+	// PASV mode
 	if (PASV(&addr, &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
@@ -815,7 +815,7 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 		return B_ERROR;
 	}
 	
-	// データ受信
+	// Data reception
 	TTCPStream tcpStream(&mallocIO, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_DOWNLOAD);
 	if (tcpStream.Status() != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
@@ -867,7 +867,7 @@ status_t TFtpLooper::PasvListR(const char *dirPath, TEntryList *pathList)
 	listLog.Write(mallocIO.Buffer(), mallocIO.BufferLength());
 	listLog.Unset();
 	
-	// 取得したディレクトリリストの文字列を解析
+	// Parse the string in the obtained directory list
 	fDirentParser->MakeEmpty();
 	fDirentParser->AddEntries((char *)mallocIO.Buffer(), "R");
 	for(int32 i = 0; i < fDirentParser->CountEntries(); i++) {
@@ -894,7 +894,7 @@ void TFtpLooper::ListRDirList(BMessage *msg, TEntryList *pathList)
 {
 	int32 r;
 	
-	// カレントディレクトリの保存
+	// Save current directory
 	BString xpwd_result;
 	if (XPWD(&xpwd_result, &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
@@ -902,7 +902,7 @@ void TFtpLooper::ListRDirList(BMessage *msg, TEntryList *pathList)
 	}
 	if ((r < 200) || (r > 299)) return;
 	
-	// ディレクトリ走査
+	// Directory scan
 	type_code type;
 	int32 count;
 	if (msg->GetInfo("remote_entry", &type, &count) != B_OK) return;
@@ -923,7 +923,7 @@ void TFtpLooper::ListRDirList(BMessage *msg, TEntryList *pathList)
 		}
 	}
 	
-	// カレントディレクトリの復元
+	// Restore the current directory
 	if (CWD(xpwd_result.String(), &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return;
@@ -951,7 +951,7 @@ void TFtpLooper::RecurseDirList(BMessage *msg, TEntryList *pathList)
 {
 	int32 r;
 	
-	// カレントディレクトリの保存
+	// Save current directory
 	BString xpwd_result;
 	if (XPWD(&xpwd_result, &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
@@ -959,7 +959,7 @@ void TFtpLooper::RecurseDirList(BMessage *msg, TEntryList *pathList)
 	}
 	if ((r < 200) || (r > 299)) return;
 	
-	// ディレクトリ走査
+	// Directory scan
 	type_code type;
 	int32 count;
 	if (msg->GetInfo("remote_entry", &type, &count) != B_OK) return;
@@ -978,7 +978,7 @@ void TFtpLooper::RecurseDirList(BMessage *msg, TEntryList *pathList)
 		}
 	}
 	
-	// カレントディレクトリの復元
+	// Restore the current directory
 	if (CWD(xpwd_result.String(), &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return;
@@ -1001,7 +1001,7 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 		if ((r < 200) || (r > 299)) return B_ERROR;
 	}
 	
-	// PASV モード
+	// PASV mode
 	if (PASV(&addr, &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return B_ERROR;
@@ -1014,7 +1014,7 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 		return B_ERROR;
 	}
 	
-	// データ受信
+	// Data reception
 	TTCPStream tcpStream(&mallocIO, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_DOWNLOAD);
 	if (tcpStream.Status() != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
@@ -1061,7 +1061,7 @@ status_t TFtpLooper::PasvList(const char *dirPath, TEntryList *pathList, const c
 	listLog.Write(mallocIO.Buffer(), mallocIO.BufferLength());
 	listLog.Unset();
 	
-	// 取得したディレクトリリストの文字列を解析
+	// Parse the string in the obtained directory list
 	fDirentParser->MakeEmpty();
 	fDirentParser->AddEntries((char *)mallocIO.Buffer(), "");
 	for(int32 i = 0; i < fDirentParser->CountEntries(); i++) {
@@ -1113,7 +1113,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 	
 	BPath path(localFilePath);
 	
-	// Progress Window 表示
+	// Progress Window display
 	progressWindow->SetProgressInfo(path.Leaf(), false, size);
 	
 	// 
@@ -1124,7 +1124,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 		case B_OK:
 			break;
 		case B_FILE_EXISTS: {
-			// 上書き or レジューム問い合わせ
+			// Overwrite or resume inquiry
 			if (*dontAsk == 0) {
 				BPath path(localFilePath);
 				char alertMsg[1000];
@@ -1157,7 +1157,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 			return _download_alert(remoteFilePath, strerror(localFile.InitCheck()));
 	}
 	
-	// PASV モード
+	// PASV mode
 	if (PASV(&addr, &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _download_alert(remoteFilePath, fFtpClient->StrError());
@@ -1166,7 +1166,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 		return _download_alert(remoteFilePath, fFtpClient->StrReply());
 	}
 	
-	// BIN モード
+	// BIN mode
 	if (TYPE("I", &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _download_alert(remoteFilePath, fFtpClient->StrError());
@@ -1175,7 +1175,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 		return _download_alert(remoteFilePath, fFtpClient->StrReply());
 	}
 	
-	// REST (レジュームする場合)
+	// REST (when resuming)
 	if (startPos > 0) {
 		if (REST(startPos, &r) != B_OK) {
 			_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
@@ -1192,7 +1192,7 @@ status_t TFtpLooper::PasvDownload(const char *localFilePath, const char *remoteF
 		return _download_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	
-	// ファイル受信
+	// File reception
 	TTCPStream tcpStream(&localFile, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_DOWNLOAD);
 	if (tcpStream.Status() != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;
@@ -1289,7 +1289,7 @@ status_t TFtpLooper::UploadEntry(BEntry *entry, const char *baseDir,
 	entry->GetRef(&ref);
 	
 	if (entry->IsSymLink()) {
-		// アップするエントリがシンボリックリンクだった場合
+		// If the entry to be uploaded is a symbolic link
 		BEntry linkent(&ref, true);
 		if (linkent.InitCheck() != B_OK) return B_OK;
 		if (*dontAskTraverse == 0) {
@@ -1327,13 +1327,13 @@ status_t TFtpLooper::UploadEntry(BEntry *entry, const char *baseDir,
 	
 	path.SetTo(entry);
 	if (entry->IsDirectory()) {
-		// ディレクトリのアップロード
+		// Upload directory
 		progressWindow->SetProgressInfo(path.Leaf(), true, 0);
 		UploadDir(remotePath.String());
 		BDirectory dir(entry);
 		e = UploadEntries(&dir, uploadPath.String(), dontAskTraverse, traverseWantTo, progressWindow);
 	} else {
-		// ファイルのアップロード
+		// Upload files
 		off_t size;
 		entry->GetSize(&size);
 		progressWindow->SetProgressInfo(path.Leaf(), true, size);
@@ -1407,7 +1407,7 @@ void TFtpLooper::Upload(BMessage *msg)
 	progressWindow->Quit();
 	
 	if (status == B_OK) {
-		// ディレクトリ一覧再取得
+		// Re-acquire directory list
 		GetDirList();
 	} else {
 		SendResultMessage(status);
@@ -1432,7 +1432,7 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 	BFile localFile(localEntry, B_READ_ONLY);
 	if (localFile.InitCheck() != B_OK) return localFile.InitCheck();
 	
-	// PASV モード
+	// PASV mode
 	if (PASV(&addr, &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _upload_alert(remoteFilePath, fFtpClient->StrError());
@@ -1441,7 +1441,7 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 		return _upload_alert(remoteFilePath, fFtpClient->StrReply());
 	}
 	
-	// BIN モード
+	// BIN mode
 	if (TYPE("I", &r) != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << fFtpClient->StrError() << "\n" << _FLUSH;
 		return _upload_alert(remoteFilePath, fFtpClient->StrError());
@@ -1456,7 +1456,7 @@ status_t TFtpLooper::PasvUpload(BEntry *localEntry, const char *remoteFilePath,
 		return _upload_alert(remoteFilePath, fFtpClient->StrError());
 	}
 	
-	// ファイル送信
+	// Send file
 	TTCPStream tcpStream(&localFile, &addr, 60000000, RECEIVE_BUFF_SIZE, TCP_STREAM_UPLOAD);
 	if (tcpStream.Status() != B_OK) {
 		_LOG << B_TRANSLATE("Error:") << " " << strerror(tcpStream.Status()) << "\n" << _FLUSH;

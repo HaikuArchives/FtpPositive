@@ -17,21 +17,21 @@ TTCPStream::TTCPStream(BDataIO *dataIO, struct sockaddr_in *addr,
 		return;
 	}
 	
-	// 送受信バッファ確保
+	// Send / receive buffer allocation
 	if ((fBuffer = malloc(buffSize)) == NULL) {
 		fStatus = ENOMEM;
 		return;
 	}
 	fBufferSize = buffSize;
 	
-	// 非ブロッキングモード
+	// Non-blocking mode
 	block = 1;
 	if (setsockopt(fEndpoint, SOL_SOCKET, SO_NONBLOCK, &block, sizeof(block)) < 0) {
 		fStatus = errno;
 		return;
 	}
 	
-	// 接続
+	// Connection
 	if (connect(fEndpoint, (struct sockaddr *)addr, sizeof(struct sockaddr_in)) != 0) {
 		fStatus = errno;
 		if ((fStatus != 0) && (fStatus != EISCONN) && (fStatus != EINPROGRESS) && (fStatus != EALREADY)) {
@@ -43,7 +43,7 @@ TTCPStream::TTCPStream(BDataIO *dataIO, struct sockaddr_in *addr,
 	
 	switch (tcpStreamMode) {
 		case TCP_STREAM_DOWNLOAD:
-			// 受信スレッド開始
+			// Start receiving thread
 			fThreadID = spawn_thread(TTCPStream::ReceiveFunc, "TCPStream", B_NORMAL_PRIORITY, this);
 			if (fThreadID < 0) {
 				fStatus = fThreadID;
@@ -51,13 +51,13 @@ TTCPStream::TTCPStream(BDataIO *dataIO, struct sockaddr_in *addr,
 			}
 			break;
 		case TCP_STREAM_UPLOAD:
-			// ブロッキングモード
+			// Blocking mode
 			block = 0;
 			if (setsockopt(fEndpoint, SOL_SOCKET, SO_NONBLOCK, &block, sizeof(block)) < 0) {
 				fStatus = errno;
 				return;
 			}
-			// 送信スレッド開始
+			// Start sending thread
 			fThreadID = spawn_thread(TTCPStream::SendFunc, "TCPStream", B_NORMAL_PRIORITY, this);
 			if (fThreadID < 0) {
 				fStatus = fThreadID;
@@ -108,24 +108,24 @@ int32 TTCPStream::ReceiveFunc(void *self)
 		recvSize = read(Self->fEndpoint, Self->fBuffer, Self->fBufferSize);
 //		printf("%d\n", (int)recvSize);
 		if (recvSize < 0) {
-			// 受信データが無い or エラー
+			// No received data or error
 			int e = errno;
 			if (e != EAGAIN) {
-				// エラー
+				// Error
 				Self->fStatus = e;
 				break;
 			}
 			if (system_time() > limit) {
-				// Timeout!
+				// Timeout
 				Self->fStatus = B_TIMED_OUT;
 				break;
 			}
 		} else if (recvSize == 0) {
-			// 切断された
+			// Disconnected
 			Self->fStatus = B_OK;
 			break;
 		} else {	
-			// 受信あり
+			// With reception
 			limit = system_time() + Self->fWaitTime;
 			Self->fTransferredSize += Self->fDataIO->Write(Self->fBuffer, recvSize);
 /*			
@@ -154,7 +154,7 @@ int32 TTCPStream::SendFunc(void *self)
 		p = (char *)Self->fBuffer;
 		blen = Self->fDataIO->Read(Self->fBuffer, Self->fBufferSize);
 		if (blen <= 0) {
-			// 送信終了
+			// End of transmission
 			Self->fStatus = B_OK;
 			break;
 		}
@@ -162,17 +162,17 @@ int32 TTCPStream::SendFunc(void *self)
 		while(wsize > 0) {
 			slen = write(Self->fEndpoint, p, wsize);
 			if (slen > 0) {
-				// 送信成功
+				// Successful transmission
 				wsize -= slen;
 				Self->fTransferredSize += slen;
 				p += slen;
 			} else if (slen == -1) {
-				// エラー
+				// Error
 				fprintf(stderr, "error(1)\n");
 				Self->fStatus = B_IO_ERROR;
 				break;
 			} else {
-				// ありえねぇ
+				// It is not possible
 				fprintf(stderr, "error(2)\n");
 				Self->fStatus = B_IO_ERROR;
 				break;

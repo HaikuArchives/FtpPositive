@@ -419,7 +419,7 @@ void TFTPWindow::FtpReportMsgIncoming(BMessage *msg)
 void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	const char *date, const char *perm, const char *owner, const char *group)
 {
-	// ディレクトリ、またはファイルタイプのアイコンイメージを取得
+	// Get a directory or file type icon image
 	bool isDirectory = false;
 	static const float icon_size = BRow().Height() - 2;
 
@@ -435,7 +435,7 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 		app_mimedb->GetExtensionIcon(name, icon, B_MINI_ICON);
 	}
 
-	// ファイル名・オーナー名・グループ名文字コード変換
+	// File name / owner name / group name character code conversion
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
 	BString utf8name(name), utf8owner(owner), utf8group(group);
@@ -443,7 +443,7 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	encoder_addon_manager->ConvertToLocalName(owner, &utf8owner);
 	encoder_addon_manager->ConvertToLocalName(group, &utf8group);
 
-	// リスト表示
+	// List display
 	TIconRow *row = new TIconRow(icon);
 	row->SetField(new BStringField(utf8name.String()), CLM_NAME);
 	row->SetField(new BStringField(name), CLM_INTERNAL_NAME);
@@ -547,7 +547,7 @@ void TFTPWindow::EncoderChanged()
 		BStringField *nameField = (BStringField *)row->GetField(CLM_NAME);
 		BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
 
-		// ファイル名文字コード変換
+		// File name character code conversion
 		BString utf8name(intNameField->String());
 		if (encoderAddonFunc != NULL) encoderAddonFunc(intNameField->String(), &utf8name, true);
 		nameField->SetString(utf8name.String());
@@ -772,7 +772,7 @@ void TFTPWindow::Rename()
 	BStringField *nameField = (BStringField *)row->GetField(CLM_NAME);
 	BStringField *intNameField = (BStringField *)row->GetField(CLM_INTERNAL_NAME);
 
-	// リネーム窓を表
+	// Show rename window
 	BString oldname(nameField->String());
 	BString title(B_TRANSLATE("Rename '%oldFileName%'"));
 	title.ReplaceFirst("%oldFileName%", oldname);
@@ -784,7 +784,7 @@ void TFTPWindow::Rename()
 	if (strcmp(nameField->String(), newName.String()) == 0)
 		return;
 
-	// ファイル名変更コマンド送信
+	// Send file name change command
 	BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 	if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
 	encoder_addon_manager->ConvertToRemoteName(newName.String(), &remoteName);
@@ -810,7 +810,7 @@ void TFTPWindow::Mkdir()
 {
 	status_t s;
 
-	// 窓表示
+	// Window display
 	BString newName, remoteName;
 	if (!(new TRenameWindow(Frame(), kCreateDirectory,
 			kNewDirectory, B_TRANSLATE("New folder")))->Go(&newName))
@@ -868,7 +868,7 @@ void TFTPWindow::CopyUrl()
 
 void TFTPWindow::Chmod()
 {
-	// 現在の permission を取得
+	// Get current permission
 	BRow *row = fRemoteFileView->CurrentSelection(NULL);
 	if (row == NULL) return;
 	BStringField *strpermField = (BStringField *)row->GetField(CLM_PERMISSION);
@@ -883,12 +883,12 @@ void TFTPWindow::Chmod()
 	if (strpermField->String()[8] != '-') mode |= 02;
 	if (strpermField->String()[9] != '-') mode |= 01;
 
-	// permission 変更窓を表示
+	// Show change permission window
 	BString newMode;
 	if (!(new TChmodWindow(Frame(), B_TRANSLATE("Change permissions")))->Go(mode, &newMode))
 		return;
 
-	// permission 変更コマンドを送信
+	// Send change permission commans
 	if (ReconnectIfDisconnected() != B_OK) return;
 	BMessage msg(FTP_SITE_2);
 	status_t s;

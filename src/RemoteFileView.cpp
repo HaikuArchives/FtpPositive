@@ -18,7 +18,7 @@ TStringColumn::~TStringColumn()
 {
 }
 
-// ディレクトリ優先のファイル名ソート関数 (改造 BColumnListView が必要)
+// Directory-first file name sorting function (requires modified BColumnListView)
 int TStringColumn::CompareFields(BField *field1, BField *field2, BRow *row1, BRow *row2)
 {
 	BStringField *pf1 = (BStringField *)row1->GetField(CLM_PERMISSION);
@@ -59,12 +59,12 @@ void TRemoteFileView::MessageReceived(BMessage *msg)
 	}
 }
 
-// 外から View へ Drop された
+// Dropped from outside to View
 void TRemoteFileView::MessageDropped(BMessage *msg, BPoint point)
 {
 	switch(msg->what){
 		case B_SIMPLE_DATA:
-			// ファイルが Drop された
+			// File was dropped
 			BMessenger(this->Window()).SendMessage(msg);
 			break;
 		default: BColumnListView::MessageDropped(msg, point);
@@ -124,7 +124,7 @@ uint32 TRemoteFileView::GetSelectedEntries(BMessage *entries, BRect *rect)
 		intMsg.AddInt64("remote_file_size", sizeField->Size());
 		entries->AddMessage("remote_entry", &intMsg);
 		
-		// DnD の矩形計算
+		// DnD rectangle calculation
 		this->GetRowRect(row, &rowRect);
 		top = min_c(rowRect.top, top);
 		bottom = max_c(rowRect.bottom, bottom);
@@ -138,14 +138,15 @@ uint32 TRemoteFileView::GetSelectedEntries(BMessage *entries, BRect *rect)
 	return cnt;
 }
 
-// View から外へ Drag and Drop 開始
+// Start Drag and Drop out of View
 bool TRemoteFileView::InitiateDrag(BPoint, bool)
 {
 	BMessage msg;
 	BRect rect;
 	if (GetSelectedEntries(&msg, &rect) == 0) return false;
 	
-	// drop 先の Tracker ウィンドウの Path を教えてもらうスクリプトを送る -> FTPWindow.cpp で Reply を受け取り、ダウンロード開始
+	// Send a script to tell the path of the drop destination Tracker window
+	// -> Receive Reply in FTPWindow.cpp and start downloading
 	msg.what = B_GET_PROPERTY;
 	msg.AddSpecifier("Path");
 	DragMessage(&msg, rect, Window());
@@ -153,10 +154,10 @@ bool TRemoteFileView::InitiateDrag(BPoint, bool)
 	return true;
 }
 
-// Icon 描画
+// Icon drawing
 void TRemoteFileView::DrawLatch(BView *view, BRect rect, LatchType type, BRow *row)
 {
-	// outline_view 以外は無視 (でないと、表示が乱れる)
+	// Ignore anything except outline_view (otherwise the display will be distorted)
 	if (strcmp(view->Name(), "outline_view") != 0) return;
 	
 	TIconRow *_row = dynamic_cast<TIconRow *>(row);
