@@ -20,6 +20,8 @@ TOAFilter::~TOAFilter()
 
 //	BTextControl の子 BView である BTextView に送られる BMessage をフィルタする。
 //	ENTERキーと↓、↑を横取りして、次または前の BView に MakeFocus する。
+//	filter BMessage sent by BTextView in child BView of BTextControl
+//	capture ENTER key, up arrow key, and down arrow key, then MakeFocus by next or previous BView
 filter_result TOAFilter::Filter(BMessage *message, BHandler **handler)
 {
 	switch(message->what) {
@@ -83,6 +85,8 @@ status_t TOAEdit::Archive(BMessage *archive, bool deep) const
 
 void TOAEdit::AttachedToWindow()
 {
+// 中にいるBTextViewにメッセージフィルタをかまして
+// ENTERキー、および矢印キーを監視できるようにする。
 // insert message filter to inner BTextView
 // enable monitoring ENTER key and arrow keys
 	TextView()->AddFilter(new TOAFilter(this));
@@ -105,8 +109,10 @@ void TOAEdit::MessageReceived(BMessage *msg)
 	}
 }
 
+// フォーカス移動
+// direction = true で次の BView、false で前の BView に移動する。
 // move focus
-// move the BView after direction = true to the BView before direction = false
+// move BView after direction = true to BView before direction = false
 void TOAEdit::GoNext(bool direction)
 {
 	BView *next = NULL;

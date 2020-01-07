@@ -35,6 +35,7 @@ TFTPClient::TFTPClient()
 		return;
 	}
 	
+	// 受信スレッド生成
 	// start receiving thread
 	fReceiverThreadID = spawn_thread(TFTPClient::ReceiverThread,
 		"receiver_thread", B_NORMAL_PRIORITY, this);
@@ -101,9 +102,11 @@ status_t TFTPClient::Connect(const char *address, uint16 port)
 		return err;
 	}
 	
+	// 非ブロッキングモード
 	// non-blocking mode
 	if ((err = SetBlockingMode(false)) != B_OK) return err;
 	
+	// 接続
 	// connect
 	if (connect(fControlEndpoint, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
 		err = errno;
@@ -111,10 +114,12 @@ status_t TFTPClient::Connect(const char *address, uint16 port)
 		if ((err != 0) && (err != EISCONN) && (err != EINPROGRESS) && (err != EALREADY)) return err;
 	}
 	
+	// ブロッキングモード
 	// blocking mode
 //	if ((err = SetBlockingMode(true)) != B_OK) return err;
 //	snooze(500000);
 	
+	// 受信スレッド生成
 	// start receiving thread
 	err = resume_thread(fReceiverThreadID);
 	
@@ -151,6 +156,7 @@ status_t TFTPClient::SetBlockingMode(bool wouldBlock)
 	return B_OK;
 }
 
+// コマンド送信
 // send command
 status_t TFTPClient::SendCmd(const char *command, uint32 commandLen)
 {
@@ -170,6 +176,7 @@ status_t TFTPClient::SendCmd(const char *command, uint32 commandLen)
 	return B_OK;
 }
 
+// 受信文字列を一行ずつ取得
 // get received string line by line
 status_t TFTPClient::GetLastMessage(BString *str, int32 *reply, bool *isLast)
 {
@@ -205,6 +212,7 @@ const char *TFTPClient::StrReply() const
 	return fStrReply.String();
 }
 
+// 受信スレッド関数
 // receiving thread function
 int32 TFTPClient::ReceiverThread(void *self)
 {
@@ -215,18 +223,22 @@ int32 TFTPClient::ReceiverThread(void *self)
 	while(!Self->fAbort) {
 		recvSize = read(Self->fControlEndpoint, recvBuff, sizeof(recvBuff));
 		if (recvSize < 0) {
+			// 受信データが無い or エラー
 			// no data received or error
 			int e = errno;
 			if (e != EAGAIN) {
+				// エラー
 				// error
 				Self->fStrError.SetTo(strerror(e));
 				Self->fStatus = EPIPE;
 			}
 		} else if (recvSize == 0) {
+			// 切断された
 			// disconnected
 			Self->fStrError.SetTo(B_TRANSLATE("Disconnected by remote host."));
 			Self->fStatus = EPIPE;
 		} else {
+			// 受信あり
 			// received
 			acquire_sem(Self->fSemID);
 			Self->fReplyBuff->AddStream(recvBuff, recvSize);

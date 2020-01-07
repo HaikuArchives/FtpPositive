@@ -5,11 +5,16 @@
 #include <String.h>
 
 enum {
-	SB_UNKNOWN_TEXT_TYPE,	// automatically recognize CR, CRLF, and LF; regard LFCR as 2 line breaks
-	SB_LF_TEXT_TYPE,		// handle LF as line break; UNIX/BeOS style
-	SB_CRLF_TEXT_TYPE,		// handle CRLF as line break; DOS/Windows style
-	SB_CR_TEXT_TYPE,		// handle CR as line break; MacOS (before 9.x) style
-	SB_BINARY_TYPE		// handle no line break as binary file; no style
+	SB_UNKNOWN_TEXT_TYPE,	// CR,CRLF,LFを自動認識する。LFCRは２改行とみなす。
+							// automatically recognize CR, CRLF, and LF; regard LFCR as 2 line breaks
+	SB_LF_TEXT_TYPE,		// LFを改行として扱う。UNIX/BeOS風
+							// handle LF as line break; UNIX/BeOS style
+	SB_CRLF_TEXT_TYPE,		// CRLFを改行として扱う。DOS/Windows風
+							// handle CRLF as line break; DOS/Windows style
+	SB_CR_TEXT_TYPE,		// CRを改行として扱う。MacOS(9.x以前)風
+							// handle CR as line break; MacOS (before 9.x) style
+	SB_BINARY_TYPE		// 改行コードなしのバイナリ扱い。整形しない。
+						// handle no line break as binary file; no style
 };
 
 #define SB_BUFFER_EMPTY -1
