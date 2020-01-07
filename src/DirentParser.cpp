@@ -4,7 +4,7 @@
 #include <time.h>
 #include "DirentParser.h"
 
-// スペースで区切られた文字列を item 配列に分割
+// transform space-splitted string into item array
 void strparse(char *str, char *item[], uint32 *itemCount)
 {
 	uint32 i = 0, cnt = *itemCount;
@@ -35,7 +35,7 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 	strdir.ReplaceAll("\r\n", "\n");
 	strdir.ReplaceAll("\r", "\n");
 	
-	// ftpd から得た NLST 文字列 strDirList を各行に分割して list にポインタを記憶する
+	// split NLST string strDirList from ftpd to lines and save pointer to list
 	char *p = (char *)strdir.String();
 	while (*p != 0) {
 		list.AddItem(p);
@@ -45,12 +45,12 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 		p++;
 	}
 	
-	// 解析
+	// analyze
 	for(int32 i = 0; i < list.CountItems(); i++) {
 		p = (char *)list.ItemAt(i);
 		size_t length = strlen(p);
 		
-		// 空白行は無視。但し、次行はディレクトリ名と仮定(再帰モード時)
+		// ignore blank line; however, assume directory name for next line (when recursive mode)
 		if (length == 0) {
 			st = 0;
 			continue;
@@ -61,12 +61,12 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 				if (p[length - 1] == ':')
 					--length;
 				curdir.SetTo(p, length);
-				i++;		// ディレクトリ名の次は total または空行なので無視
+				i++;		// ignore because "total" or blank line is after directory name
 				continue;
 			}
 		}
 		
-		// 先頭文字(即ち permission のファイル属性) が "-", "d", "l", "c" でなければ無視する。
+		// ignore if the first character (i.e. file property of permission) is not "-", "d", "l", "c"
 		if (strchr("-dlc", *p) == NULL) continue;
 		
 		uint32 itemCount;
@@ -108,7 +108,7 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 		}
 		
 		
-		// 日付・時間を変換
+		// transform date and time
 		BString strdate, strtime;
 		if (atoi(houryear) < 1900) {
 			char stryear[5];
