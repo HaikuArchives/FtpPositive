@@ -114,7 +114,7 @@ status_t TGenericDirentParser::AddEntries(const char *strDirList, const char *op
 		}
 		
 		
-		//日付・時間を変換
+		// 日付・時間を変換
 		// transform date and time
 		BString strdate, strtime;
 		if (atoi(houryear) < 1900) {

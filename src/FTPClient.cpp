@@ -36,7 +36,7 @@ TFTPClient::TFTPClient()
 	}
 	
 	// 受信スレッド生成
-	// start receiving thread
+	// generate receiving thread
 	fReceiverThreadID = spawn_thread(TFTPClient::ReceiverThread,
 		"receiver_thread", B_NORMAL_PRIORITY, this);
 	if (fReceiverThreadID < 0) {
@@ -119,7 +119,7 @@ status_t TFTPClient::Connect(const char *address, uint16 port)
 //	if ((err = SetBlockingMode(true)) != B_OK) return err;
 //	snooze(500000);
 	
-	// 受信スレッド生成
+	// 受信スレッド開始
 	// start receiving thread
 	err = resume_thread(fReceiverThreadID);
 	
