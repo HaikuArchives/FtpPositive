@@ -14,6 +14,7 @@ extern "C" _EXPORT void fp_text_convert(const char *src, BString *dest, bool to_
 	if (to_utf8) {
 		e = convert_to_utf8(B_SJIS_CONVERSION, src, &srcLen, dstr, &destLen, &state);
 		// 1A バグ回避
+		// 1A avoid bug
 		if (dstr[destLen - 1] == 0x1a) {
 			dstr[destLen - 1] = 0;
 			destLen--;
