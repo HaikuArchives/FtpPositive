@@ -160,8 +160,8 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	fRemoteFileView->AddStatusView(fItemCountView);
 
 	// CheckBox (Use This Connection)
-	const char* str = B_TRANSLATE("Use this connection");
-	fUseThisConnection = new BCheckBox("UseThisConnection", str, NULL, 0);
+	fUseThisConnection = new BCheckBox("UseThisConnection",
+		B_TRANSLATE("Use this connection"), NULL, 0);
 	fUseThisConnection->SetValue(1);
 
 	// Log View
@@ -253,10 +253,10 @@ TFTPWindow::TFTPWindow(BRect frame, const char *name)
 	v.SetTo(""); app_config->Read("weight_bottom",	&v, "75");	fSplitView->SetItemWeight(1, atof(v.String()), true);
 
 	v.SetTo(""); app_config->Read("collaps_top", &v, "false");
-	fSplitView->SetItemCollapsed(0, (v.ICompare("true") == 0) ? true : false);
+	fSplitView->SetItemCollapsed(0, v.ICompare("true") == 0);
 
 	v.SetTo(""); app_config->Read("collaps_bottom", &v, "false");
-	fSplitView->SetItemCollapsed(1, (v.ICompare("true") == 0) ? true : false);
+	fSplitView->SetItemCollapsed(1, v.ICompare("true") == 0);
 
 	v.SetTo(""); app_config->Read("encoding", &v, B_TRANSLATE("None"));
 	BMenuItem* item = fEncodingMenu->FindItem(v);
@@ -379,8 +379,6 @@ void TFTPWindow::FtpReportMsgIncoming(BMessage *msg)
 			if (fFtpLooper) {
 				fFtpLooper->Abort();
 				BMessenger(fFtpLooper).SendMessage(B_QUIT_REQUESTED);
-				//->Lock();
-//				fFtpLooper->Quit();
 				fFtpLooper = NULL;
 				this->SetTitle(kAppName);
 			}
@@ -413,7 +411,6 @@ void TFTPWindow::FtpReportMsgIncoming(BMessage *msg)
 			return;
 		}
 	}
-	return;
 }
 
 void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
@@ -425,13 +422,9 @@ void TFTPWindow::AddRemoteFileItem(const char *name, int64 size,
 	static const float icon_size = BRow().Height() - 2;
 
 	BBitmap *icon = new BBitmap(BRect(0, 0, icon_size - 1, icon_size - 1), B_RGBA32);
-	if (strlen(perm) > 0) {
-		if (perm[0] == 'd') {
-			app_mimedb->GetMimeIcon("application/x-vnd.Be-directory", icon, B_MINI_ICON);
-			isDirectory = true;
-		} else {
-			app_mimedb->GetExtensionIcon(name, icon, B_MINI_ICON);
-		}
+	if (strlen(perm) > 0 && perm[0] == 'd') {
+		app_mimedb->GetMimeIcon("application/x-vnd.Be-directory", icon, B_MINI_ICON);
+		isDirectory = true;
 	} else {
 		app_mimedb->GetExtensionIcon(name, icon, B_MINI_ICON);
 	}
@@ -664,8 +657,7 @@ void TFTPWindow::DirlistChanged(BMessage *msg)
 	fRemoteFileView->Clear();
 
 	BString xpwd_result;
-	if (msg->FindString("xpwd", &xpwd_result) != B_OK) {
-	}
+	msg->FindString("xpwd", &xpwd_result);
 
 	int32 count;
 	type_code type;
@@ -721,9 +713,6 @@ void TFTPWindow::RemoteFileDoubleClicked()
 	if (strpermField->String()[0] == 'd') {
 		// open directory
 		this->Chdir(intNameField->String());
-	} else {
-		// open file
-
 	}
 }
 
@@ -844,27 +833,20 @@ void TFTPWindow::Mkdir()
 
 void TFTPWindow::CopyUrl()
 {
-	BRow *row = fRemoteFileView->CurrentSelection();
+	BRow* row = fRemoteFileView->CurrentSelection();
 	if (row == NULL) return;
 
-	const char *intName
-		= ((BStringField *)row->GetField(CLM_INTERNAL_NAME))->String();
-
 	BString url;
-	if (fCurrentRemoteDir.Length() > 0 &&
-		fCurrentRemoteDir[fCurrentRemoteDir.Length() - 1] == '/') {
+	url << "ftp://" << fHost << ":" << fPort << fCurrentRemoteDir;
+	if (fCurrentRemoteDir.Length() <= 0
+		|| fCurrentRemoteDir[fCurrentRemoteDir.Length() - 1] != '/')
+		url << "/";
+	url << ((BStringField *)row->GetField(CLM_INTERNAL_NAME))->String();
 
-		url << "ftp://" << fHost << ":" << fPort
-			<< fCurrentRemoteDir << intName;
-	} else {
-		url << "ftp://" << fHost << ":" << fPort
-			<< fCurrentRemoteDir << "/" << intName;
-	}
-
-	BMessage *clip = (BMessage *)NULL;
 	if (be_clipboard->Lock()) {
 		be_clipboard->Clear();
-		if (clip = be_clipboard->Data()) {
+		BMessage* clip = be_clipboard->Data();
+		if (clip != NULL) {
 			clip->AddData("text/plain", B_MIME_TYPE,
 				url.String(), url.Length());
 			be_clipboard->Commit();
@@ -1007,17 +989,14 @@ void TFTPWindow::Download(BMessage *entries, entry_ref *localDir)
 	BRect rect(Frame());
 	dlmsg.AddRect("rect", rect);
 
-	if (fUseThisConnection->Value()) {
-		if (ReconnectIfDisconnected() != B_OK) return;
+	if (fUseThisConnection->Value() && ReconnectIfDisconnected() == B_OK) {
 		status_t s;
 		BMenuItem *encMenuItem = fEncodingMenu->FindMarked();
 		if (encMenuItem != NULL) encoder_addon_manager->SetEncoder(encMenuItem->Label());
 		dlmsg.AddBool("modal", true);
 		if ((s = BMessenger(fFtpLooper).SendMessage(&dlmsg)) != B_OK) {
 			*fLogView << kError << ": " << strerror(s) << "\n";
-			return;
 		}
-		return;
 	}
 }
 
@@ -1051,7 +1030,7 @@ void TFTPWindow::Upload(BMessage *msg)
 void
 TFTPWindow::FrameResized(float newWidth, float newHeight)
 {
-		fRemoteFileView->Hide();
-		BWindow::FrameResized(newWidth, newHeight);
-		fRemoteFileView->Show();
+	fRemoteFileView->Hide();
+	BWindow::FrameResized(newWidth, newHeight);
+	fRemoteFileView->Show();
 }
