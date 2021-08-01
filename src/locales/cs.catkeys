@@ -1,0 +1,106 @@
+1	Czech	application/x-vnd.momoziro-FtpPositive	3895514942
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{nic}=1{1 položka}few{# položky}other{# položek}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Smazání této položky nejde vrátit zpět.\nOpravdu smazat?}other{Smazání těchto # položek nejde vrátit zpět.\nOpravdu smazat?}}
+About FtpPositive	FTPWindow		O aplikaci FtpPositive
+Back	FTPWindow		Zpět
+Cancel	FTPWindow		Zrušit
+Change permissions	FTPWindow		Změnit oprávnění
+Command	FTPWindow		Příkaz
+Connect	FTPWindow		Spojit
+Connecting…	FTPWindow		Připojuji…
+Copy FTP URL	FTPWindow		Kopírovat FTP URL
+Create folder	FTPWindow		Vytvořit adresář
+Date	FTPWindow		Datum
+Delete	FTPWindow		Smazat
+Download	FTPWindow		Stáhnout
+Encoding	FTPWindow		Kódování
+Error	FTPWindow		Chyba
+File	FTPWindow		Soubor
+Forward	FTPWindow		Vpřed
+FtpPositive: Upload	FTPWindow		FtpPositive: Nahrání
+Getting directory listing…	FTPWindow		Získávání obsahu adresáře…
+Group	FTPWindow		Skupina
+Idle	FTPWindow		V klidu
+Internal name	FTPWindow		Vnitřní název
+Manage bookmarks	FTPWindow		Spravovat záložky
+Name	FTPWindow		Name
+New bookmark	FTPWindow		Nová záložka
+New folder	FTPWindow		Nový adresář
+New folder:	FTPWindow		Nový adresář:
+New name:	FTPWindow		Nový název:
+no items	FTPWindow		nic
+None	FTPWindow		Nic
+OK	FTPWindow		OK
+Owner	FTPWindow		Vlastník
+Parent folder	FTPWindow		Nadřazený adresář
+Permissions	FTPWindow		Oprávnění
+Quit	FTPWindow		Ukončit
+Reconnecting…	FTPWindow		Znovu připojuji…
+Refresh	FTPWindow		Obnovit
+Remote:	FTPWindow		Server:
+Rename	FTPWindow		Přejmenovat
+Rename '%oldFileName%'	FTPWindow		Přejmenovat '%oldFileName%'
+Size	FTPWindow		Velikost
+Suspended.	FTPWindow		Pozastaveno.
+Upload	FTPWindow		Nahrát
+Use this connection	FTPWindow		Použít toto připojení
+Welcome to FtpPositive\n\n	FTPWindow		Vítejte v FtpPositive\n\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Eine lokale Datei namens \"%s\" gibt es bereits.\n\nSoll sie weiter übertragen, überschrieben oder übersprungen werden?\n
+Address:	FTPLooper		Adresa:
+Cancel	FTPLooper		Zrušit
+Connect	FTPLooper		Spojit
+Connecting to %host% (%port%)\n	FTPLooper		Připojování k %host% (%port%)\n
+Continue	FTPLooper		Pokračovat
+Couldn't load bookmark	FTPLooper		Záložku nelze načíst
+Couldn't save bookmark	FTPLooper		Záložku nelze uložit
+Disconnected.	FTPLooper		Odpojeno.
+Disconnected.\n	FTPLooper		Odpojeno.\n
+Don't ask again	FTPLooper		Znovu neptat
+Downloading: %filename%\n%error%	FTPLooper		Stahování: %filename%\n%error%
+Encoder:	FTPLooper		Kodér:
+Error creating folder '%path%'.\n%error%	FTPLooper		Chyba vytváření adresáře '%path%'.\n%error%
+Error:	FTPLooper		Chyba:
+Error: Could not spawn download thread.\n	FTPLooper		Chyba: Nelze vytvořit stahovací vlákno.\n
+Error: Could not spawn thread.\n	FTPLooper		Chyba: Nelze vytvořit vlákno.\n
+Error: Download failed.	FTPLooper		Chyba stahování.
+Getting directory list…	FTPLooper		Načítání obsahu složky…
+Getting directory list…%transferred%	FTPLooper		Načítání obsahu složky…%transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Načítání obsahu složky…%transferred%. Hotovo.
+Idle	FTPLooper		V klidu
+Ignore all	FTPLooper		Ignorovat vše
+Local path:	FTPLooper		Místní cesta:
+Name:	FTPLooper		Název:
+New bookmark	FTPLooper		Nová záložka
+OK	FTPLooper		OK
+Overwrite	FTPLooper		Přepsat
+Password:	FTPLooper		Heslo:
+Port:	FTPLooper		Port:
+Remote path:	FTPLooper		Cesta serveru:
+Resume	FTPLooper		Pokračovat
+Save	FTPLooper		Uložit
+Skip	FTPLooper		Přeskočit
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Položka\n"%name%\"\nje symbolický odkaz. Co dělat?\n
+Upload with link name	FTPLooper		Nahrát s názvem odkazu
+Upload with original name	FTPLooper		Nahrát s původním názvem
+Uploading '%remotepath%'\n	FTPLooper		Nahrávání do '%remotepath%'\n
+Uploading: %filename%\n%error%	FTPLooper		Nahrávání: %filename%\n%error%
+User name:	FTPLooper		Uživatelské jméno:
+Abort	ProgressWindow		Přerušit
+Cancel	ProgressWindow		Zrušit
+Continue	ProgressWindow		Pokračovat
+Do you want to abort the transfer?\n	ProgressWindow		Opravdu přerušit přenos?\n
+Time left:	ProgressWindow		Zbývající čas:
+Cancel	RenameWindow		Zrušit
+OK	RenameWindow		OK
+Cancel	ChmodWindow		Zrušit
+Change	ChmodWindow		Změnit
+Execute:	ChmodWindow		Spouštět:
+Group	ChmodWindow		Skupina
+Other	ChmodWindow		Ostatní
+Owner	ChmodWindow		Vlastník
+Read:	ChmodWindow		Číst:
+Write:	ChmodWindow		Zapisovat:
+Disconnected by remote host.	FTPClient		Odpojeno serverem.
+Disconnected.	FTPClient		Odpojeno.
+FtpPositive	System name		FtpPositive
+Momoziro (original author)	FtpPositive		Momoziro (původní autor)

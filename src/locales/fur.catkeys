@@ -1,0 +1,106 @@
+1	Friulian	application/x-vnd.momoziro-FtpPositive	3895514942
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{nissun element}=1{1 element}other{# elements}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{No si pues tornâ indaûr de eliminazion di chest element.\nSino sigûrs?}other{No si pues tornâ indaûr de eliminazion di chescj # elements.\nSino sigûrs?}}
+About FtpPositive	FTPWindow		Informazions su FtpPositive
+Back	FTPWindow		Indaûr
+Cancel	FTPWindow		Anule
+Change permissions	FTPWindow		Cambie permès
+Command	FTPWindow		Comant
+Connect	FTPWindow		Conet
+Connecting…	FTPWindow		Daûr a conetisi…
+Copy FTP URL	FTPWindow		Copie URL dal FTP
+Create folder	FTPWindow		Cree cartele
+Date	FTPWindow		Date
+Delete	FTPWindow		Elimine
+Download	FTPWindow		Discjarie
+Encoding	FTPWindow		Codifiche
+Error	FTPWindow		Erôr
+File	FTPWindow		File
+Forward	FTPWindow		Indenant
+FtpPositive: Upload	FTPWindow		FtpPositive: cjariâ
+Getting directory listing…	FTPWindow		Daûr a otignî la liste de cartele…
+Group	FTPWindow		Grup
+Idle	FTPWindow		Inatîf
+Internal name	FTPWindow		Non interni
+Manage bookmarks	FTPWindow		Gjestìs segnelibris
+Name	FTPWindow		Non
+New bookmark	FTPWindow		Gnûf segnelibri
+New folder	FTPWindow		Gnove cartele
+New folder:	FTPWindow		Gnove cartele:
+New name:	FTPWindow		Gnûf non:
+no items	FTPWindow		nissun element
+None	FTPWindow		Nissun
+OK	FTPWindow		Va ben
+Owner	FTPWindow		Proprietari
+Parent folder	FTPWindow		Cartele superiôr
+Permissions	FTPWindow		Permès
+Quit	FTPWindow		Jes
+Reconnecting…	FTPWindow		Daûr a tornâ a conetisi…
+Refresh	FTPWindow		Inzorne
+Remote:	FTPWindow		Rimot:
+Rename	FTPWindow		Cambie non
+Rename '%oldFileName%'	FTPWindow		Cambie non a '%oldFileName%'
+Size	FTPWindow		Dimension
+Suspended.	FTPWindow		Sospindût.
+Upload	FTPWindow		Cjarie
+Use this connection	FTPWindow		Dopre cheste conession
+Welcome to FtpPositive\n\n	FTPWindow		Benvignûts in FtpPositive\n\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un file locâl clamât \"%s\" al esist za.\n\nDesideristu ripiâ, sorescrivi o saltâ il discjariament dal file?\n
+Address:	FTPLooper		Direzion:
+Cancel	FTPLooper		Anule
+Connect	FTPLooper		Conet
+Connecting to %host% (%port%)\n	FTPLooper		Daûr a conetisi a %host% (%port%)\n
+Continue	FTPLooper		Continue
+Couldn't load bookmark	FTPLooper		Impussibil cjariâ il segnelibri
+Couldn't save bookmark	FTPLooper		Impussibil salvâ il segnelibri
+Disconnected.	FTPLooper		Disconetût.
+Disconnected.\n	FTPLooper		Disconetût.\n
+Don't ask again	FTPLooper		No sta domandâ plui
+Downloading: %filename%\n%error%	FTPLooper		Daûr a discjariâ: %filename%\n%error%
+Encoder:	FTPLooper		Codificadôr:
+Error creating folder '%path%'.\n%error%	FTPLooper		Erôr tal creâ la cartele '%path%'.\n%error%
+Error:	FTPLooper		Erôr:
+Error: Could not spawn download thread.\n	FTPLooper		Erôr: Nol è stât pussibil fâ nassi il thread dal discjariament.\n
+Error: Could not spawn thread.\n	FTPLooper		Erôr: Nol è stât pussibil fâ nassi il thread.\n
+Error: Download failed.	FTPLooper		Erôr: Discjariament falît.
+Getting directory list…	FTPLooper		Daûr a otignî la liste des cartelis…
+Getting directory list…%transferred%	FTPLooper		Daûr a otignî la liste des cartelis…%transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Daûr a otignî la liste des cartelis…%transferred%. Finît.
+Idle	FTPLooper		Inatîf
+Ignore all	FTPLooper		Ignore dut
+Local path:	FTPLooper		Percors locâl:
+Name:	FTPLooper		Non:
+New bookmark	FTPLooper		Gnûf segnelibri
+OK	FTPLooper		Va ben
+Overwrite	FTPLooper		Sorescrîf
+Password:	FTPLooper		Peraule di ordin:
+Port:	FTPLooper		Puarte:
+Remote path:	FTPLooper		Percors rimot:
+Resume	FTPLooper		Ripie
+Save	FTPLooper		Salve
+Skip	FTPLooper		Salte
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		La vôs\n\"%name%\"\ne je un colegament simbolic. Ce fâsio?\n
+Upload with link name	FTPLooper		Cjarie cul non dal colegament
+Upload with original name	FTPLooper		Cjarie cul non origjinâl
+Uploading '%remotepath%'\n	FTPLooper		Daûr a cjariâ '%remotepath%'\n
+Uploading: %filename%\n%error%	FTPLooper		Daûr a cjariâ: %filename%\n%error%
+User name:	FTPLooper		Non utent:
+Abort	ProgressWindow		Interomp
+Cancel	ProgressWindow		Anule
+Continue	ProgressWindow		Continue
+Do you want to abort the transfer?\n	ProgressWindow		Interompi pardabon il trasferiment?\n
+Time left:	ProgressWindow		Timp che al reste:
+Cancel	RenameWindow		Anule
+OK	RenameWindow		Va ben
+Cancel	ChmodWindow		Anule
+Change	ChmodWindow		Cambie
+Execute:	ChmodWindow		Esecuzion:
+Group	ChmodWindow		Grup
+Other	ChmodWindow		Altri
+Owner	ChmodWindow		Proprietari
+Read:	ChmodWindow		Leture:
+Write:	ChmodWindow		Scriture:
+Disconnected by remote host.	FTPClient		Disconetût dal host rimot.
+Disconnected.	FTPClient		Disconetût.
+FtpPositive	System name		FtpPositive
+Momoziro (original author)	FtpPositive		Momoziro (autôr origjinâl)

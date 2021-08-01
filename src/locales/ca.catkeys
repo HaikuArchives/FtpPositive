@@ -1,0 +1,106 @@
+1	Catalan	application/x-vnd.momoziro-FtpPositive	3895514942
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{cap element}=1{1 element}other{# elements}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{No es pot desfer la supressió d'aquest element.\nN'esteu segur?}other{No es pot desfer la supressió de # elements.\nN'esteu segur?}}
+About FtpPositive	FTPWindow		Quant al FtpPositive
+Back	FTPWindow		Enrere
+Cancel	FTPWindow		Cancel·la
+Change permissions	FTPWindow		Canvia'n els permisos
+Command	FTPWindow		Ordre
+Connect	FTPWindow		Connecta
+Connecting…	FTPWindow		Es connecta…
+Copy FTP URL	FTPWindow		Copia l'URL d'FTP
+Create folder	FTPWindow		Crea una carpeta
+Date	FTPWindow		Data
+Delete	FTPWindow		Suprimeix
+Download	FTPWindow		Baixa
+Encoding	FTPWindow		Codificació
+Error	FTPWindow		Error
+File	FTPWindow		Fitxer
+Forward	FTPWindow		Endavant
+FtpPositive: Upload	FTPWindow		FtpPositive: carrega
+Getting directory listing…	FTPWindow		S'obté la llista de directoris...
+Group	FTPWindow		Grup
+Idle	FTPWindow		Inactiu
+Internal name	FTPWindow		Nom intern
+Manage bookmarks	FTPWindow		Gestioneu els marcadors
+Name	FTPWindow		Nom
+New bookmark	FTPWindow		Marcador nou
+New folder	FTPWindow		Carpeta nova
+New folder:	FTPWindow		Carpeta nova:
+New name:	FTPWindow		Nom nou:
+no items	FTPWindow		sense elements
+None	FTPWindow		Cap
+OK	FTPWindow		D'acord
+Owner	FTPWindow		Propietari
+Parent folder	FTPWindow		Carpeta superior
+Permissions	FTPWindow		Permisos
+Quit	FTPWindow		Surt
+Reconnecting…	FTPWindow		Es torna a connectar...
+Refresh	FTPWindow		Refresca
+Remote:	FTPWindow		Remot:
+Rename	FTPWindow		Canvia'n el nom
+Rename '%oldFileName%'	FTPWindow		Canvia el nom de "%oldFileName%"
+Size	FTPWindow		Mida
+Suspended.	FTPWindow		Suspès.
+Upload	FTPWindow		Carrega
+Use this connection	FTPWindow		Usa aquesta connexió
+Welcome to FtpPositive\n\n	FTPWindow		Benvingut/da a l'FtpPositive\n\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un fitxer local amb el nom \"%s\" ja existeix.\n\nVoleu reprendre, sobreescriure o ometre la baixada del fitxer?\n
+Address:	FTPLooper		Adreça:
+Cancel	FTPLooper		Cancel·la
+Connect	FTPLooper		Connecta
+Connecting to %host% (%port%)\n	FTPLooper		Es connecta a %host% (%port%)\n
+Continue	FTPLooper		Continua
+Couldn't load bookmark	FTPLooper		No s'ha pogut carregar el marcador.
+Couldn't save bookmark	FTPLooper		No s'ha pogut desar el marcador.
+Disconnected.	FTPLooper		Desconnectat.
+Disconnected.\n	FTPLooper		Desconnectat.\n
+Don't ask again	FTPLooper		No ho tornis a preguntar.
+Downloading: %filename%\n%error%	FTPLooper		Baixada: %filename%\n%error%
+Encoder:	FTPLooper		Codificador:
+Error creating folder '%path%'.\n%error%	FTPLooper		Error en crear la carpeta %path%.\n%error%
+Error:	FTPLooper		Error:
+Error: Could not spawn download thread.\n	FTPLooper		Error: no s'ha pogut generar el fil de baixada.\n
+Error: Could not spawn thread.\n	FTPLooper		Error: no s'ha pogut generar el fil.\n
+Error: Download failed.	FTPLooper		Error: ha fallat la baixada.
+Getting directory list…	FTPLooper		S'obté la llista de directoris...
+Getting directory list…%transferred%	FTPLooper		S'obté la llista de directoris... %transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		S'obté la llista de directoris…%transferred%. Acabat.
+Idle	FTPLooper		Inactiu
+Ignore all	FTPLooper		Ignora-ho tot
+Local path:	FTPLooper		Camí local:
+Name:	FTPLooper		Nom:
+New bookmark	FTPLooper		Marcador nou
+OK	FTPLooper		D'acord
+Overwrite	FTPLooper		Sobreescriu
+Password:	FTPLooper		Contrasenya:
+Port:	FTPLooper		Port:
+Remote path:	FTPLooper		Camí remot:
+Resume	FTPLooper		Reprèn
+Save	FTPLooper		Desa
+Skip	FTPLooper		Omet
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		L'entrada\n\"%name%\"\nés un enllaç simbòlic. Què faig?\n
+Upload with link name	FTPLooper		Carrega amb el nom de l'enllaç
+Upload with original name	FTPLooper		Carrega amb el nom original
+Uploading '%remotepath%'\n	FTPLooper		Es carrega "%remotepath%"\n
+Uploading: %filename%\n%error%	FTPLooper		Càrrega: %filename%\n%error%
+User name:	FTPLooper		Nom d'usuari:
+Abort	ProgressWindow		Avorta
+Cancel	ProgressWindow		Cancel·la
+Continue	ProgressWindow		Continua
+Do you want to abort the transfer?\n	ProgressWindow		Voleu avortar la transferència?\n
+Time left:	ProgressWindow		Temps restant:
+Cancel	RenameWindow		Cancel·la
+OK	RenameWindow		D'acord
+Cancel	ChmodWindow		Cancel·la
+Change	ChmodWindow		Canvia
+Execute:	ChmodWindow		Executa:
+Group	ChmodWindow		Grup
+Other	ChmodWindow		Altres
+Owner	ChmodWindow		Propietari
+Read:	ChmodWindow		Llegeix:
+Write:	ChmodWindow		Escriu:
+Disconnected by remote host.	FTPClient		Desconnectat per l'amfitrió remot.
+Disconnected.	FTPClient		Desconnectat.
+FtpPositive	System name		FtpPositiu
+Momoziro (original author)	FtpPositive		Momoziro (autor original)
