@@ -1,6 +1,6 @@
 1	Italian	application/x-vnd.momoziro-FtpPositive	3895514942
 {0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{nessun elemento}=1{1 elemento}other{# elementi}}
-{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Cancellare questo elemento è un'operazione irreversibile.\nSei sicuro?}other{Cancellare questi # elementi è un'operazione irreversibile.\nSei sicuro?}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{La cancellazione di questo elemento è un'operazione irreversibile.\nSei sicuro?}other{La cancellazione di quest # elementi è un'operazione irreversibile.\nSei sicuro?}}
 About FtpPositive	FTPWindow		Informazioni su FtpPositive
 Back	FTPWindow		Indietro
 Cancel	FTPWindow		Cancella
@@ -8,17 +8,17 @@ Change permissions	FTPWindow		Cambia i permessi
 Command	FTPWindow		Comando
 Connect	FTPWindow		Connetti
 Connecting…	FTPWindow		Connettendo…
-Copy FTP URL	FTPWindow		Copia FTP URL
+Copy FTP URL	FTPWindow		Copia URL FTP
 Create folder	FTPWindow		Crea cartella
 Date	FTPWindow		Data
 Delete	FTPWindow		Elimina
-Download	FTPWindow		Scarica
+Download	FTPWindow		Download
 Encoding	FTPWindow		Codifica
 Error	FTPWindow		Errore
 File	FTPWindow		File
 Forward	FTPWindow		Avanti
 FtpPositive: Upload	FTPWindow		FtpPositive: Upload
-Getting directory listing…	FTPWindow		Sto ottenendo l'elenco della directory…
+Getting directory listing…	FTPWindow		Ottenimento elenco directory…
 Group	FTPWindow		Gruppo
 Idle	FTPWindow		Inattivo
 Internal name	FTPWindow		Nome interno
@@ -32,7 +32,7 @@ no items	FTPWindow		nessun elemento
 None	FTPWindow		Nessuno
 OK	FTPWindow		OK
 Owner	FTPWindow		Proprietario
-Parent folder	FTPWindow		Cartella genitore
+Parent folder	FTPWindow		Cartella genitrice
 Permissions	FTPWindow		Permessi
 Quit	FTPWindow		Esci
 Reconnecting…	FTPWindow		Riconnessione…
@@ -45,27 +45,27 @@ Suspended.	FTPWindow		Sospeso.
 Upload	FTPWindow		Upload
 Use this connection	FTPWindow		Usa questa connessione
 Welcome to FtpPositive\n\n	FTPWindow		Benvenuto in FtpPositive\n\n
-A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un file con il nome \"%s\" esiste già.\n\nVorresti riprendere, sovrascrivere o saltare il download del file?\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un file con il nome \"%s\" esiste già.\n\nVuoi riprendere, sovrascrivere o saltare il download del file?\n
 Address:	FTPLooper		Indirizzo:
 Cancel	FTPLooper		Annulla
 Connect	FTPLooper		Connetti
-Connecting to %host% (%port%)\n	FTPLooper		Mi sto connettendo a %host% (%port%)\n
+Connecting to %host% (%port%)\n	FTPLooper		Connessione a %host% (%port%)\n
 Continue	FTPLooper		Continua
-Couldn't load bookmark	FTPLooper		Non riesco a caricare il segnalibro
-Couldn't save bookmark	FTPLooper		Non riesco a salvare il segnalibro
+Couldn't load bookmark	FTPLooper		Impossibile caricare segnalibro
+Couldn't save bookmark	FTPLooper		Impossibile salvare segnalibro
 Disconnected.	FTPLooper		Disconnesso.
 Disconnected.\n	FTPLooper		Disconnesso.\n
 Don't ask again	FTPLooper		Non chiedere di nuovo
-Downloading: %filename%\n%error%	FTPLooper		Scaricando: %filename%\n%error%
+Downloading: %filename%\n%error%	FTPLooper		Download: %filename%\n%error%
 Encoder:	FTPLooper		Encoder:
 Error creating folder '%path%'.\n%error%	FTPLooper		Errore durante la creazione della cartella '%path%'.\n%error%
 Error:	FTPLooper		Errore:
 Error: Could not spawn download thread.\n	FTPLooper		Errore: Non posso fare lo spawn del thread per il download.\n
 Error: Could not spawn thread.\n	FTPLooper		Errore: Non posso fare lo spawn del thread.\n
 Error: Download failed.	FTPLooper		Errore: Download fallito.
-Getting directory list…	FTPLooper		Sto ottenendo l'elenco della directory…
-Getting directory list…%transferred%	FTPLooper		Sto ottenendo l'elenco della directory …%transferred%
-Getting directory list…%transferred%. Finished.	FTPLooper		Sto ottenendo l'elenco della directory …%transferred%. Finito.
+Getting directory list…	FTPLooper		Ottenimento elenco directory…
+Getting directory list…%transferred%	FTPLooper		Ottenimento elenco directory…%transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Ottenimento elenco directory…%transferred%. Finito.
 Idle	FTPLooper		Inattivo
 Ignore all	FTPLooper		Ignora tutti
 Local path:	FTPLooper		Percorso locale:
@@ -79,16 +79,16 @@ Remote path:	FTPLooper		Percorso remoto:
 Resume	FTPLooper		Riprendi
 Save	FTPLooper		Salva
 Skip	FTPLooper		Salta
-The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		L'elemento\n\"%name%\"\nè un link simbolico. Cosa fare?\n
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		L'elemento\n\"%name%\"\nè un link simbolico. Cosa vuoi fare?\n
 Upload with link name	FTPLooper		Carica con il nome del link
 Upload with original name	FTPLooper		Carica con il nome originale
-Uploading '%remotepath%'\n	FTPLooper		Uploading '%remotepath%'\n
-Uploading: %filename%\n%error%	FTPLooper		Uploading: %filename%\n%error%
+Uploading '%remotepath%'\n	FTPLooper		Upload '%remotepath%'\n
+Uploading: %filename%\n%error%	FTPLooper		Upload: %filename%\n%error%
 User name:	FTPLooper		Nome utente:
-Abort	ProgressWindow		Arrestare
+Abort	ProgressWindow		Interrompi
 Cancel	ProgressWindow		Annulla
 Continue	ProgressWindow		Continua
-Do you want to abort the transfer?\n	ProgressWindow		Vuoi arrestare il trasferimento?\n
+Do you want to abort the transfer?\n	ProgressWindow		Vuoi interrompere il trasferimento?\n
 Time left:	ProgressWindow		Tempo rimanente:
 Cancel	RenameWindow		Annulla
 OK	RenameWindow		OK

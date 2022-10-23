@@ -1,0 +1,106 @@
+1	Turkish	application/x-vnd.momoziro-FtpPositive	3895514942
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{öge yok}=1{1 öge}other{# öge}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Bu ögenin silinmesi geri alınamaz.\nEmin misiniz?}other{Bu # ögenin silinmesi geri alınamaz.\nEmin misiniz?}}
+About FtpPositive	FTPWindow		FtpPositive hakkında
+Back	FTPWindow		Geri
+Cancel	FTPWindow		İptal
+Change permissions	FTPWindow		İzinleri değiştir
+Command	FTPWindow		Komut
+Connect	FTPWindow		Bağlan
+Connecting…	FTPWindow		Bağlanıyor…
+Copy FTP URL	FTPWindow		FTP URL'sini kopyala
+Create folder	FTPWindow		Klasör oluştur
+Date	FTPWindow		Tarih
+Delete	FTPWindow		Sil
+Download	FTPWindow		İndir
+Encoding	FTPWindow		Kodlama
+Error	FTPWindow		Hata
+File	FTPWindow		Dosya
+Forward	FTPWindow		İleri
+FtpPositive: Upload	FTPWindow		FtpPositive: Gönder
+Getting directory listing…	FTPWindow		Dizin listesi alınıyor…
+Group	FTPWindow		Grup
+Idle	FTPWindow		Boşta
+Internal name	FTPWindow		İç ad
+Manage bookmarks	FTPWindow		Yer imlerini düzenle
+Name	FTPWindow		Ad
+New bookmark	FTPWindow		Yeni yer imi
+New folder	FTPWindow		Yeni klasör
+New folder:	FTPWindow		Yeni klasör:
+New name:	FTPWindow		Yeni ad:
+no items	FTPWindow		öge yok
+None	FTPWindow		Hiçbiri
+OK	FTPWindow		Tamam
+Owner	FTPWindow		Sahip
+Parent folder	FTPWindow		Üst klasör
+Permissions	FTPWindow		İzinler
+Quit	FTPWindow		Çık
+Reconnecting…	FTPWindow		Yeniden bağlanıyor…
+Refresh	FTPWindow		Yenile
+Remote:	FTPWindow		Uzak konum:
+Rename	FTPWindow		Yeniden adlandır
+Rename '%oldFileName%'	FTPWindow		'%oldFileName%' dosyasını yeniden adlandır
+Size	FTPWindow		Boyut
+Suspended.	FTPWindow		Askıya alındı.
+Upload	FTPWindow		Gönder
+Use this connection	FTPWindow		Bu bağlantıyı kullan
+Welcome to FtpPositive\n\n	FTPWindow		FtpPositive'e hoş geldiniz\n\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		\"%s\" adında yerel bir dosya halihazırda mevcut.\n\nİndirmeyi sürdürmek, üzerine yazmak veya atlamak mı istersiniz?\n
+Address:	FTPLooper		Adres:
+Cancel	FTPLooper		İptal
+Connect	FTPLooper		Bağlan
+Connecting to %host% (%port%)\n	FTPLooper		Bağlanıyor: %host% (%port%)\n
+Continue	FTPLooper		Sürdür
+Couldn't load bookmark	FTPLooper		Yer imi yüklenemedi
+Couldn't save bookmark	FTPLooper		Yer imi kaydedilemedi
+Disconnected.	FTPLooper		Bağlantı kesildi.
+Disconnected.\n	FTPLooper		Bağlantı kesildi.\n
+Don't ask again	FTPLooper		Bir daha sorma
+Downloading: %filename%\n%error%	FTPLooper		İndiriliyor: %filename%\n%error%
+Encoder:	FTPLooper		Kodlayıcı:
+Error creating folder '%path%'.\n%error%	FTPLooper		Klasör oluşturulurken hata: '%path%'.\n%error%
+Error:	FTPLooper		Hata:
+Error: Could not spawn download thread.\n	FTPLooper		Hata: İndirme iş parçacığı başlatılamadı.\n
+Error: Could not spawn thread.\n	FTPLooper		Hata: İş parçacığı başlatılamadı.\n
+Error: Download failed.	FTPLooper		Hata: İndirme başarısız oldu.
+Getting directory list…	FTPLooper		Dizin listesi alınıyor…
+Getting directory list…%transferred%	FTPLooper		Dizin listesi alınıyor…%transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Dizin listesi alınıyor…%transferred%. Bitti.
+Idle	FTPLooper		Boşta
+Ignore all	FTPLooper		Tümünü yok say
+Local path:	FTPLooper		Yerel yol:
+Name:	FTPLooper		Ad:
+New bookmark	FTPLooper		Yeni yer imi
+OK	FTPLooper		Tamam
+Overwrite	FTPLooper		Üzerine yaz
+Password:	FTPLooper		Parola:
+Port:	FTPLooper		Kapı:
+Remote path:	FTPLooper		Uzak yol:
+Resume	FTPLooper		Sürdür
+Save	FTPLooper		Kaydet
+Skip	FTPLooper		Atla
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		\"%name%\"\ngirdisi bir sembolik bağlantı. Ne yapmalı?\n
+Upload with link name	FTPLooper		Bağlantı adı ile gönder
+Upload with original name	FTPLooper		Özgün adı ile gönder
+Uploading '%remotepath%'\n	FTPLooper		'%remotepath%' gönderiliyor\n
+Uploading: %filename%\n%error%	FTPLooper		Gönderiliyor: %filename%\n%error%
+User name:	FTPLooper		Kullanıcı adı:
+Abort	ProgressWindow		Durdur
+Cancel	ProgressWindow		İptal
+Continue	ProgressWindow		Sürdür
+Do you want to abort the transfer?\n	ProgressWindow		Aktarımı durdurmak istediğinizden emin misiniz?\n
+Time left:	ProgressWindow		Kalan süre:
+Cancel	RenameWindow		İptal
+OK	RenameWindow		Tamam
+Cancel	ChmodWindow		İptal
+Change	ChmodWindow		Değiştir
+Execute:	ChmodWindow		Çalıştır:
+Group	ChmodWindow		Grup
+Other	ChmodWindow		Diğer
+Owner	ChmodWindow		Sahip
+Read:	ChmodWindow		Okuma:
+Write:	ChmodWindow		Yazma:
+Disconnected by remote host.	FTPClient		Uzak makine tarafından bağlantı kesildi.
+Disconnected.	FTPClient		Bağlantı kesildi.
+FtpPositive	System name		FtpPositive
+Momoziro (original author)	FtpPositive		Momoziro (ilk yazan)
