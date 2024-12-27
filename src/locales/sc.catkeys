@@ -1,0 +1,106 @@
+1	Sardinian	application/x-vnd.momoziro-FtpPositive	3895514942
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{perunu elementu}=1{1 elementu}other{# elementos}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Sa bogadura de custu elementu no si podet isfàghere.\nEst seguru?}other{Sa bogadura de custos # elementos no si podet isfàghere.\nEst seguru?}}
+About FtpPositive	FTPWindow		A subra de FtpPositive
+Back	FTPWindow		In antis
+Cancel	FTPWindow		Annudda
+Change permissions	FTPWindow		Muda is permissos
+Command	FTPWindow		Cumandu
+Connect	FTPWindow		Acapia
+Connecting…	FTPWindow		Acapiende…
+Copy FTP URL	FTPWindow		Copia su URL FTP
+Create folder	FTPWindow		Crea una fodde
+Date	FTPWindow		Data
+Delete	FTPWindow		Boga
+Download	FTPWindow		Iscarrigamentu
+Encoding	FTPWindow		Codìfica
+Error	FTPWindow		Faddina
+File	FTPWindow		Ischeda
+Forward	FTPWindow		A fatu
+FtpPositive: Upload	FTPWindow		FtpPositive: Càrriga
+Getting directory listing…	FTPWindow		Logrende sa lista de su diretoriu…
+Group	FTPWindow		Grupu
+Idle	FTPWindow		Isfainadu
+Internal name	FTPWindow		Nùmene internu
+Manage bookmarks	FTPWindow		Manigia is sinna·lìbburos
+Name	FTPWindow		Nùmene
+New bookmark	FTPWindow		Sinna·lìbburu nou
+New folder	FTPWindow		Fodde noa
+New folder:	FTPWindow		Fodde noa:
+New name:	FTPWindow		Nùmene nou:
+no items	FTPWindow		perunu elementu
+None	FTPWindow		Perunu
+OK	FTPWindow		Deghet
+Owner	FTPWindow		Mere
+Parent folder	FTPWindow		Fodde superiore
+Permissions	FTPWindow		Permissos
+Quit	FTPWindow		Essi
+Reconnecting…	FTPWindow		Torrende a acapiare…
+Refresh	FTPWindow		Annoa
+Remote:	FTPWindow		A tesu:
+Rename	FTPWindow		Muda su nùmene
+Rename '%oldFileName%'	FTPWindow		Muda su nùmene de \"%oldFileName%\"
+Size	FTPWindow		Mannaria
+Suspended.	FTPWindow		Suspèndidu.
+Upload	FTPWindow		Càrriga
+Use this connection	FTPWindow		Implea custu acapiu
+Welcome to FtpPositive\n\n	FTPWindow		Bene bènnidu a FtpPositive\n\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		Un'ischeda locale cun su nùmene \"%s\" esistet giai.\n\nDias chèrrere torrare a pigare, iscrìere a subra o brincare s'iscarrigamentu de s'ischeda?\n
+Address:	FTPLooper		Indiritzu:
+Cancel	FTPLooper		Annudda
+Connect	FTPLooper		Acapia
+Connecting to %host% (%port%)\n	FTPLooper		Acapiende a %host% (%port%)\n
+Continue	FTPLooper		Sighi
+Couldn't load bookmark	FTPLooper		No est possìbbile carrigare su sinna·lìbburu
+Couldn't save bookmark	FTPLooper		No est possìbbile allogare su sinna·lìbburu
+Disconnected.	FTPLooper		Chena acapiu.
+Disconnected.\n	FTPLooper		Chena acapiu.\n
+Don't ask again	FTPLooper		No pedas plus
+Downloading: %filename%\n%error%	FTPLooper		Iscarrighende: %filename%\n%error%
+Encoder:	FTPLooper		Codificadore:
+Error creating folder '%path%'.\n%error%	FTPLooper		B'est una faddina creende \"%path%\".\n%error%
+Error:	FTPLooper		Faddina:
+Error: Could not spawn download thread.\n	FTPLooper		Faddina: no est possìbile ingendrare su filu de iscarrigamentu.\n
+Error: Could not spawn thread.\n	FTPLooper		Faddina: no est possìbile ingendrare su filu.\n
+Error: Download failed.	FTPLooper		Faddina: s'iscarrigamentu est faddidu.
+Getting directory list…	FTPLooper		Logrende sa lista de su diretoriu…
+Getting directory list…%transferred%	FTPLooper		Logrende sa lista de su diretoriu…%transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Logrende sa lista de su diretoriu…%transferred%. Finished.
+Idle	FTPLooper		Isfainadu
+Ignore all	FTPLooper		Inniora totu
+Local path:	FTPLooper		Caminu locale:
+Name:	FTPLooper		Nùmene:
+New bookmark	FTPLooper		Sinna·lìbburu nou
+OK	FTPLooper		Deghet
+Overwrite	FTPLooper		Iscrie a subra
+Password:	FTPLooper		Clae de acessu:
+Port:	FTPLooper		Portu:
+Remote path:	FTPLooper		Caminu a tesu:
+Resume	FTPLooper		Torra a pigare
+Save	FTPLooper		Alloga
+Skip	FTPLooper		Brinca
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Sa boghe\n\"%name%\"\nest unu ligongiu simbòlicu. Ite faghes?\n
+Upload with link name	FTPLooper		Càrriga cun su nùmene de su ligongiu
+Upload with original name	FTPLooper		Càrriga cun su nùmene originale
+Uploading '%remotepath%'\n	FTPLooper		Carrighende \"%remotepath%\"\n
+Uploading: %filename%\n%error%	FTPLooper		Carrighende: %filename%\n%error%
+User name:	FTPLooper		Nùmene de s'impleadore:
+Abort	ProgressWindow		Aorti
+Cancel	ProgressWindow		Annudda
+Continue	ProgressWindow		Sighi
+Do you want to abort the transfer?\n	ProgressWindow		Cheres aortire su tramudu?\n
+Time left:	ProgressWindow		Tempus abarradu:
+Cancel	RenameWindow		Annudda
+OK	RenameWindow		Deghet
+Cancel	ChmodWindow		Annudda
+Change	ChmodWindow		Muda
+Execute:	ChmodWindow		Esecuta:
+Group	ChmodWindow		Grupu
+Other	ChmodWindow		Àteru
+Owner	ChmodWindow		Mere
+Read:	ChmodWindow		Leghidura:
+Write:	ChmodWindow		Iscritura:
+Disconnected by remote host.	FTPClient		Iscapiadu dae s'isteriargiu a tesu.
+Disconnected.	FTPClient		Chena acapiu.
+FtpPositive	System name		FtpPositive
+Momoziro (original author)	FtpPositive		Momoziro (autore originale)

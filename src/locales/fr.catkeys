@@ -8,7 +8,7 @@ Change permissions	FTPWindow		Changer les permissions
 Command	FTPWindow		Commande
 Connect	FTPWindow		Connexion
 Connecting…	FTPWindow		Connexion en cours...
-Copy FTP URL	FTPWindow		Copier l'URL FTP
+Copy FTP URL	FTPWindow		Copier l’URL FTP
 Create folder	FTPWindow		Créer un dossier
 Date	FTPWindow		Date
 Delete	FTPWindow		Effacer
@@ -30,7 +30,7 @@ New folder:	FTPWindow		Nouveau dossier :
 New name:	FTPWindow		Nouveau nom :
 no items	FTPWindow		aucun élément
 None	FTPWindow		Aucun
-OK	FTPWindow		D'accord
+OK	FTPWindow		D’accord
 Owner	FTPWindow		Propriétaire
 Parent folder	FTPWindow		Dossier parent
 Permissions	FTPWindow		Permissions
@@ -39,7 +39,7 @@ Reconnecting…	FTPWindow		Reconnexion en cours…
 Refresh	FTPWindow		Actualiser
 Remote:	FTPWindow		Distant :
 Rename	FTPWindow		Renommer
-Rename '%oldFileName%'	FTPWindow		Renommer '%oldFileName%'
+Rename '%oldFileName%'	FTPWindow		Renommer « %oldFileName% »
 Size	FTPWindow		Taille
 Suspended.	FTPWindow		Suspendu.
 Upload	FTPWindow		Chargement
@@ -58,7 +58,7 @@ Disconnected.\n	FTPLooper		Déconnecté.\n
 Don't ask again	FTPLooper		Ne pas redemander
 Downloading: %filename%\n%error%	FTPLooper		Téléchargement en cours : %filename%\n%error%
 Encoder:	FTPLooper		Encodeur :
-Error creating folder '%path%'.\n%error%	FTPLooper		Erreur à la création du dossier '%path%'.\n%error%
+Error creating folder '%path%'.\n%error%	FTPLooper		Erreur à la création du dossier « %path% ».\n%error%
 Error:	FTPLooper		Erreur :
 Error: Could not spawn download thread.\n	FTPLooper		Erreur : Impossible de générer la file de téléchargement.\n
 Error: Could not spawn thread.\n	FTPLooper		Erreur : Impossible de générer la file.\n
@@ -71,7 +71,7 @@ Ignore all	FTPLooper		Tout ignorer
 Local path:	FTPLooper		Chemin local :
 Name:	FTPLooper		Nom :
 New bookmark	FTPLooper		Nouveau marque-page
-OK	FTPLooper		D'accord
+OK	FTPLooper		D’accord
 Overwrite	FTPLooper		Écraser
 Password:	FTPLooper		Mot de passe :
 Port:	FTPLooper		Port :
@@ -79,19 +79,19 @@ Remote path:	FTPLooper		Chemin distant :
 Resume	FTPLooper		Reprendre
 Save	FTPLooper		Sauvegarder
 Skip	FTPLooper		Ignorer
-The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		L'entrée\n\"%name%\"\nest un lien symbolique. Que faire ?\n
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		L’entrée\n« %name% »\nest un lien symbolique. Que faire ?\n
 Upload with link name	FTPLooper		Charger avec le nom du lien
-Upload with original name	FTPLooper		Charger avec le nom d'origine
-Uploading '%remotepath%'\n	FTPLooper		Chargement '%remotepath%'\n
+Upload with original name	FTPLooper		Charger avec le nom d’origine
+Uploading '%remotepath%'\n	FTPLooper		Chargement « %remotepath% »\n
 Uploading: %filename%\n%error%	FTPLooper		Chargement: %filename%\n%error%
-User name:	FTPLooper		Nom d'utilisateur :
+User name:	FTPLooper		Nom d’utilisateur :
 Abort	ProgressWindow		Abandon
 Cancel	ProgressWindow		Annuler
 Continue	ProgressWindow		Continuer
 Do you want to abort the transfer?\n	ProgressWindow		Voulez-vous abandonner le transfert ?\n
 Time left:	ProgressWindow		Temps restant :
 Cancel	RenameWindow		Annuler
-OK	RenameWindow		D'accord
+OK	RenameWindow		D’accord
 Cancel	ChmodWindow		Annuler
 Change	ChmodWindow		Changer
 Execute:	ChmodWindow		Exécuter :
@@ -100,7 +100,7 @@ Other	ChmodWindow		Autre
 Owner	ChmodWindow		Propriétaire
 Read:	ChmodWindow		Lire :
 Write:	ChmodWindow		Écrire :
-Disconnected by remote host.	FTPClient		Déconnecté par l'hôte distant.
+Disconnected by remote host.	FTPClient		Déconnecté par l’hôte distant.
 Disconnected.	FTPClient		Déconnecté.
 FtpPositive	System name		FtpPositive
 Momoziro (original author)	FtpPositive		Momoziro (auteur originel)

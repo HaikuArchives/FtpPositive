@@ -7,8 +7,8 @@ Cancel	FTPWindow		Abbrechen
 Change permissions	FTPWindow		Berechtigungen ändern
 Command	FTPWindow		Befehl
 Connect	FTPWindow		Verbinden
-Connecting…	FTPWindow		Verbinden…
-Copy FTP URL	FTPWindow		FTP URL kopieren
+Connecting…	FTPWindow		Verbinden …
+Copy FTP URL	FTPWindow		FTP-URL kopieren
 Create folder	FTPWindow		Ordner anlegen
 Date	FTPWindow		Datum
 Delete	FTPWindow		Löschen
@@ -18,7 +18,7 @@ Error	FTPWindow		Fehler
 File	FTPWindow		Datei
 Forward	FTPWindow		Vorwärts
 FtpPositive: Upload	FTPWindow		FtpPositive: Upload
-Getting directory listing…	FTPWindow		Hole Ordnerliste…
+Getting directory listing…	FTPWindow		Hole Ordnerliste …
 Group	FTPWindow		Gruppe
 Idle	FTPWindow		Leerlauf
 Internal name	FTPWindow		Interner Name
@@ -35,7 +35,7 @@ Owner	FTPWindow		Besitzer
 Parent folder	FTPWindow		Übergeordneter Ordner
 Permissions	FTPWindow		Berechtigungen
 Quit	FTPWindow		Beenden
-Reconnecting…	FTPWindow		Wiederverbinden…
+Reconnecting…	FTPWindow		Wiederverbinden …
 Refresh	FTPWindow		Aktualisieren
 Remote:	FTPWindow		Server:
 Rename	FTPWindow		Umbenennen
@@ -63,9 +63,9 @@ Error:	FTPLooper		Fehler:
 Error: Could not spawn download thread.\n	FTPLooper		Fehler: Konnte keinen Download Thread erzeugen.\n
 Error: Could not spawn thread.\n	FTPLooper		Fehler: Thread nicht erzeugt werden.\n
 Error: Download failed.	FTPLooper		Fehler: Download fehlgeschlagen.
-Getting directory list…	FTPLooper		Hole Ordnerliste…
-Getting directory list…%transferred%	FTPLooper		Hole Ordnerliste…%transferred%
-Getting directory list…%transferred%. Finished.	FTPLooper		Hole Ordnerliste…%transferred%. Fertig.
+Getting directory list…	FTPLooper		Hole Ordnerliste …
+Getting directory list…%transferred%	FTPLooper		Hole Ordnerliste … %transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Hole Ordnerliste … %transferred%. Fertig.
 Idle	FTPLooper		Leerlauf
 Ignore all	FTPLooper		Alle ignorieren
 Local path:	FTPLooper		Lokaler Pfad:

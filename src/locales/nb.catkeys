@@ -1,0 +1,106 @@
+1	Norwegian	application/x-vnd.momoziro-FtpPositive	3895514942
+{0, plural,=0{no items}=1{1 item}other{# items}}	FTPWindow		{0, plural,=0{ingen elementer}=1{1 element}other{# elementer}}
+{0, plural,=1{Deleting this item cannot be undone.\nAre you sure?}other{Deleting these # items cannot be undone.\nAre you sure?}}	FTPWindow		{0, plural,=1{Sletting av dette elementet kan ikke angres\n.\nEr du sikker?}other{Sletting av disse # elementene kan ikke angres.\nEr du sikker?}}
+About FtpPositive	FTPWindow		Om FtpPositive
+Back	FTPWindow		Tilbake
+Cancel	FTPWindow		Avbryt
+Change permissions	FTPWindow		Endre tillatelser
+Command	FTPWindow		Kommando
+Connect	FTPWindow		Koble til
+Connecting…	FTPWindow		Kobler til…
+Copy FTP URL	FTPWindow		Kopier FTP URL
+Create folder	FTPWindow		Opprett mappe
+Date	FTPWindow		Dato
+Delete	FTPWindow		Slett
+Download	FTPWindow		Last ned
+Encoding	FTPWindow		Koding
+Error	FTPWindow		Feil
+File	FTPWindow		Fil
+Forward	FTPWindow		Fremover
+FtpPositive: Upload	FTPWindow		FtpPositive: Last opp
+Getting directory listing…	FTPWindow		Henter mappeliste…
+Group	FTPWindow		Gruppe
+Idle	FTPWindow		Inaktiv
+Internal name	FTPWindow		Internt navn
+Manage bookmarks	FTPWindow		Behandle bokmerker
+Name	FTPWindow		Navn
+New bookmark	FTPWindow		Nytt bokmerke
+New folder	FTPWindow		Ny mappe
+New folder:	FTPWindow		Ny mappe:
+New name:	FTPWindow		Nytt navn:
+no items	FTPWindow		ingen elementer
+None	FTPWindow		Ingen
+OK	FTPWindow		OK
+Owner	FTPWindow		Eier
+Parent folder	FTPWindow		Overordnet mappe
+Permissions	FTPWindow		Tillatelser
+Quit	FTPWindow		Avslutt
+Reconnecting…	FTPWindow		Kobler til på nytt…
+Refresh	FTPWindow		Oppdater
+Remote:	FTPWindow		Ekstern:
+Rename	FTPWindow		Gi nytt navn
+Rename '%oldFileName%'	FTPWindow		Gi nytt navn til '%oldFileName%'
+Size	FTPWindow		Størrelse
+Suspended.	FTPWindow		Suspendert.
+Upload	FTPWindow		Last opp
+Use this connection	FTPWindow		Bruk denne tilkoblingen
+Welcome to FtpPositive\n\n	FTPWindow		Velkommen til FtpPositive\n\n
+A local file with the name \"%s\" already exists.\n\nWould you like to resume, overwrite or skip the download of the file?\n	FTPLooper		En lokal fil med navnet \"%s\" eksisterer allerede.\n\nVil du gjenoppta, overskrive eller hoppe over nedlastingen av filen?\n
+Address:	FTPLooper		Adresse:
+Cancel	FTPLooper		Avbryt
+Connect	FTPLooper		Koble til
+Connecting to %host% (%port%)\n	FTPLooper		Kobler til %host% (%port%)\n
+Continue	FTPLooper		Fortsett
+Couldn't load bookmark	FTPLooper		Kunne ikke laste bokmerke
+Couldn't save bookmark	FTPLooper		Kunne ikke lagre bokmerke
+Disconnected.	FTPLooper		Koblet fra.
+Disconnected.\n	FTPLooper		Koblet fra.\n
+Don't ask again	FTPLooper		Ikke spør igjen
+Downloading: %filename%\n%error%	FTPLooper		Laster ned: %filename%\n%error%
+Encoder:	FTPLooper		Koder:
+Error creating folder '%path%'.\n%error%	FTPLooper		Feil under oppretting av mappen '%path%'.\n%error%
+Error:	FTPLooper		Feil:
+Error: Could not spawn download thread.\n	FTPLooper		Feil: Kunne ikke opprette nedlastingstråd.\n
+Error: Could not spawn thread.\n	FTPLooper		Feil: Kunne ikke opprette tråd.\n
+Error: Download failed.	FTPLooper		Feil: Nedlasting mislyktes.
+Getting directory list…	FTPLooper		Henter katalogliste…
+Getting directory list…%transferred%	FTPLooper		Henter mappeliste…%transferred%
+Getting directory list…%transferred%. Finished.	FTPLooper		Henter mappeliste…%transferred%. Fullført.
+Idle	FTPLooper		Inaktiv
+Ignore all	FTPLooper		Ignorer alle
+Local path:	FTPLooper		Lokal sti:
+Name:	FTPLooper		Navn:
+New bookmark	FTPLooper		Nytt bokmerke
+OK	FTPLooper		OK
+Overwrite	FTPLooper		Overskrive
+Password:	FTPLooper		Passord:
+Port:	FTPLooper		Port:
+Remote path:	FTPLooper		Ekstern sti:
+Resume	FTPLooper		Fortsett
+Save	FTPLooper		Lagre
+Skip	FTPLooper		Hopp over
+The entry\n\"%name%\"\nis a symbolic link. What to do?\n	FTPLooper		Oppføringen\n\"%name%\"\n er en symbolsk lenke. Hva vil du gjøre?\n
+Upload with link name	FTPLooper		Last opp med lenkenavn
+Upload with original name	FTPLooper		Last opp med opprinnelig navn
+Uploading '%remotepath%'\n	FTPLooper		Laster opp '%remotepath%'\n
+Uploading: %filename%\n%error%	FTPLooper		Laster opp: %filename%\n%error%
+User name:	FTPLooper		Brukernavn:
+Abort	ProgressWindow		Avbryt
+Cancel	ProgressWindow		Avbryt
+Continue	ProgressWindow		Fortsett
+Do you want to abort the transfer?\n	ProgressWindow		Vil du avbryte overføringen?\n
+Time left:	ProgressWindow		Gjenværende tid:
+Cancel	RenameWindow		Avbryt
+OK	RenameWindow		OK
+Cancel	ChmodWindow		Avbryt
+Change	ChmodWindow		Endre
+Execute:	ChmodWindow		Kjør:
+Group	ChmodWindow		Gruppe
+Other	ChmodWindow		Annen
+Owner	ChmodWindow		Eier
+Read:	ChmodWindow		Les:
+Write:	ChmodWindow		Skriv:
+Disconnected by remote host.	FTPClient		Koblet fra av ekstern vert.
+Disconnected.	FTPClient		Koblet fra.
+FtpPositive	System name		FtpPositive
+Momoziro (original author)	FtpPositive		Momoziro (original forfatter)

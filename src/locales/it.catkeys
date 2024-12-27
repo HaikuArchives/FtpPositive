@@ -32,7 +32,7 @@ no items	FTPWindow		nessun elemento
 None	FTPWindow		Nessuno
 OK	FTPWindow		OK
 Owner	FTPWindow		Proprietario
-Parent folder	FTPWindow		Cartella genitrice
+Parent folder	FTPWindow		Cartella superiore
 Permissions	FTPWindow		Permessi
 Quit	FTPWindow		Esci
 Reconnecting…	FTPWindow		Riconnessione…
